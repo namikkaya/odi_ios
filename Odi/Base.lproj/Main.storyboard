@@ -154,7 +154,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="0.26209332191780821" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90973395109176636" green="0.90984320640563965" blue="0.90969687700271606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="hMy-CJ-jo7" firstAttribute="top" secondItem="fPB-fs-Kxa" secondAttribute="top" id="1lk-8L-Qyr"/>
                             <constraint firstItem="rBw-Dx-DNf" firstAttribute="trailing" secondItem="hMy-CJ-jo7" secondAttribute="trailing" id="49P-H3-5a8"/>
@@ -186,6 +186,7 @@
                         <outlet property="closeImage3" destination="fcO-xZ-wci" id="u3e-SI-gOr"/>
                         <outlet property="collectionView" destination="icy-7a-NBQ" id="KoL-MH-HEA"/>
                         <outlet property="collectionViewFlowLayout" destination="fy7-f9-thM" id="iIu-VT-WjW"/>
+                        <outlet property="dragImageView" destination="j99-zj-K4D" id="Sxe-D0-qHA"/>
                         <outlet property="scrennShotView" destination="vUc-F0-CLT" id="Ku8-ek-CZL"/>
                         <outlet property="scrollView1" destination="3qv-Bd-eTC" id="cLV-VQ-bjc"/>
                         <outlet property="scrollView2" destination="5QD-4d-V86" id="Tjk-da-wBM"/>
@@ -341,13 +342,45 @@
             </objects>
             <point key="canvasLocation" x="2105" y="1299"/>
         </scene>
+        <!--SIC-->
+        <scene sceneID="Ttd-OU-AvA">
+            <objects>
+                <viewController storyboardIdentifier="SICID" id="MhX-O4-ws5" customClass="SIC" customModule="Odi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XeL-xa-MS0"/>
+                        <viewControllerLayoutGuide type="bottom" id="H1Q-bC-zSX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YdT-nM-qQd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="VqB-IQ-DTW">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="VqB-IQ-DTW" firstAttribute="centerY" secondItem="YdT-nM-qQd" secondAttribute="centerY" id="FIl-2F-uSY"/>
+                            <constraint firstItem="VqB-IQ-DTW" firstAttribute="centerX" secondItem="YdT-nM-qQd" secondAttribute="centerX" id="nJ3-dv-aN8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PoO-ov-FKh"/>
+                    </view>
+                    <connections>
+                        <outlet property="indicator" destination="VqB-IQ-DTW" id="jDX-7f-sgM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XjS-Dv-8oo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4076" y="-1283"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Screen Shot 2017-11-26 at 04.25.21" width="16" height="16"/>
-        <image name="changeCamera" width="16" height="16"/>
+        <image name="changeCamera" width="128" height="128"/>
         <image name="close" width="128" height="128"/>
         <image name="imageedit_1_3120019353" width="185" height="185"/>
-        <image name="rec" width="16" height="16"/>
-        <image name="text" width="16" height="16"/>
+        <image name="rec" width="517" height="517"/>
+        <image name="text" width="128" height="128"/>
     </resources>
 </document>

@@ -17,6 +17,8 @@
 		2217E4991FEB3271004A02AF /* DragableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E4981FEB3271004A02AF /* DragableScrollView.swift */; };
 		2217E49B1FEB329C004A02AF /* photosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E49A1FEB329C004A02AF /* photosController.swift */; };
 		2217E49D1FEB32A8004A02AF /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E49C1FEB32A8004A02AF /* Photos.swift */; };
+		2217E49F1FEB512B004A02AF /* UploadImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E49E1FEB512B004A02AF /* UploadImageService.swift */; };
+		224459541FEBF8B700DEA02A /* SIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224459531FEBF8B700DEA02A /* SIC.swift */; };
 		3EA212BBEF4F30234FA0AC52 /* Pods_Odi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280D2E0228502BBBA8815D93 /* Pods_Odi.framework */; };
 		950D9A301FEB4A65004F5507 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A2D1FEB4A65004F5507 /* CameraController.swift */; };
 		950D9A311FEB4A65004F5507 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A2E1FEB4A65004F5507 /* CameraViewController.swift */; };
@@ -40,6 +42,8 @@
 		2217E4981FEB3271004A02AF /* DragableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragableScrollView.swift; sourceTree = "<group>"; };
 		2217E49A1FEB329C004A02AF /* photosController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = photosController.swift; sourceTree = "<group>"; };
 		2217E49C1FEB32A8004A02AF /* Photos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
+		2217E49E1FEB512B004A02AF /* UploadImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageService.swift; sourceTree = "<group>"; };
+		224459531FEBF8B700DEA02A /* SIC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIC.swift; sourceTree = "<group>"; };
 		280D2E0228502BBBA8815D93 /* Pods_Odi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Odi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32E6CA614FA311A79905E66F /* Pods-Odi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Odi/Pods-Odi.release.xcconfig"; sourceTree = "<group>"; };
 		950D9A2D1FEB4A65004F5507 /* CameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
@@ -88,6 +92,7 @@
 				950D9A331FEB4A69004F5507 /* Service Structure */,
 				950D9A2C1FEB4A57004F5507 /* Camera Controller */,
 				2217E4821FEB26ED004A02AF /* AppDelegate.swift */,
+				224459531FEBF8B700DEA02A /* SIC.swift */,
 				2217E4841FEB26ED004A02AF /* WebViewController.swift */,
 				2217E49A1FEB329C004A02AF /* photosController.swift */,
 				2217E49C1FEB32A8004A02AF /* Photos.swift */,
@@ -144,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				950D9A3B1FEB4A90004F5507 /* GetCameraServices.swift */,
+				2217E49E1FEB512B004A02AF /* UploadImageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -295,8 +301,10 @@
 				950D9A391FEB4A89004F5507 /* PostConnection.swift in Sources */,
 				950D9A301FEB4A65004F5507 /* CameraController.swift in Sources */,
 				2217E4851FEB26ED004A02AF /* WebViewController.swift in Sources */,
+				224459541FEBF8B700DEA02A /* SIC.swift in Sources */,
 				2217E4831FEB26ED004A02AF /* AppDelegate.swift in Sources */,
 				950D9A3C1FEB4A90004F5507 /* GetCameraServices.swift in Sources */,
+				2217E49F1FEB512B004A02AF /* UploadImageService.swift in Sources */,
 				950D9A3E1FEB4A95004F5507 /* API.swift in Sources */,
 				950D9A311FEB4A65004F5507 /* CameraViewController.swift in Sources */,
 				2217E4961FEB3266004A02AF /* CollectionViewCell.swift in Sources */,
