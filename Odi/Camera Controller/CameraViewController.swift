@@ -23,6 +23,7 @@ class CameraViewController: UIViewController {
         
     }
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
     }
     override var prefersStatusBarHidden: Bool {
