@@ -39,6 +39,9 @@ class PhotosViewController: UIViewController {
             }
         }
     }
+    @IBAction func saveButtonClicked(_ sender: UIBarButtonItem) {
+        print("save")
+    }
     func addTapped() {
         self.closeImage1.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapped1))

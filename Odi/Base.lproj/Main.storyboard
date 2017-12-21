@@ -172,7 +172,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rBw-Dx-DNf"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Portre Kolajı" id="SAs-lm-4gx"/>
+                    <navigationItem key="navigationItem" title="Portre Kolajı" id="SAs-lm-4gx">
+                        <barButtonItem key="rightBarButtonItem" title="Kaydet" id="kzk-73-h3N">
+                            <connections>
+                                <action selector="saveButtonClicked:" destination="qhO-il-QKA" id="bAO-DQ-zhV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="closeImage1" destination="aET-4x-FFJ" id="eCw-1y-DON"/>
                         <outlet property="closeImage2" destination="1CZ-UF-kgq" id="kp3-C4-jXI"/>
