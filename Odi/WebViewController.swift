@@ -12,8 +12,11 @@ import WebKit
 class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate,WKUIDelegate{
     
     var webView: WKWebView?
-    
+    var odiDataService = GetCameraServices()
     var odileData = (userId: "", videoId: "")
+    
+    //Response Model
+    var odiResponseModel = GetCameraResponseModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +43,9 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
             if let src = message.body as? String {
                 let goTo = parseString(src:src)
                 switch (goTo) {
-                case 1: break
+                case 1:
+                    self.odiDataService.serviceDelegate = self
+                    self.odiDataService.connectService(serviceUrl: ("http://odi.beranet.com/core/odi.php?id=" + odileData.videoId))
                 case 2:
                     performSegue(withIdentifier: "gotoPhotos", sender: nil)
                 default:break;
@@ -52,6 +57,9 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         let backItem = UIBarButtonItem()
         backItem.title = "Geri"
         navigationItem.backBarButtonItem = backItem
+        if let vc = segue.destination as? CameraViewController {
+            vc.odiResponseModel = self.odiResponseModel
+        }
     }
     func parseString(src: String) ->Int {
         if src.range(of:"design/odile.png?") != nil {
@@ -75,4 +83,14 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         super.didReceiveMemoryWarning()
     }
     
+}
+
+extension WebViewController : GetCameraDelegate {
+    func getError(errorMessage: String) {
+        print(errorMessage)
+    }
+    func getResponse(response: GetCameraResponseModel) {
+        self.odiResponseModel = response
+        performSegue(withIdentifier: "CameraViewControllerID", sender: nil)
+    }
 }
