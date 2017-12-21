@@ -14,6 +14,7 @@ class PhotosViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
+    @IBOutlet weak var scrennShotView: UIView!
     @IBOutlet weak var scrollView1: DragableScrollView!
     @IBOutlet weak var scrollView2: DragableScrollView!
     @IBOutlet weak var scrollView3: DragableScrollView!
@@ -24,6 +25,7 @@ class PhotosViewController: UIViewController {
     fileprivate var numberOfSections = 0
     
     override func viewDidLoad() {
+        addTapped()
         initCollectionView()
         PHPhotoLibrary.requestAuthorization { [weak self] result in
             if let _self = self {
@@ -39,10 +41,24 @@ class PhotosViewController: UIViewController {
     }
     func addTapped() {
         self.closeImage1.isUserInteractionEnabled = true
-        //let gesture = UITapGestureRecognizer(target: self, action: #())
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(tapped1))
+        self.closeImage1.addGestureRecognizer(gesture)
+        self.closeImage2.isUserInteractionEnabled = true
+        let gesture2 = UITapGestureRecognizer(target: self, action: #selector(tapped2))
+        self.closeImage2.addGestureRecognizer(gesture2)
+        self.closeImage3.isUserInteractionEnabled = true
+        let gesture3 = UITapGestureRecognizer(target: self, action: #selector(tapped3))
+        self.closeImage3.addGestureRecognizer(gesture3)
+        
     }
-    func tapped(imageView : UIImageView)  {
-        //if imageView
+    func tapped1()  {
+        self.scrollView1.imageView?.image = nil
+    }
+    func tapped2()  {
+        self.scrollView2.imageView?.image = nil
+    }
+    func tapped3()  {
+        self.scrollView3.imageView?.image = nil
     }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false

@@ -52,5 +52,18 @@ class DragableScrollView: UIScrollView,UIScrollViewDelegate {
     }
    
 }
+extension UIView {
+    var screenShot: UIImage?  {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 1.0);
+        if let _ = UIGraphicsGetCurrentContext() {
+            drawHierarchy(in: bounds, afterScreenUpdates: true)
+            let screenshot = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return screenshot
+        }
+        return nil
+    }
+}
+
 
 
