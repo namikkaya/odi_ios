@@ -17,6 +17,9 @@ class PhotosViewController: UIViewController {
     @IBOutlet weak var scrollView1: DragableScrollView!
     @IBOutlet weak var scrollView2: DragableScrollView!
     @IBOutlet weak var scrollView3: DragableScrollView!
+    @IBOutlet weak var closeImage3: UIImageView!
+    @IBOutlet weak var closeImage2: UIImageView!
+    @IBOutlet weak var closeImage1: UIImageView!
     fileprivate var photoLibrary: PhotoLibrary!
     fileprivate var numberOfSections = 0
     
@@ -33,6 +36,13 @@ class PhotosViewController: UIViewController {
                 }
             }
         }
+    }
+    func addTapped() {
+        self.closeImage1.isUserInteractionEnabled = true
+        //let gesture = UITapGestureRecognizer(target: self, action: #())
+    }
+    func tapped(imageView : UIImageView)  {
+        //if imageView
     }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
