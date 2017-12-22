@@ -27,6 +27,9 @@
 		950D9A3A1FEB4A89004F5507 /* ConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A381FEB4A89004F5507 /* ConnectionDelegate.swift */; };
 		950D9A3C1FEB4A90004F5507 /* GetCameraServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A3B1FEB4A90004F5507 /* GetCameraServices.swift */; };
 		950D9A3E1FEB4A95004F5507 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A3D1FEB4A95004F5507 /* API.swift */; };
+		950D9A411FEC8C95004F5507 /* PlayVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A401FEC8C95004F5507 /* PlayVideoController.swift */; };
+		950D9A441FEC8FCB004F5507 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A431FEC8FCB004F5507 /* Player.swift */; };
+		950D9A461FEC93A5004F5507 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A451FEC93A4004F5507 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +56,9 @@
 		950D9A381FEB4A89004F5507 /* ConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionDelegate.swift; sourceTree = "<group>"; };
 		950D9A3B1FEB4A90004F5507 /* GetCameraServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCameraServices.swift; sourceTree = "<group>"; };
 		950D9A3D1FEB4A95004F5507 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		950D9A401FEC8C95004F5507 /* PlayVideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayVideoController.swift; sourceTree = "<group>"; };
+		950D9A431FEC8FCB004F5507 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		950D9A451FEC93A4004F5507 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D3014EAC0050B9CD9FE7B464 /* Pods-Odi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Odi/Pods-Odi.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,8 +95,10 @@
 		2217E4811FEB26ED004A02AF /* Odi */ = {
 			isa = PBXGroup;
 			children = (
+				950D9A421FEC8FBA004F5507 /* Framework */,
 				950D9A331FEB4A69004F5507 /* Service Structure */,
 				950D9A2C1FEB4A57004F5507 /* Camera Controller */,
+				950D9A3F1FEC8C66004F5507 /* Play Video Controller */,
 				2217E4821FEB26ED004A02AF /* AppDelegate.swift */,
 				224459531FEBF8B700DEA02A /* SIC.swift */,
 				2217E4841FEB26ED004A02AF /* WebViewController.swift */,
@@ -152,6 +160,23 @@
 				2217E49E1FEB512B004A02AF /* UploadImageService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		950D9A3F1FEC8C66004F5507 /* Play Video Controller */ = {
+			isa = PBXGroup;
+			children = (
+				950D9A401FEC8C95004F5507 /* PlayVideoController.swift */,
+			);
+			path = "Play Video Controller";
+			sourceTree = "<group>";
+		};
+		950D9A421FEC8FBA004F5507 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				950D9A451FEC93A4004F5507 /* Extensions.swift */,
+				950D9A431FEC8FCB004F5507 /* Player.swift */,
+			);
+			path = Framework;
 			sourceTree = "<group>";
 		};
 		D637B915AC399284017E047D /* Pods */ = {
@@ -303,12 +328,15 @@
 				2217E4851FEB26ED004A02AF /* WebViewController.swift in Sources */,
 				224459541FEBF8B700DEA02A /* SIC.swift in Sources */,
 				2217E4831FEB26ED004A02AF /* AppDelegate.swift in Sources */,
+				950D9A411FEC8C95004F5507 /* PlayVideoController.swift in Sources */,
 				950D9A3C1FEB4A90004F5507 /* GetCameraServices.swift in Sources */,
 				2217E49F1FEB512B004A02AF /* UploadImageService.swift in Sources */,
 				950D9A3E1FEB4A95004F5507 /* API.swift in Sources */,
 				950D9A311FEB4A65004F5507 /* CameraViewController.swift in Sources */,
+				950D9A461FEC93A5004F5507 /* Extensions.swift in Sources */,
 				2217E4961FEB3266004A02AF /* CollectionViewCell.swift in Sources */,
 				2217E4991FEB3271004A02AF /* DragableScrollView.swift in Sources */,
+				950D9A441FEC8FCB004F5507 /* Player.swift in Sources */,
 				950D9A3A1FEB4A89004F5507 /* ConnectionDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

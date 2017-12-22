@@ -32,7 +32,7 @@ extension CameraController {
         
         if let device = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .front) {
             currentDevice = device
-        } else if let device = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
+        }else if let device = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
             currentDevice = device
             
         }
@@ -44,8 +44,9 @@ extension CameraController {
         // Get the input data source
         guard let captureDeviceInput = try? AVCaptureDeviceInput(device: currentDevice!) else { return }
         guard let captureAudioDeviceInput = try? AVCaptureDeviceInput(device: audioDevice!) else { return }
+
         
-        // Configure AVCaptureMovieFileOutput
+        
         videoOutput = AVCaptureMovieFileOutput()
         
         // Configure the session with the input and the output devices
@@ -67,16 +68,10 @@ extension CameraController {
         view.layer.addSublayer(previewLayer!)
         previewLayer?.videoGravity = AVLayerVideoGravityResize
         previewLayer?.frame = view.layer.frame
-        
-        
-        
-        
-        // Bring the camera button to front
-        //view.bringSubview(toFront: cameraButton)
+       
         
         // Start captureSession
         captureSession.startRunning()
-        
     }
     
     func swapCamera() {

@@ -25,10 +25,14 @@ class AudioPlayer: NSObject {
         view.layer.addSublayer(playerLayer)
     }
     func playPlayer(){
-        self.player?.play()
+        if player != nil {
+            self.player?.play()
+        }
     }
     func pausePlayer(){
-        self.player?.pause()
+        if player != nil {
+            self.player?.pause()
+        }
     }
     func playerGetDuration() -> Int {
         let duration : CMTime = player!.currentItem!.asset.duration
