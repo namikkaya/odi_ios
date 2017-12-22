@@ -11,6 +11,8 @@ import SWXMLHash
 
 class GetCameraServices : ConnectionDelegate
 {
+   
+    
     
     let connection = PostConnection()
     var serviceDelegate : GetCameraDelegate?
@@ -58,7 +60,8 @@ class GetCameraServices : ConnectionDelegate
         }
         
     }
-    
+    func getStrin(string: String) {
+    }
     func getError(errMessage: String) {
         if  self.serviceDelegate != nil {
             self.serviceDelegate?.getError(errorMessage: errMessage)

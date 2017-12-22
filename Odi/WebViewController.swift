@@ -60,6 +60,9 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         if let vc = segue.destination as? CameraViewController {
             vc.odiResponseModel = self.odiResponseModel
         }
+        if let vc = segue.destination as? PhotosViewController {
+            vc.id = self.odileData.userId
+        }
     }
     func parseString(src: String) ->Int {
         if src.range(of:"design/odile.png?") != nil {
@@ -77,6 +80,7 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         return 0
     }
     override func viewWillAppear(_ animated: Bool) {
+        self.webView?.reload()
         self.navigationController?.isNavigationBarHidden = true
     }
     override func didReceiveMemoryWarning() {

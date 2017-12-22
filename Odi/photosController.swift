@@ -8,12 +8,13 @@
 
 import UIKit
 import Photos
-
+import WebKit
 class PhotosViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
+    var webViewForSuccess: WKWebView?
     @IBOutlet weak var scrennShotView: UIView!
     @IBOutlet weak var scrollView1: DragableScrollView!
     @IBOutlet weak var scrollView2: DragableScrollView!
@@ -24,7 +25,13 @@ class PhotosViewController: UIViewController {
     fileprivate var photoLibrary: PhotoLibrary!
     fileprivate var numberOfSections = 0
     
+    @IBOutlet weak var dragImageView: UIImageView!
+    var service : UploadImageService = UploadImageService()
+    var id = ""
     override func viewDidLoad() {
+    
+       
+        service.serviceDelegate = self
         addTapped()
         initCollectionView()
         PHPhotoLibrary.requestAuthorization { [weak self] result in
@@ -40,7 +47,13 @@ class PhotosViewController: UIViewController {
         }
     }
     @IBAction func saveButtonClicked(_ sender: UIBarButtonItem) {
-        print("save")
+        self.closeImage1.image = nil
+        self.closeImage2.image = nil
+        self.closeImage3.image = nil
+        self.dragImageView.image = nil
+        service.connectService(fileName: "profil_\(id).jpg", image: scrennShotView.screenShot!)
+        self.view.isUserInteractionEnabled = false
+        self.SHOW_SIC()
     }
     func addTapped() {
         self.closeImage1.isUserInteractionEnabled = true
@@ -67,6 +80,47 @@ class PhotosViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
+    }
+}
+extension  PhotosViewController: UploadImageServiceDelegte {
+    func getResponse(error: Bool) {
+        if error {
+            let url = URL(string: "http://odi.beranet.com/?update=ok")!
+            let request = URLRequest(url: url)
+            self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+            self.webViewForSuccess?.isHidden = true
+            self.view.addSubview(self.webViewForSuccess!)
+            webViewForSuccess!.navigationDelegate = self
+            webViewForSuccess!.navigationDelegate = self
+            webViewForSuccess!.load(request)
+        } else {
+            showAlert(message: "İşlem sırasında bir hata oluştu.")
+        }
+    }
+    
+    func getError(errorMessage: String) {
+    }
+    func showAlert(message: String) {
+        self.HIDE_SIC(customView: self.view)
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        
+        // Create the actions
+        let okAction = UIAlertAction(title: "Tamam",style: UIAlertActionStyle.default) {
+            UIAlertAction in
+            self.navigationController?.popViewController(animated: true)
+            
+        }
+        // Add the actions
+        alertController.addAction(okAction)
+        // Present the controller
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+}
+extension PhotosViewController : WKNavigationDelegate {
+    func webView(_ webView: WKWebView,
+                 didFinish navigation: WKNavigation!) {
+        showAlert(message: "İşleminiz başarı ile gerçekleştrildi")
     }
 }
 extension PhotosViewController : DraggableCellDelegate {
