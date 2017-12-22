@@ -79,12 +79,11 @@ extension FTPUpload {
         var offset: Int = 0
         var dataToSendSize: Int = fileSize
         
-        repeat {
+        while true {
             let bytesWritten = CFWriteStreamWrite(ftpWriteStream, &buffer[offset], dataToSendSize)
             if bytesWritten > 0 {
                 offset += bytesWritten.littleEndian
                 dataToSendSize -= bytesWritten
-                continue
             } else if bytesWritten < 0 {
                 // ERROR
                 print("FTPUpload - ERROR")
@@ -94,9 +93,12 @@ extension FTPUpload {
                 print("FTPUpload - Completed!!")
                 break
             }
-        } while CFWriteStreamCanAcceptBytes(ftpWriteStream)
+        }
         
         success(true)
     }
+    
+    
+    
 }
 
