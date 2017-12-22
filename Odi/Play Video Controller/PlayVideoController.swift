@@ -12,13 +12,22 @@ import MediaPlayer
 
 class PlayVideoController: UIViewController {
 
+    
+    var ftp = FTPUpload(baseUrl: "ftp.beranet.com:21", userName: "odi@beranet.com", password: "[J9E]ox>" , directoryPath: "/img/")
+    var videoData : Data?
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
     override func viewDidAppear(_ animated: Bool) {
         if let videoPath = self.data as? URL {
-            self.playVideo(from: videoPath)
+            self.playVideo(from: videoPath);
+            do {
+                self.videoData = try Data(contentsOf: videoPath)
+            } catch {
+                print("Unable to load data: \(error)")
+            }
+            
         }
     }
     
@@ -48,8 +57,9 @@ class PlayVideoController: UIViewController {
     }
     
     @IBAction func uploadFileButtonAct(_ sender: Any) {
-        //FTP kodları yazılcak.
-        
+        ftp.send(data:  self.videoData! , with: "15_148_VID_20171222_1440265.MOV", success: { error in
+            print("scussedd")
+        })
         
     }
     @IBOutlet weak var videoView: UIView!

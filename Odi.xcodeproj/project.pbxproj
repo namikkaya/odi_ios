@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2205ABA51FED882D00B80C97 /* Ftp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205ABA41FED882D00B80C97 /* Ftp.swift */; };
 		2217E4831FEB26ED004A02AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E4821FEB26ED004A02AF /* AppDelegate.swift */; };
 		2217E4851FEB26ED004A02AF /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E4841FEB26ED004A02AF /* WebViewController.swift */; };
 		2217E4881FEB26ED004A02AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2217E4861FEB26ED004A02AF /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2205ABA41FED882D00B80C97 /* Ftp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ftp.swift; sourceTree = "<group>"; };
 		2217E47F1FEB26ED004A02AF /* Odi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Odi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2217E4821FEB26ED004A02AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2217E4841FEB26ED004A02AF /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				2217E4891FEB26EE004A02AF /* Assets.xcassets */,
 				2217E48B1FEB26EE004A02AF /* LaunchScreen.storyboard */,
 				2217E48E1FEB26EE004A02AF /* Info.plist */,
+				2205ABA41FED882D00B80C97 /* Ftp.swift */,
 			);
 			path = Odi;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				950D9A411FEC8C95004F5507 /* PlayVideoController.swift in Sources */,
 				950D9A3C1FEB4A90004F5507 /* GetCameraServices.swift in Sources */,
 				2217E49F1FEB512B004A02AF /* UploadImageService.swift in Sources */,
+				2205ABA51FED882D00B80C97 /* Ftp.swift in Sources */,
 				950D9A3E1FEB4A95004F5507 /* API.swift in Sources */,
 				950D9A311FEB4A65004F5507 /* CameraViewController.swift in Sources */,
 				950D9A461FEC93A5004F5507 /* Extensions.swift in Sources */,
