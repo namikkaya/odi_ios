@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vh2-1K-vKY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vh2-1K-vKY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -231,7 +231,6 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2UD-26-bEP">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="0.61176470589999998" green="0.60392156860000001" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StT-6E-DYg">
                                 <rect key="frame" x="240" y="273" width="120" height="120.5"/>
@@ -253,7 +252,7 @@
                                             <constraint firstAttribute="width" secondItem="fvO-VH-ZSV" secondAttribute="height" id="t1i-bc-t1x"/>
                                         </constraints>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="text"/>
+                                        <state key="normal" image="textoff"/>
                                         <connections>
                                             <action selector="closeTitleAction:" destination="fMY-QS-n5E" eventType="touchUpInside" id="aBA-Ii-zkA"/>
                                         </connections>
@@ -274,14 +273,13 @@
                                             <action selector="backToControllerAct:" destination="fMY-QS-n5E" eventType="touchUpInside" id="mnD-ce-mhQ"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzr-SG-ps5">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLa" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzr-SG-ps5">
                                         <rect key="frame" x="104.5" y="11.5" width="165.5" height="90"/>
-                                        <string key="text">LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6Ty-0s-5Md">
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Ty-0s-5Md">
                                         <rect key="frame" x="0.0" y="110.5" width="375" height="2"/>
                                         <color key="progressTintColor" red="0.58039215690000001" green="0.61568627450000002" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -331,23 +329,105 @@
                     <connections>
                         <outlet property="cameraView" destination="2UD-26-bEP" id="cr5-EL-s9P"/>
                         <outlet property="captureButton" destination="StT-6E-DYg" id="aO2-HP-RKb"/>
+                        <outlet property="closeButton" destination="HP5-5d-keC" id="iXw-fy-0Le"/>
                         <outlet property="closeTitleButton" destination="fvO-VH-ZSV" id="5DQ-x1-3i9"/>
                         <outlet property="kareokeLabel" destination="Tzr-SG-ps5" id="jKv-lJ-dHR"/>
                         <outlet property="progressView" destination="6Ty-0s-5Md" id="V1F-xn-e9U"/>
                         <outlet property="swapCameraButton" destination="po2-70-ESK" id="Ctc-JI-DiU"/>
+                        <segue destination="hYk-u2-0YG" kind="show" identifier="PlayVideoControllerID" id="8Yd-kP-JOi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HiD-Dm-rxz" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2105" y="1299"/>
         </scene>
+        <!--Play Video Controller-->
+        <scene sceneID="7sT-EU-9c4">
+            <objects>
+                <viewController storyboardIdentifier="PlayVideoControllerID" id="hYk-u2-0YG" customClass="PlayVideoController" customModule="Odi" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QXY-fp-xPO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tpp-Ag-T0j">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6S6-uV-utL">
+                                <rect key="frame" x="0.0" y="554" width="375" height="113"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LRp-Hm-bg5">
+                                        <rect key="frame" x="12" y="26" width="62.5" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="LRp-Hm-bg5" secondAttribute="height" id="QN5-Vt-q0K"/>
+                                        </constraints>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="refresh"/>
+                                        <connections>
+                                            <action selector="againOdiButtonAct:" destination="hYk-u2-0YG" eventType="touchUpInside" id="uU6-ED-KCO"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OuD-Eu-H9P">
+                                        <rect key="frame" x="156.5" y="26" width="62.5" height="62"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="changeCamera"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cac-8a-nKI">
+                                        <rect key="frame" x="300" y="25.5" width="63" height="62"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="upload"/>
+                                        <connections>
+                                            <action selector="uploadFileButtonAct:" destination="hYk-u2-0YG" eventType="touchUpInside" id="rYf-RP-taQ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.13725490200000001" green="0.1215686275" blue="0.12549019610000001" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="cac-8a-nKI" secondAttribute="trailing" constant="12" id="1DU-EU-CnV"/>
+                                    <constraint firstItem="OuD-Eu-H9P" firstAttribute="width" secondItem="LRp-Hm-bg5" secondAttribute="width" id="CQI-rg-qai"/>
+                                    <constraint firstItem="LRp-Hm-bg5" firstAttribute="leading" secondItem="6S6-uV-utL" secondAttribute="leading" constant="12" id="TUC-di-yBR"/>
+                                    <constraint firstItem="cac-8a-nKI" firstAttribute="centerY" secondItem="6S6-uV-utL" secondAttribute="centerY" id="bhr-4i-iSr"/>
+                                    <constraint firstItem="OuD-Eu-H9P" firstAttribute="centerX" secondItem="6S6-uV-utL" secondAttribute="centerX" id="bnp-zZ-ttQ"/>
+                                    <constraint firstItem="OuD-Eu-H9P" firstAttribute="centerY" secondItem="6S6-uV-utL" secondAttribute="centerY" id="fNw-h2-3SZ"/>
+                                    <constraint firstItem="OuD-Eu-H9P" firstAttribute="height" secondItem="LRp-Hm-bg5" secondAttribute="height" id="hTM-NU-q18"/>
+                                    <constraint firstItem="LRp-Hm-bg5" firstAttribute="height" secondItem="6S6-uV-utL" secondAttribute="height" multiplier="0.55" id="oaL-jD-rmF"/>
+                                    <constraint firstItem="cac-8a-nKI" firstAttribute="height" secondItem="OuD-Eu-H9P" secondAttribute="height" id="ooD-GU-Zg7"/>
+                                    <constraint firstItem="LRp-Hm-bg5" firstAttribute="centerY" secondItem="6S6-uV-utL" secondAttribute="centerY" id="tqH-xk-iaN"/>
+                                    <constraint firstItem="cac-8a-nKI" firstAttribute="width" secondItem="OuD-Eu-H9P" secondAttribute="width" id="xqo-Zn-lPX"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Tpp-Ag-T0j" firstAttribute="bottom" secondItem="QgA-Q2-QJI" secondAttribute="bottom" id="4cv-Zm-Sj5"/>
+                            <constraint firstItem="Tpp-Ag-T0j" firstAttribute="leading" secondItem="QgA-Q2-QJI" secondAttribute="leading" id="E8x-Xv-hMv"/>
+                            <constraint firstItem="Tpp-Ag-T0j" firstAttribute="top" secondItem="QXY-fp-xPO" secondAttribute="top" id="JFS-Lh-iaj"/>
+                            <constraint firstItem="6S6-uV-utL" firstAttribute="leading" secondItem="QgA-Q2-QJI" secondAttribute="leading" id="Tyh-5A-KPy"/>
+                            <constraint firstItem="QgA-Q2-QJI" firstAttribute="trailing" secondItem="6S6-uV-utL" secondAttribute="trailing" id="arc-f4-xKu"/>
+                            <constraint firstItem="6S6-uV-utL" firstAttribute="height" secondItem="Tpp-Ag-T0j" secondAttribute="height" multiplier="0.17" id="iHI-au-Ubk"/>
+                            <constraint firstItem="6S6-uV-utL" firstAttribute="bottom" secondItem="QgA-Q2-QJI" secondAttribute="bottom" id="ide-9o-iw8"/>
+                            <constraint firstItem="Tpp-Ag-T0j" firstAttribute="trailing" secondItem="QgA-Q2-QJI" secondAttribute="trailing" id="zck-o6-EJl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="QgA-Q2-QJI"/>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="videoView" destination="Tpp-Ag-T0j" id="mxb-Bx-wsZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dfe-Ru-0Gb" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2886" y="1299"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Screen Shot 2017-11-26 at 04.25.21" width="16" height="16"/>
-        <image name="changeCamera" width="16" height="16"/>
+        <image name="changeCamera" width="128" height="128"/>
         <image name="close" width="128" height="128"/>
         <image name="imageedit_1_3120019353" width="185" height="185"/>
-        <image name="rec" width="16" height="16"/>
-        <image name="text" width="16" height="16"/>
+        <image name="rec" width="517" height="517"/>
+        <image name="refresh" width="64" height="64"/>
+        <image name="textoff" width="128" height="128"/>
+        <image name="upload" width="64" height="64"/>
     </resources>
 </document>

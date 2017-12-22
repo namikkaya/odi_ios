@@ -8,24 +8,39 @@
 
 import UIKit
 import Photos
+import AVFoundation
+import AVKit
+
 
 class CameraViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCameraController()
-        styleCaptureButton()
-        print(odiResponseModel)
         
+        AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
+        print(odiResponseModel)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
+        styleCaptureButton()
+        configureCameraController()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        self.stopTimer()
+        self.closeButton.isHidden = false
+        self.swapCameraButton.isHidden = false
+        self.view.layer.removeAllAnimations()
+        self.audioPlayer.pausePlayer()
+        self.audioPlayer.audioPlayerNil()
+        self.progressView.progress = 0
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -35,27 +50,40 @@ class CameraViewController: UIViewController {
         if !isRecording {
             isRecording = true
             // Configure output path in temporary folder
-            let outputPath = NSTemporaryDirectory() + "output.mp4"
+            let outputPath = NSTemporaryDirectory() + "output.mov"
             let outputFileURL = URL(fileURLWithPath: outputPath)
             cameraController.videoOutput?.startRecording(toOutputFileURL: outputFileURL, recordingDelegate: self)
             //Button configure
+            self.closeButton.isHidden = true
+            self.swapCameraButton.isHidden = true
             captureButton.setImage(#imageLiteral(resourceName: "stop2"), for: .normal)
             
+            recursiveAnimate(arrayCount: odiResponseModel.cameraList.count, array: odiResponseModel.cameraList, newCount: 0)
         } else {
             isRecording = false
             cameraController.videoOutput?.stopRecording()
+            
+            
+            self.closeButton.isHidden = false
+            self.swapCameraButton.isHidden = false
+            self.view.layer.removeAllAnimations()
+            self.audioPlayer.pausePlayer()
+            self.audioPlayer.audioPlayerNil()
+            self.progressView.progress = 0
             captureButton.setImage(#imageLiteral(resourceName: "rec"), for: .normal)
         }
     }
     
     @IBAction func closeTitleAction(_ sender: Any) {
-        if isTextClosed {
+        if !isTextClosed {
             isTextClosed = !isTextClosed
             self.kareokeLabel.isHidden = true
+            self.closeTitleButton.setImage(#imageLiteral(resourceName: "text"), for: .normal)
         }
         else{
             isTextClosed = !isTextClosed
             self.kareokeLabel.isHidden = false
+            self.closeTitleButton.setImage(#imageLiteral(resourceName: "textoff"), for: .normal)
         }
         
     }
@@ -71,6 +99,10 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func backToControllerAct(_ sender: Any) {
+        if let navigationController = self.navigationController
+        {
+            let _ = navigationController.popViewController(animated: true)
+        }
     }
     
     
@@ -82,6 +114,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var swapCameraButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var kareokeLabel: UILabel!
+    @IBOutlet weak var closeButton: UIButton!
     
     //Support Classes
     let cameraController = CameraController()
@@ -97,7 +130,8 @@ class CameraViewController: UIViewController {
     var timer = Timer()
     //Response model
     var odiResponseModel = GetCameraResponseModel()
-    
+    //Send data
+    var videoPath = ""
 }
 
 extension CameraViewController {
@@ -116,36 +150,47 @@ extension CameraViewController {
         var count = newCount
         switch array[count].type {
         case "0":
-            audioPlayer.initialPlayer(resource: array[count].soundfile, view: self.view)
-            audioPlayer.playPlayer()
-            subtitleString = array[count].text
-            self.runTimer(interval: TimeInterval(Float(audioPlayer.playerGetDuration()) / Float(subtitleString.count)))
-            
-            UIView.animate(withDuration: TimeInterval(audioPlayer.playerGetDuration() + 1) , animations: {
-                self.progressView.progress = 1.0
-                self.view.layoutIfNeeded()
-            }){ success in
-                self.progressView.progress = 0
-                self.view.layoutIfNeeded()
-                count += 1
-                if arrayCount > count {
-                    self.audioPlayer.audioPlayerNil()
-                    self.recursiveAnimate(arrayCount: array.count, array: array, newCount: count)
+            if !isRecording {
+                return
+            }
+            else{
+                audioPlayer.initialPlayer(resource: array[count].soundfile, view: self.view)
+                audioPlayer.playPlayer()
+                subtitleString = array[count].text
+                self.runTimer(interval: TimeInterval(Float(audioPlayer.playerGetDuration()) / Float(subtitleString.count)))
+                
+                UIView.animate(withDuration: TimeInterval(audioPlayer.playerGetDuration() + 1) , animations: {
+                    self.progressView.progress = 1.0
+                    self.view.layoutIfNeeded()
+                }){ success in
+                    self.progressView.progress = 0
+                    self.view.layoutIfNeeded()
+                    count += 1
+                    if arrayCount > count {
+                        self.audioPlayer.audioPlayerNil()
+                        self.recursiveAnimate(arrayCount: array.count, array: array, newCount: count)
+                    }
                 }
             }
         case "1":
-            kareokeLabel.text = array[count].text
-            UIView.animate(withDuration: TimeInterval(array[count].duration) ?? 4.0, animations: {
-                self.progressView.progress = 1.0
-                self.view.layoutIfNeeded()
-            }){ success in
-                self.progressView.progress = 0
-                self.view.layoutIfNeeded()
-                print(arrayCount)
-                print(count)
-                count += 1
-                if arrayCount > count {
-                    self.recursiveAnimate(arrayCount: array.count, array: array, newCount: count)
+            if !isRecording {
+                return
+            }
+            else{
+                kareokeLabel.text = array[count].text
+                UIView.animate(withDuration: TimeInterval(array[count].duration) ?? 4.0, animations: {
+                    self.progressView.progress = 1.0
+                    self.view.layoutIfNeeded()
+                }){ success in
+                    self.progressView.progress = 0
+                    self.view.layoutIfNeeded()
+                    print(arrayCount)
+                    print(count)
+                    count += 1
+                    if arrayCount > count {
+                        self.audioPlayer.audioPlayerNil()
+                        self.recursiveAnimate(arrayCount: array.count, array: array, newCount: count)
+                    }
                 }
             }
         default:
@@ -176,6 +221,13 @@ extension CameraViewController {
         }
     }
     
+    func stopTimer(){
+        if timer != nil {
+            if timer.isValid {
+                timer.invalidate()
+            }
+        }
+    }
     
 }
 
@@ -187,7 +239,8 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
             return
         }
         print("File size before compression: \(Double(data.length / 1048576)) mb")
-        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".output.mp4")
+        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".output.mov")
+        
         compressVideo(inputURL: outputFileURL as URL, outputURL: compressedURL) { (exportSession) in
             guard let session = exportSession else {
                 return
@@ -204,19 +257,22 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
                     return
                 }
                 let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
-                let filePath="\(documentsPath)/output.mp4"
-                DispatchQueue.global(qos: .background).async {
-                    DispatchQueue.main.async {
-                        compressedData.write(toFile: filePath, atomically: true)
-                        PHPhotoLibrary.shared().performChanges({
-                            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: URL(fileURLWithPath: filePath))
-                        }) { completed, error in
-                            if completed {
-                                print("Video is saved!")
-                            }
-                        }
-                    }
-                }
+                let filePath="\(documentsPath)/output.mov"
+                print(filePath)
+                self.goto(screenID: "PlayVideoControllerID", animated: true, data: compressedURL as AnyObject, isModal: true)
+                
+//                DispatchQueue.global(qos: .background).async {
+//                    DispatchQueue.main.async {
+//                        compressedData.write(toFile: filePath, atomically: true)
+//                        PHPhotoLibrary.shared().performChanges({
+//                            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: URL(fileURLWithPath: filePath))
+//                        }) { completed, error in
+//                            if completed {
+//                                print("Video is saved!")
+//                            }
+//                        }
+//                    }
+//                }
                 print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
             case .failed:
                 break
@@ -288,3 +344,4 @@ struct AppUtility {
     }
     
 }
+
