@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vh2-1K-vKY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vh2-1K-vKY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -434,23 +434,33 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="VqB-IQ-DTW">
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
-                                <color key="color" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Yükleniyor Lütfen Bekleyiniz..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hl4-zM-GI8">
+                                <rect key="frame" x="8" y="387" width="359" height="60"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="hl4-zM-GI8" secondAttribute="trailing" constant="8" id="0Pl-P1-zaN"/>
                             <constraint firstItem="VqB-IQ-DTW" firstAttribute="centerY" secondItem="YdT-nM-qQd" secondAttribute="centerY" id="FIl-2F-uSY"/>
+                            <constraint firstItem="hl4-zM-GI8" firstAttribute="leading" secondItem="YdT-nM-qQd" secondAttribute="leading" constant="8" id="G25-EO-tMB"/>
+                            <constraint firstItem="hl4-zM-GI8" firstAttribute="top" secondItem="VqB-IQ-DTW" secondAttribute="bottom" constant="35" id="f8B-dm-A7N"/>
                             <constraint firstItem="VqB-IQ-DTW" firstAttribute="centerX" secondItem="YdT-nM-qQd" secondAttribute="centerX" id="nJ3-dv-aN8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PoO-ov-FKh"/>
                     </view>
                     <connections>
                         <outlet property="indicator" destination="VqB-IQ-DTW" id="jDX-7f-sgM"/>
+                        <outlet property="label" destination="hl4-zM-GI8" id="wgU-Wk-37r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XjS-Dv-8oo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4076" y="-1283"/>
+            <point key="canvasLocation" x="4076" y="-1283.2083958020989"/>
         </scene>
     </scenes>
     <resources>
@@ -462,6 +472,5 @@
         <image name="refresh" width="64" height="64"/>
         <image name="textoff" width="128" height="128"/>
         <image name="upload" width="64" height="64"/>
-        <image name="text" width="128" height="128"/>
     </resources>
 </document>

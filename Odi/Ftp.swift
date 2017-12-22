@@ -87,6 +87,7 @@ extension FTPUpload {
             } else if bytesWritten < 0 {
                 // ERROR
                 print("FTPUpload - ERROR")
+                success(false)
                 break
             } else if bytesWritten == 0 {
                 // SUCCESS

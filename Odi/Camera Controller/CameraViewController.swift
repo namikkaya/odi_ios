@@ -14,6 +14,7 @@ import AVKit
 
 class CameraViewController: UIViewController {
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -131,6 +132,8 @@ class CameraViewController: UIViewController {
     //Response model
     var odiResponseModel = GetCameraResponseModel()
     //Send data
+    var odileData = (userId: "", videoId: "")
+    var uploadData : [String : AnyObject] = [:]
     var videoPath = ""
 }
 
@@ -259,8 +262,10 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
                 let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
                 let filePath="\(documentsPath)/output.mov"
                 print(filePath)
-                self.goto(screenID: "PlayVideoControllerID", animated: true, data: compressedURL as AnyObject, isModal: true)
-                
+                self.uploadData["videoURL"] = compressedURL as AnyObject
+                self.uploadData["userId"] = self.odileData.userId  as AnyObject
+                self.uploadData["videoId"] = self.odileData.videoId as AnyObject
+                self.goto(screenID: "PlayVideoControllerID", animated: true, data: self.uploadData as AnyObject, isModal: true)
 //                DispatchQueue.global(qos: .background).async {
 //                    DispatchQueue.main.async {
 //                        compressedData.write(toFile: filePath, atomically: true)

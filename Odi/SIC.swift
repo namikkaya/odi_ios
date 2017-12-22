@@ -26,13 +26,21 @@ class SIC: UIViewController {
     }
 
     
+    @IBOutlet weak var label: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
 }
 extension UIViewController {
-    func SHOW_SIC(){
+    func SHOW_SIC(type : SICType ){
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SICID") as! SIC
         popOverVC.view.tag = 101
+        popOverVC.view.backgroundColor = UIColor.black
+        switch type {
+        case .image:
+            popOverVC.label.text = "Video yükleniyor lütfen bekleyiniz..."
+        case .video:
+            popOverVC.label.text = "Kolaj yükleniyor lütfen bekleyiniz..."
+        }
         self.addChildViewController(popOverVC)
         popOverVC.view.frame = self.view.frame
         self.view.addSubview(popOverVC.view)
@@ -48,4 +56,8 @@ extension UIViewController {
             }
         }
     }
+}
+enum SICType {
+    case video
+    case image
 }
