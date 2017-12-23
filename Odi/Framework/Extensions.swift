@@ -378,7 +378,15 @@ extension UIButton {
     }
     
 }
-
+extension Date {
+    func getTodayDateString() -> String {
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        let result = formatter.string(from: date)
+        return result
+    }
+}
 enum VerticalLocation: String {
     case bottom
     case top

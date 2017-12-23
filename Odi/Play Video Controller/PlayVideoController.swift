@@ -9,25 +9,34 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
-
+import WebKit
 class PlayVideoController: UIViewController {
-    
-    
-    var ftp = FTPUpload(baseUrl: "ftp.beranet.com:21", userName: "odi@beranet.com", password: "[J9E]ox>" , directoryPath: "/img/")
+
+    var videoId = ""
+    var userId = ""
     var videoData : Data?
+    var webViewForSuccess: WKWebView?
+    var ftp = FTPUpload(baseUrl: "ftp.beranet.com:21", userName: "odi@beranet.com", password: "[J9E]ox>" , directoryPath: "/img/")
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        if let videoPath = self.data as? URL {
-            self.playVideo(from: videoPath);
-            do {
-                self.videoData = try Data(contentsOf: videoPath)
-            } catch {
-                print("Unable to load data: \(error)")
+        if let uploadData = self.data as? [String: AnyObject] {
+            if let userId = uploadData["userId"] as? String {
+                self.userId = userId
             }
-            
+            if let videoId = uploadData["videoId"] as? String {
+                self.videoId = videoId
+            }
+            if let videoPath = uploadData["videoURL"] as? URL {
+                self.playVideo(from: videoPath);
+                do {
+                    self.videoData = try Data(contentsOf: videoPath)
+                } catch {
+                    print("Unable to load data: \(error)")
+                }
+            }
         }
     }
     
@@ -57,13 +66,50 @@ class PlayVideoController: UIViewController {
     }
     
     @IBAction func uploadFileButtonAct(_ sender: Any) {
-        self.ftp.send(data:  self.videoData! , with: "15_148_VID_20171222_1440265.MOV", success: { error in
-            print("scussedd")
+        self.SHOW_SIC(type: .video)
+        self.ftp.send(data:  self.videoData! , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV", success: { error in
+            if error {
+                let url = URL(string: "http://odi.beranet.com/upld.php?fileName=\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV")!
+                let request = URLRequest(url: url)
+                self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+                self.webViewForSuccess?.isHidden = true
+                self.view.addSubview(self.webViewForSuccess!)
+                self.webViewForSuccess!.navigationDelegate = self
+                self.webViewForSuccess!.load(request)
+            }
         })
     }
     @IBOutlet weak var videoView: UIView!
     private var player : Player!
-    
+    func showAlert(message: String) {
+        self.HIDE_SIC(customView: self.view)
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        
+        // Create the actions
+        let okAction = UIAlertAction(title: "Tamam",style: UIAlertActionStyle.default) {
+            UIAlertAction in
+            if self.presentingViewController != nil {
+                self.dismiss(animated: false, completion: {
+                    self.navigationController?.popToRootViewController(animated: true)
+                })
+            }
+            else {
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+            
+        }
+        // Add the actions
+        alertController.addAction(okAction)
+        // Present the controller
+        self.present(alertController, animated: true, completion: nil)
+    }
+}
+
+extension PlayVideoController : WKNavigationDelegate {
+    func webView(_ webView: WKWebView,
+                 didFinish navigation: WKNavigation!) {
+        showAlert(message: "İşleminiz başarı ile gerçekleştrildi")
+    }
 }
 
 extension PlayVideoController: PlayerDelegate {

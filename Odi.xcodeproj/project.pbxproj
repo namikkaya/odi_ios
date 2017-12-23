@@ -97,14 +97,14 @@
 		2217E4811FEB26ED004A02AF /* Odi */ = {
 			isa = PBXGroup;
 			children = (
+				2217E4821FEB26ED004A02AF /* AppDelegate.swift */,
 				950D9A421FEC8FBA004F5507 /* Framework */,
 				950D9A331FEB4A69004F5507 /* Service Structure */,
 				950D9A2C1FEB4A57004F5507 /* Camera Controller */,
 				950D9A3F1FEC8C66004F5507 /* Play Video Controller */,
-				2217E4821FEB26ED004A02AF /* AppDelegate.swift */,
-				224459531FEBF8B700DEA02A /* SIC.swift */,
-				2217E4841FEB26ED004A02AF /* WebViewController.swift */,
 				2217E49A1FEB329C004A02AF /* photosController.swift */,
+				2217E4841FEB26ED004A02AF /* WebViewController.swift */,
+				224459531FEBF8B700DEA02A /* SIC.swift */,
 				2217E49C1FEB32A8004A02AF /* Photos.swift */,
 				2217E4981FEB3271004A02AF /* DragableScrollView.swift */,
 				2217E4941FEB3266004A02AF /* CollectionViewCell.swift */,

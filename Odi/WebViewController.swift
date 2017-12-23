@@ -59,6 +59,7 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         navigationItem.backBarButtonItem = backItem
         if let vc = segue.destination as? CameraViewController {
             vc.odiResponseModel = self.odiResponseModel
+            vc.odileData = self.odileData
         }
         if let vc = segue.destination as? PhotosViewController {
             vc.id = self.odileData.userId

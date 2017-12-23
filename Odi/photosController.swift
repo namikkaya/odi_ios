@@ -53,7 +53,8 @@ class PhotosViewController: UIViewController {
         self.dragImageView.image = nil
         service.connectService(fileName: "profil_\(id).jpg", image: scrennShotView.screenShot!)
         self.view.isUserInteractionEnabled = false
-        self.SHOW_SIC()
+        self.navigationController?.navigationBar.isUserInteractionEnabled = false
+        self.SHOW_SIC(type: .image)
     }
     func addTapped() {
         self.closeImage1.isUserInteractionEnabled = true
@@ -90,7 +91,6 @@ extension  PhotosViewController: UploadImageServiceDelegte {
             self.webViewForSuccess = WKWebView(frame: CGRect.zero)
             self.webViewForSuccess?.isHidden = true
             self.view.addSubview(self.webViewForSuccess!)
-            webViewForSuccess!.navigationDelegate = self
             webViewForSuccess!.navigationDelegate = self
             webViewForSuccess!.load(request)
         } else {
