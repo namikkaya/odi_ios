@@ -94,7 +94,6 @@ extension FTPUpload {
                 break
             }
         }
-        
         success(true)
     }
     
