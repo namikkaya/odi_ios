@@ -56,6 +56,7 @@ extension FTPUpload {
 extension FTPUpload {
     public func send(data: Data, with fileName: String, success: @escaping ((Bool)->Void)) {
         
+        print(fileName)
         guard let ftpWriteStream = ftpWriteStream(forFileName: fileName) else {
             success(false)
             return
@@ -88,7 +89,7 @@ extension FTPUpload {
                 // ERROR
                 print("FTPUpload - ERROR")
                 success(false)
-                break
+                return
             } else if bytesWritten == 0 {
                 // SUCCESS
                 print("FTPUpload - Completed!!")

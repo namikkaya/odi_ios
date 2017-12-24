@@ -24,12 +24,16 @@ class CameraViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        print("viewWillAppear")
+        self.addObserver()
         
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        print("viewDidAppear")
         styleCaptureButton()
         configureCameraController()
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
@@ -40,6 +44,21 @@ class CameraViewController: UIViewController {
         self.audioPlayer.pausePlayer()
         self.audioPlayer.audioPlayerNil()
         self.progressView.progress = 0
+        self.removeObserver()
+    }
+    
+    func addObserver(){
+        NotificationCenter.default.addObserver(self, selector: #selector(self.goBack(notification:)), name: NSNotification.Name(rawValue: "transitionBack") , object: nil)
+    }
+    func removeObserver(){
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "transitionBack") , object: nil)
+    }
+    
+    func goBack(notification: NSNotification){
+        if let navigationController = self.navigationController
+        {
+            let _ = navigationController.popViewController(animated: true)
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -64,7 +83,7 @@ class CameraViewController: UIViewController {
             isRecording = false
             cameraController.videoOutput?.stopRecording()
             
-            
+            self.stopTimer()
             self.closeButton.isHidden = false
             self.swapCameraButton.isHidden = false
             self.view.layer.removeAllAnimations()
@@ -180,7 +199,12 @@ extension CameraViewController {
                 return
             }
             else{
-                kareokeLabel.text = array[count].text
+                let myMutableString = NSMutableAttributedString(
+                    string: array[count].text,
+                    attributes: [NSAttachmentAttributeName : UIFont(
+                        name: "Georgia",
+                        size: 18.0)!])
+                kareokeLabel.attributedText = myMutableString
                 UIView.animate(withDuration: TimeInterval(array[count].duration) ?? 4.0, animations: {
                     self.progressView.progress = 1.0
                     self.view.layoutIfNeeded()
@@ -224,19 +248,28 @@ extension CameraViewController {
         }
     }
     
+    
+    
     func stopTimer(){
         if timer != nil {
             if timer.isValid {
                 timer.invalidate()
+                duration = 0
             }
         }
+        let myMutableString = NSMutableAttributedString(
+            string: "",
+            attributes: [NSAttachmentAttributeName : UIFont(
+                name: "Georgia",
+                size: 18.0)!])
+        self.kareokeLabel.attributedText = myMutableString
     }
     
 }
 
 extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
     func capture(_ output: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
-        
+        self.SHOW_SIC(type: .compressVideo)
         //For compress code
         guard let data = NSData(contentsOf: outputFileURL as URL) else {
             return
@@ -262,22 +295,12 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
                 let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
                 let filePath="\(documentsPath)/output.mov"
                 print(filePath)
+                self.HIDE_SIC(customView: self.view)
+                self.uploadData["filePath"] = filePath as AnyObject
                 self.uploadData["videoURL"] = compressedURL as AnyObject
                 self.uploadData["userId"] = self.odileData.userId  as AnyObject
                 self.uploadData["videoId"] = self.odileData.videoId as AnyObject
                 self.goto(screenID: "PlayVideoControllerID", animated: true, data: self.uploadData as AnyObject, isModal: true)
-//                DispatchQueue.global(qos: .background).async {
-//                    DispatchQueue.main.async {
-//                        compressedData.write(toFile: filePath, atomically: true)
-//                        PHPhotoLibrary.shared().performChanges({
-//                            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: URL(fileURLWithPath: filePath))
-//                        }) { completed, error in
-//                            if completed {
-//                                print("Video is saved!")
-//                            }
-//                        }
-//                    }
-//                }
                 print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
             case .failed:
                 break

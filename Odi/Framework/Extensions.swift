@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 private var dataAssocKey = 0
+
 extension UIViewController {
    
 }
@@ -382,7 +383,7 @@ extension Date {
     func getTodayDateString() -> String {
         let date = Date()
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
+        formatter.dateFormat = "yyyyMMdd"
         let result = formatter.string(from: date)
         return result
     }
@@ -390,6 +391,9 @@ extension Date {
 enum VerticalLocation: String {
     case bottom
     case top
+}
+struct KEY {
+    static var transitionKey = false
 }
 
 

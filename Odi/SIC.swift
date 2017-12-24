@@ -37,9 +37,11 @@ extension UIViewController {
         popOverVC.view.backgroundColor = UIColor.black
         switch type {
         case .image:
-            popOverVC.label.text = "Video yükleniyor lütfen bekleyiniz..."
-        case .video:
             popOverVC.label.text = "Kolaj yükleniyor lütfen bekleyiniz..."
+        case .video:
+            popOverVC.label.text = "Video yükleniyor lütfen bekleyiniz..."
+        case .compressVideo:
+            popOverVC.label.text = "Video sıkıştırılıyor."
         }
         self.addChildViewController(popOverVC)
         popOverVC.view.frame = self.view.frame
@@ -60,4 +62,5 @@ extension UIViewController {
 enum SICType {
     case video
     case image
+    case compressVideo
 }

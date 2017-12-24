@@ -10,10 +10,13 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 import WebKit
+import Photos
 class PlayVideoController: UIViewController {
-
+    
     var videoId = ""
     var userId = ""
+    var filePath = ""
+    var videoURL : URL?
     var videoData : Data?
     var webViewForSuccess: WKWebView?
     var ftp = FTPUpload(baseUrl: "ftp.beranet.com:21", userName: "odi@beranet.com", password: "[J9E]ox>" , directoryPath: "/img/")
@@ -26,10 +29,14 @@ class PlayVideoController: UIViewController {
             if let userId = uploadData["userId"] as? String {
                 self.userId = userId
             }
+            if let filePath = uploadData["filePath"] as? String {
+                self.filePath = filePath
+            }
             if let videoId = uploadData["videoId"] as? String {
                 self.videoId = videoId
             }
             if let videoPath = uploadData["videoURL"] as? URL {
+                self.videoURL = videoPath
                 self.playVideo(from: videoPath);
                 do {
                     self.videoData = try Data(contentsOf: videoPath)
@@ -67,17 +74,28 @@ class PlayVideoController: UIViewController {
     
     @IBAction func uploadFileButtonAct(_ sender: Any) {
         self.SHOW_SIC(type: .video)
-        self.ftp.send(data:  self.videoData! , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV", success: { error in
-            if error {
-                let url = URL(string: "http://odi.beranet.com/upld.php?fileName=\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV")!
-                let request = URLRequest(url: url)
-                self.webViewForSuccess = WKWebView(frame: CGRect.zero)
-                self.webViewForSuccess?.isHidden = true
-                self.view.addSubview(self.webViewForSuccess!)
-                self.webViewForSuccess!.navigationDelegate = self
-                self.webViewForSuccess!.load(request)
-            }
-        })
+        DispatchQueue.global(qos: .background).async {
+            self.ftp.send(data:  self.videoData! , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV", success: { error in
+                DispatchQueue.main.async {
+                    if error {
+                        let url = URL(string: "http://odi.beranet.com/upld.php?fileName=\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV")!
+                        let request = URLRequest(url: url)
+                        self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+                        self.webViewForSuccess?.isHidden = true
+                        self.view.addSubview(self.webViewForSuccess!)
+                        self.webViewForSuccess!.navigationDelegate = self
+                        self.webViewForSuccess!.load(request)
+                    }
+                    else{
+                        self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz fakat videonuz galerinize kayıt edilmiştir.")
+                    }
+                    self.addVideoGalleruy(filePath: self.filePath, compressedURL: self.videoURL!)
+                }
+            })
+        }
+        
+        
+        
     }
     @IBOutlet weak var videoView: UIView!
     private var player : Player!
@@ -90,19 +108,37 @@ class PlayVideoController: UIViewController {
             UIAlertAction in
             if self.presentingViewController != nil {
                 self.dismiss(animated: false, completion: {
-                    self.navigationController?.popToRootViewController(animated: true)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "transitionBack"), object: nil, userInfo: nil)
                 })
             }
             else {
                 self.navigationController?.popToRootViewController(animated: true)
             }
-            
         }
         // Add the actions
         alertController.addAction(okAction)
         // Present the controller
         self.present(alertController, animated: true, completion: nil)
     }
+    func addVideoGalleruy(filePath: String,compressedURL: URL){
+        guard let compressedData = NSData(contentsOf: compressedURL) else {
+            return
+        }
+        DispatchQueue.global(qos: .background).async {
+            DispatchQueue.main.async {
+                compressedData.write(toFile: filePath, atomically: true)
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: URL(fileURLWithPath: filePath))
+                }) { completed, error in
+                    if completed {
+                        print("Video is saved!")
+                    }
+                }
+            }
+        }
+    }
+    
+    
 }
 
 extension PlayVideoController : WKNavigationDelegate {
@@ -147,3 +183,4 @@ extension PlayVideoController: PlayerDelegate {
     }
     
 }
+

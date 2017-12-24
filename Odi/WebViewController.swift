@@ -27,11 +27,14 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         self.webView = WKWebView(frame: self.view.bounds, configuration: config)
         self.view.addSubview(self.webView!)
         webView?.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint(item: webView!, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0).isActive = true
-        NSLayoutConstraint(item: webView!, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 0).isActive = true
-        NSLayoutConstraint(item: webView!, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 0).isActive = true
-        NSLayoutConstraint(item: webView!, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 20).isActive = true
+        webView = WKWebView(frame:.zero , configuration: config)
+        view.addSubview(webView!)
         webView?.uiDelegate = self
+        //view = webView
+        webView!.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":webView!]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":webView!]))
         let url = URL(string:"http://odi.beranet.com/")
         let req = URLRequest(url:url!)
         self.webView!.load(req)
@@ -84,6 +87,7 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         self.webView?.reload()
         self.navigationController?.isNavigationBarHidden = true
     }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
