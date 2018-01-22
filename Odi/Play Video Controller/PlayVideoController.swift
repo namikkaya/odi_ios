@@ -40,6 +40,7 @@ class PlayVideoController: UIViewController {
                 self.videoURL = videoPath
                 self.playVideo(from: videoPath);
                 self.thumbNailImage = getThumbnailFrom(path: videoPath)!
+                uploadDefaultImage(image: self.thumbNailImage)
                 do {
                     self.videoData = try Data(contentsOf: videoPath)
                 } catch {
@@ -89,7 +90,7 @@ class PlayVideoController: UIViewController {
                         self.webViewForSuccess!.load(request)
                     }
                     else{
-                        self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz fakat videonuz galerinize kayıt edilmiştir.")
+                       
                     }
                     self.addVideoGalleruy(filePath: self.filePath, compressedURL: self.videoURL!)
                 }
@@ -159,6 +160,28 @@ class PlayVideoController: UIViewController {
             
         }
         
+    }
+    func uploadDefaultImage(image: UIImage) {
+        DispatchQueue.global(qos: .background).async {
+            guard let imageData = image as? Data else { return }
+            self.ftp.send(data:  self.videoData! , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.jpg", success: { error in
+                DispatchQueue.main.async {
+                    if error {
+                        let url = URL(string: "http://odi.beranet.com/upld.php?fileName=\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV")!
+                        let request = URLRequest(url: url)
+                        self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+                        self.webViewForSuccess?.isHidden = true
+                        self.view.addSubview(self.webViewForSuccess!)
+                        self.webViewForSuccess!.navigationDelegate = self
+                        self.webViewForSuccess!.load(request)
+                    }
+                    else{
+                        self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz fakat videonuz galerinize kayıt edilmiştir.")
+                    }
+                    self.addVideoGalleruy(filePath: self.filePath, compressedURL: self.videoURL!)
+                }
+            })
+        }
     }
     
     
