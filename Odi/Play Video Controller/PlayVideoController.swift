@@ -13,6 +13,7 @@ import WebKit
 import Photos
 class PlayVideoController: UIViewController {
     
+    var thumbNailImage = UIImage()
     var videoId = ""
     var userId = ""
     var filePath = ""
@@ -38,6 +39,7 @@ class PlayVideoController: UIViewController {
             if let videoPath = uploadData["videoURL"] as? URL {
                 self.videoURL = videoPath
                 self.playVideo(from: videoPath);
+                self.thumbNailImage = getThumbnailFrom(path: videoPath)!
                 do {
                     self.videoData = try Data(contentsOf: videoPath)
                 } catch {
@@ -136,6 +138,27 @@ class PlayVideoController: UIViewController {
                 }
             }
         }
+    }
+    
+    func getThumbnailFrom(path: URL) -> UIImage? {
+        
+        do {
+            
+            let asset = AVURLAsset(url: path , options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let thumbnail = UIImage(cgImage: cgImage)
+            
+            return thumbnail
+            
+        } catch let error {
+            
+            print("*** Error generating thumbnail: \(error.localizedDescription)")
+            return nil
+            
+        }
+        
     }
     
     

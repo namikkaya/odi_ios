@@ -10,6 +10,7 @@ import UIKit
 import Photos
 import AVFoundation
 import AVKit
+import QuartzCore
 
 
 class CameraViewController: UIViewController {
@@ -77,16 +78,17 @@ class CameraViewController: UIViewController {
             self.closeButton.isHidden = true
             self.swapCameraButton.isHidden = true
             captureButton.setImage(#imageLiteral(resourceName: "stop2"), for: .normal)
+            startCameraTimer()
             
-            recursiveAnimate(arrayCount: odiResponseModel.cameraList.count, array: odiResponseModel.cameraList, newCount: 0)
         } else {
             isRecording = false
             cameraController.videoOutput?.stopRecording()
-            
+            self.skipButton.isHidden = true
             self.stopTimer()
+            self.stopCameraTimer()
+            self.cameraTimerCount = 0
             self.closeButton.isHidden = false
             self.swapCameraButton.isHidden = false
-            self.view.layer.removeAllAnimations()
             self.audioPlayer.pausePlayer()
             self.audioPlayer.audioPlayerNil()
             self.progressView.progress = 0
@@ -125,9 +127,16 @@ class CameraViewController: UIViewController {
         }
     }
     
+    @IBAction func skipButtonAction(_ sender: Any) {
+        stopTimer()
+        stopCameraTimer()
+        cameraTimerCount += 1
+        startCameraTimer()
+    }
     
     
     //Storyboard Veriable
+    @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var closeTitleButton: UIButton!
@@ -148,6 +157,10 @@ class CameraViewController: UIViewController {
     var duration = 0
     var subtitleString = ""
     var timer = Timer()
+    var cameraTimer = Timer()
+    var cameraTimerDuration = 0
+    var cameraTimerCount = 0
+    var progressValue : Double = 0.0
     //Response model
     var odiResponseModel = GetCameraResponseModel()
     //Send data
@@ -168,62 +181,66 @@ extension CameraViewController {
         captureButton.layer.cornerRadius = min(captureButton.frame.width, captureButton.frame.height) / 2
     }
     
-    func recursiveAnimate(arrayCount: Int, array :[GetCameraList], newCount: Int){
-        var count = newCount
-        switch array[count].type {
-        case "0":
-            if !isRecording {
-                return
-            }
-            else{
-                audioPlayer.initialPlayer(resource: array[count].soundfile, view: self.view)
-                audioPlayer.playPlayer()
-                subtitleString = array[count].text
-                self.runTimer(interval: TimeInterval(Float(audioPlayer.playerGetDuration()) / Float(subtitleString.count)))
-                
-                UIView.animate(withDuration: TimeInterval(audioPlayer.playerGetDuration() + 1) , animations: {
-                    self.progressView.progress = 1.0
-                    self.view.layoutIfNeeded()
-                }){ success in
-                    self.progressView.progress = 0
-                    self.view.layoutIfNeeded()
-                    count += 1
-                    if arrayCount > count {
-                        self.audioPlayer.audioPlayerNil()
-                        self.recursiveAnimate(arrayCount: array.count, array: array, newCount: count)
-                    }
-                }
-            }
-        case "1":
-            if !isRecording {
-                return
-            }
-            else{
-                let myMutableString = NSMutableAttributedString(
-                    string: array[count].text,
-                    attributes: [NSAttachmentAttributeName : UIFont(
-                        name: "Georgia",
-                        size: 18.0)!])
-                kareokeLabel.attributedText = myMutableString
-                UIView.animate(withDuration: TimeInterval(array[count].duration) ?? 4.0, animations: {
-                    self.progressView.progress = 1.0
-                    self.view.layoutIfNeeded()
-                }){ success in
-                    self.progressView.progress = 0
-                    self.view.layoutIfNeeded()
-                    print(arrayCount)
-                    print(count)
-                    count += 1
-                    if arrayCount > count {
-                        self.audioPlayer.audioPlayerNil()
-                        self.recursiveAnimate(arrayCount: array.count, array: array, newCount: count)
-                    }
-                }
-            }
-        default:
-            break
-        }
+    
+    func startCameraTimer(){
+        cameraTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,   selector: (#selector(self.updateCameraTimer)), userInfo: nil, repeats: true)
     }
+    
+    @objc func updateCameraTimer(){
+        cameraTimerDuration += 1
+        if odiResponseModel.cameraList.count > cameraTimerCount {
+            switch odiResponseModel.cameraList[cameraTimerCount].type {
+            case "0":
+                if cameraTimerDuration == 1 {
+                    skipButton.isHidden = true
+                    audioPlayer.initialPlayer(resource: odiResponseModel.cameraList[cameraTimerCount].soundfile, view: self.view)
+                    audioPlayer.playPlayer()
+                    subtitleString = odiResponseModel.cameraList[cameraTimerCount].text
+                    self.runTimer(interval: TimeInterval(Float(audioPlayer.playerGetDuration()) / Float(subtitleString.count)))
+                    progressValue = 1.0 / Double(audioPlayer.playerGetDuration() + 1)
+                }
+                if cameraTimerDuration <= (audioPlayer.playerGetDuration() + 1) {
+                    self.progressView.progress += Float(progressValue)
+                }
+                else{
+                    cameraTimer.invalidate()
+                    self.progressView.progress = 0.0
+                    cameraTimerDuration = 0
+                    cameraTimerCount += 1
+                    if odiResponseModel.cameraList.count > cameraTimerCount {
+                        startCameraTimer()
+                    }
+                }
+            case "1":
+                if cameraTimerDuration == 1 {
+                    skipButton.isHidden = false
+                    let myMutableString = NSMutableAttributedString(
+                        string: odiResponseModel.cameraList[cameraTimerCount].text,
+                        attributes: [NSAttachmentAttributeName : UIFont(
+                            name: "Georgia",
+                            size: 18.0)!])
+                    kareokeLabel.attributedText = myMutableString
+                    progressValue = 1.0 / Double(odiResponseModel.cameraList[cameraTimerCount].duration)!
+                }
+                if cameraTimerDuration <= Int(odiResponseModel.cameraList[cameraTimerCount].duration)! {
+                    self.progressView.progress += Float(progressValue)
+                }
+                else{
+                    cameraTimer.invalidate()
+                    self.progressView.progress = 0.0
+                    cameraTimerDuration = 0
+                    cameraTimerCount += 1
+                    if odiResponseModel.cameraList.count > cameraTimerCount {
+                        startCameraTimer()
+                    }
+                }
+            default:
+                break
+            }
+        }
+        
+    }
+    
     
     func runTimer(interval: TimeInterval) {
         timer = Timer.scheduledTimer(timeInterval: 0.11, target: self,   selector: (#selector(self.updateTimer)), userInfo: nil, repeats: true)
@@ -245,6 +262,15 @@ extension CameraViewController {
         if duration == subtitleString.count {
             duration = 0
             timer.invalidate()
+        }
+    }
+    func stopCameraTimer(){
+        if cameraTimer != nil {
+            if cameraTimer.isValid {
+                cameraTimer.invalidate()
+                cameraTimerDuration = 0
+                progressValue = 0
+            }
         }
     }
     
