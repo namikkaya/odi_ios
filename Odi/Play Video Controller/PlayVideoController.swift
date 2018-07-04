@@ -13,6 +13,8 @@ import WebKit
 import Photos
 class PlayVideoController: UIViewController {
     
+    var isImageUpload = false
+    var currentTime = ""
     var thumbNailImage = UIImage()
     var videoId = ""
     var userId = ""
@@ -20,10 +22,9 @@ class PlayVideoController: UIViewController {
     var videoURL : URL?
     var videoData : Data?
     var webViewForSuccess: WKWebView?
-    var ftp = FTPUpload(baseUrl: "ftp.beranet.com:21", userName: "odi@beranet.com", password: "[J9E]ox>" , directoryPath: "/img/")
+    var ftp = FTPUpload(baseUrl: "ftp.odiapp.com.tr:21", userName: "odiFtp@odiapp.com.tr", password: "Root123*" , directoryPath: "/img/")
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     override func viewDidAppear(_ animated: Bool) {
         if let uploadData = self.data as? [String: AnyObject] {
@@ -38,9 +39,11 @@ class PlayVideoController: UIViewController {
             }
             if let videoPath = uploadData["videoURL"] as? URL {
                 self.videoURL = videoPath
-                self.playVideo(from: videoPath);
+                DispatchQueue.global(qos: .background).async {
+                    self.playVideo(from: videoPath);
+                }
+                
                 self.thumbNailImage = getThumbnailFrom(path: videoPath)!
-                uploadDefaultImage(image: self.thumbNailImage)
                 do {
                     self.videoData = try Data(contentsOf: videoPath)
                 } catch {
@@ -64,7 +67,7 @@ class PlayVideoController: UIViewController {
             self.player.setUrl(videoURL)
             self.player.playbackLoops = true
             self.player.playFromBeginning()
-            
+   
         }
     }
     @IBAction func againOdiButtonAct(_ sender: Any) {
@@ -77,17 +80,12 @@ class PlayVideoController: UIViewController {
     
     @IBAction func uploadFileButtonAct(_ sender: Any) {
         self.SHOW_SIC(type: .video)
+        self.currentTime = Date().getCurrentHour()
         DispatchQueue.global(qos: .background).async {
-            self.ftp.send(data:  self.videoData! , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV", success: { error in
+            self.ftp.send(data:  self.videoData! , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_\(self.currentTime).MOV", success: { error in
                 DispatchQueue.main.async {
                     if error {
-                        let url = URL(string: "http://odi.beranet.com/upld.php?fileName=\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV")!
-                        let request = URLRequest(url: url)
-                        self.webViewForSuccess = WKWebView(frame: CGRect.zero)
-                        self.webViewForSuccess?.isHidden = true
-                        self.view.addSubview(self.webViewForSuccess!)
-                        self.webViewForSuccess!.navigationDelegate = self
-                        self.webViewForSuccess!.load(request)
+                        self.uploadDefaultImage(image: self.thumbNailImage)
                     }
                     else{
                        
@@ -96,8 +94,6 @@ class PlayVideoController: UIViewController {
                 }
             })
         }
-        
-        
         
     }
     @IBOutlet weak var videoView: UIView!
@@ -163,34 +159,40 @@ class PlayVideoController: UIViewController {
     }
     func uploadDefaultImage(image: UIImage) {
         DispatchQueue.global(qos: .background).async {
-            guard let imageData = image as? Data else { return }
-            self.ftp.send(data:  self.videoData! , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.jpg", success: { error in
+            guard let imageData = UIImagePNGRepresentation(image) else { return }
+            self.ftp.send(data:  imageData , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_\(self.currentTime).jpg", success: { error in
                 DispatchQueue.main.async {
                     if error {
-                        let url = URL(string: "http://odi.beranet.com/upld.php?fileName=\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_1440265.MOV")!
+                        self.isImageUpload = true
+                        let url = URL(string: "http://odi.odiapp.com.tr/upld.php?fileName=\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_\(self.currentTime).MOV")!
                         let request = URLRequest(url: url)
                         self.webViewForSuccess = WKWebView(frame: CGRect.zero)
                         self.webViewForSuccess?.isHidden = true
                         self.view.addSubview(self.webViewForSuccess!)
                         self.webViewForSuccess!.navigationDelegate = self
                         self.webViewForSuccess!.load(request)
+                        
                     }
                     else{
                         self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz fakat videonuz galerinize kayıt edilmiştir.")
                     }
-                    self.addVideoGalleruy(filePath: self.filePath, compressedURL: self.videoURL!)
+                    
                 }
             })
         }
     }
-    
     
 }
 
 extension PlayVideoController : WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  didFinish navigation: WKNavigation!) {
-        showAlert(message: "İşleminiz başarı ile gerçekleştrildi")
+        if !isImageUpload {
+            uploadDefaultImage(image: self.thumbNailImage)
+        }
+        else{
+            showAlert(message: "İşleminiz başarı ile gerçekleştrildi")
+        }
     }
 }
 

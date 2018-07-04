@@ -31,9 +31,12 @@
 		950D9A411FEC8C95004F5507 /* PlayVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A401FEC8C95004F5507 /* PlayVideoController.swift */; };
 		950D9A441FEC8FCB004F5507 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A431FEC8FCB004F5507 /* Player.swift */; };
 		950D9A461FEC93A5004F5507 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A451FEC93A4004F5507 /* Extensions.swift */; };
+		953125BA203DE75E00611222 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953125B9203DE75E00611222 /* ViewControllerExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		18FC96B920EA2DC2001C8A5B /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
+		18FC96BA20EA2DC2001C8A5B /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2205ABA41FED882D00B80C97 /* Ftp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ftp.swift; sourceTree = "<group>"; };
 		2217E47F1FEB26ED004A02AF /* Odi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Odi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2217E4821FEB26ED004A02AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +64,8 @@
 		950D9A401FEC8C95004F5507 /* PlayVideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayVideoController.swift; sourceTree = "<group>"; };
 		950D9A431FEC8FCB004F5507 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		950D9A451FEC93A4004F5507 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		953125B9203DE75E00611222 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		95E3EB77204C88390004BDA7 /* Odi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Odi.entitlements; sourceTree = "<group>"; };
 		D3014EAC0050B9CD9FE7B464 /* Pods-Odi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Odi/Pods-Odi.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,7 +102,9 @@
 		2217E4811FEB26ED004A02AF /* Odi */ = {
 			isa = PBXGroup;
 			children = (
-				2217E4821FEB26ED004A02AF /* AppDelegate.swift */,
+				95E3EB77204C88390004BDA7 /* Odi.entitlements */,
+				953125BB203DE8D200611222 /* Protocol */,
+				953125B7203DE74300611222 /* Extension */,
 				950D9A421FEC8FBA004F5507 /* Framework */,
 				950D9A331FEB4A69004F5507 /* Service Structure */,
 				950D9A2C1FEB4A57004F5507 /* Camera Controller */,
@@ -113,6 +120,7 @@
 				2217E4891FEB26EE004A02AF /* Assets.xcassets */,
 				2217E48B1FEB26EE004A02AF /* LaunchScreen.storyboard */,
 				2217E48E1FEB26EE004A02AF /* Info.plist */,
+				2217E4821FEB26ED004A02AF /* AppDelegate.swift */,
 				2205ABA41FED882D00B80C97 /* Ftp.swift */,
 			);
 			path = Odi;
@@ -182,6 +190,29 @@
 			path = Framework;
 			sourceTree = "<group>";
 		};
+		953125B7203DE74300611222 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				953125B8203DE74C00611222 /* UIKit */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		953125B8203DE74C00611222 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				953125B9203DE75E00611222 /* ViewControllerExtension.swift */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		953125BB203DE8D200611222 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		D637B915AC399284017E047D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,12 +260,20 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = bilal;
 				TargetAttributes = {
 					2217E47E1FEB26ED004A02AF = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -277,13 +316,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Odi-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		61FE3F0C9418BE7E5EA418CF /* [CP] Copy Pods Resources */ = {
@@ -307,9 +349,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Odi/Pods-Odi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -331,6 +376,7 @@
 				2217E4851FEB26ED004A02AF /* WebViewController.swift in Sources */,
 				224459541FEBF8B700DEA02A /* SIC.swift in Sources */,
 				2217E4831FEB26ED004A02AF /* AppDelegate.swift in Sources */,
+				953125BA203DE75E00611222 /* ViewControllerExtension.swift in Sources */,
 				950D9A411FEC8C95004F5507 /* PlayVideoController.swift in Sources */,
 				950D9A3C1FEB4A90004F5507 /* GetCameraServices.swift in Sources */,
 				2217E49F1FEB512B004A02AF /* UploadImageService.swift in Sources */,
@@ -352,6 +398,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2217E4871FEB26ED004A02AF /* Base */,
+				18FC96B920EA2DC2001C8A5B /* tr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -360,6 +407,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2217E48C1FEB26EE004A02AF /* Base */,
+				18FC96BA20EA2DC2001C8A5B /* tr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -371,6 +419,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -381,6 +430,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -388,6 +438,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -428,6 +479,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -438,6 +490,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -445,6 +498,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -479,16 +533,17 @@
 			baseConfigurationReference = D3014EAC0050B9CD9FE7B464 /* Pods-Odi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Odi/Odi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = K28P236TA3;
+				DEVELOPMENT_TEAM = 6W5VE3Q5KN;
 				INFOPLIST_FILE = Odi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.CodingMind.Odi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brokoly.odi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -498,16 +553,17 @@
 			baseConfigurationReference = 32E6CA614FA311A79905E66F /* Pods-Odi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Odi/Odi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = K28P236TA3;
+				DEVELOPMENT_TEAM = 6W5VE3Q5KN;
 				INFOPLIST_FILE = Odi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.CodingMind.Odi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brokoly.odi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

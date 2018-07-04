@@ -1,0 +1,12 @@
+
+/* Class = "UINavigationItem"; title = "Portre Kolajı"; ObjectID = "SAs-lm-4gx"; */
+"SAs-lm-4gx.title" = "Portre Kolajı";
+
+/* Class = "UILabel"; text = "Video Yükleniyor Lütfen Bekleyiniz..."; ObjectID = "hl4-zM-GI8"; */
+"hl4-zM-GI8.text" = "Video Yükleniyor Lütfen Bekleyiniz...";
+
+/* Class = "UIBarButtonItem"; title = "Kaydet"; ObjectID = "kzk-73-h3N"; */
+"kzk-73-h3N.title" = "Kaydet";
+
+/* Class = "UIButton"; normalTitle = "GEÇ"; ObjectID = "xw1-2x-cnS"; */
+"xw1-2x-cnS.normalTitle" = "GEÇ";

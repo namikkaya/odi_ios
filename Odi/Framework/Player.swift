@@ -203,7 +203,7 @@ open class Player: UIViewController {
     public var naturalSize: CGSize {
         get {
             if let playerItem = self._playerItem {
-                let track = playerItem.asset.tracks(withMediaType: AVMediaTypeVideo)[0]
+                let track = playerItem.asset.tracks(withMediaType: AVMediaType.video)[0]
                 return track.naturalSize
             } else {
                 return CGSize.zero
@@ -269,9 +269,9 @@ open class Player: UIViewController {
 
     open override func loadView() {
         self._playerView = PlayerView(frame: CGRect.zero)
-        self._playerView.fillMode = AVLayerVideoGravityResizeAspect
-        let affineTransform = CGAffineTransform(rotationAngle: degreeToRadian(90))
-        self._playerView.layer.setAffineTransform(affineTransform)
+        self._playerView.fillMode = AVLayerVideoGravity.resizeAspect.rawValue
+        //let affineTransform = CGAffineTransform(rotationAngle: degreeToRadian(90))
+        //self._playerView.layer.setAffineTransform(affineTransform)
         self._playerView.playerLayer.isHidden = true
         self.view = self._playerView
     }
@@ -444,7 +444,7 @@ extension Player {
     
     // AVPlayerItem
     
-    internal func playerItemDidPlayToEndTime(_ aNotification: Notification) {
+    @objc internal func playerItemDidPlayToEndTime(_ aNotification: Notification) {
         if self.playbackLoops == true {
             self.delegate?.playerWillComeThroughLoop?(self)
             self._avplayer.seek(to: kCMTimeZero)
@@ -459,7 +459,7 @@ extension Player {
         }
     }
 
-    internal func playerItemFailedToPlayToEndTime(_ aNotification: Notification) {
+    @objc internal func playerItemFailedToPlayToEndTime(_ aNotification: Notification) {
         self.playbackState = .failed
     }
     
@@ -475,19 +475,19 @@ extension Player {
         NotificationCenter.default.removeObserver(self)
     }
     
-    internal func handleApplicationWillResignActive(_ aNotification: Notification) {
+    @objc internal func handleApplicationWillResignActive(_ aNotification: Notification) {
         if self.playbackState == .playing {
             self.pause()
         }
     }
 
-    internal func handleApplicationDidEnterBackground(_ aNotification: Notification) {
+    @objc internal func handleApplicationDidEnterBackground(_ aNotification: Notification) {
         if self.playbackState == .playing {
             self.pause()
         }
     }
   
-    internal func handleApplicationWillEnterForeground(_ aNoticiation: Notification) {
+    @objc internal func handleApplicationWillEnterForeground(_ aNoticiation: Notification) {
         if self.playbackState == .paused {
             self.playFromCurrentTime()
         }
@@ -660,10 +660,10 @@ internal class PlayerView: UIView {
 
     var fillMode: String {
         get {
-            return (self.layer as! AVPlayerLayer).videoGravity
+            return (self.layer as! AVPlayerLayer).videoGravity.rawValue
         }
         set {
-            (self.layer as! AVPlayerLayer).videoGravity = newValue
+            (self.layer as! AVPlayerLayer).videoGravity = AVLayerVideoGravity(rawValue: newValue)
         }
     }
     

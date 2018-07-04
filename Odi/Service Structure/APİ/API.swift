@@ -9,5 +9,6 @@
 import Foundation
 
 enum API : String {
-    case fileApi = "http://odi.beranet.com/img/"
+    case fileApi = "http://odi.odiapp.com.tr/img/"
 }
+

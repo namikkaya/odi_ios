@@ -90,6 +90,7 @@ struct GetCameraList {
     var soundfile = ""
     var duration = ""
     var type = ""
+    var path : URL?
 }
 
 

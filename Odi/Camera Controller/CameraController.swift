@@ -12,7 +12,7 @@ import UIKit
 class CameraController: NSObject {
     lazy var captureSession: AVCaptureSession = {
         let session = AVCaptureSession()
-        session.sessionPreset = AVCaptureSessionPresetHigh
+        session.sessionPreset = AVCaptureSession.Preset.high
         return session
     }()
     
@@ -21,23 +21,32 @@ class CameraController: NSObject {
     var currentDevice: AVCaptureDevice?
     var audioDevice: AVCaptureDevice?
     
+    var audioConnection :AVCaptureConnection?
     var previewLayer: AVCaptureVideoPreviewLayer?
-        
 }
 
 extension CameraController {
     
     func prepareBackVideo(view: UIView){
         // Selecting input device
+        captureSession.automaticallyConfiguresApplicationAudioSession = false
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+        } catch let error as NSError {
+            print(error)
+        }
         
-        if let device = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .front) {
-            currentDevice = device
-        }else if let device = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
+        if let device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInDuoCamera, for: AVMediaType.video, position: .front) {
             currentDevice = device
             
+        } else if let device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: .front)  {
+            currentDevice = device
         }
-        if let audioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio) {
+        if let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio) {
             self.audioDevice = audioDevice
+
         }
         
         
@@ -62,12 +71,16 @@ extension CameraController {
             print("captureSession can't add input")
         }        
         
+
         // Configure camera preview layer
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer?.connection.videoOrientation = .landscapeRight
-        view.layer.addSublayer(previewLayer!)
-        previewLayer?.videoGravity = AVLayerVideoGravityResize
+        previewLayer?.connection?.videoOrientation = .landscapeRight
+    
+        previewLayer?.videoGravity = AVLayerVideoGravity.resize
         previewLayer?.frame = view.layer.frame
+        
+        view.layer.addSublayer(previewLayer!)
+        
        
         
         // Start captureSession
@@ -87,7 +100,7 @@ extension CameraController {
         // Create new capture device
         var newDevice: AVCaptureDevice?
         var newAudioDevice : AVCaptureDevice?
-        if let audioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio) {
+        if let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio) {
             newAudioDevice = audioDevice
         }
         
@@ -109,21 +122,17 @@ extension CameraController {
     }
     
     /// Create new capture device with requested position
-    fileprivate func captureDevice(with position: AVCaptureDevicePosition) -> AVCaptureDevice? {
+    fileprivate func captureDevice(with position: AVCaptureDevice.Position) -> AVCaptureDevice? {
         
-        let devices = AVCaptureDeviceDiscoverySession(deviceTypes: [ .builtInWideAngleCamera, .builtInMicrophone, .builtInTelephotoCamera ], mediaType: AVMediaTypeVideo, position: .unspecified).devices
+        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [ .builtInWideAngleCamera, .builtInMicrophone, .builtInTelephotoCamera ], mediaType: AVMediaType.video, position: .unspecified).devices
         
-        if let devices = devices {
             for device in devices {
                 if device.position == position {
                     return device
                 }
             }
-        }
-        
         return nil
     }
-    
     
     func flashOn(device:AVCaptureDevice)
     {

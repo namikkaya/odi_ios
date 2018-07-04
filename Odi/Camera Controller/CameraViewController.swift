@@ -11,21 +11,98 @@ import Photos
 import AVFoundation
 import AVKit
 import QuartzCore
+import CoreGraphics
+import CoreText
 
 
 class CameraViewController: UIViewController {
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        AppUtility.lockOrientation(.landscapeRight)
+        addObserverForOdi()
         
-        AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
-        print(odiResponseModel)
+        //Mark :- Download mp3 file
+        
+        
+        if odiResponseModel.TIP != "1" {
+            DispatchQueue.main.async {
+                self.SHOW_SIC(type: .reload)
+                self.downloadFile(Response: self.odiResponseModel.cameraList, downloadedCound: 0)
+            }
+        }
+    }
+    
+    func downloadFile(Response getCameraList:[GetCameraList],downloadedCound: Int) {
+        print(downloadedCound)
+        if downloadedCound < getCameraList.count {
+            if getCameraList[downloadedCound].type == "0"
+            {
+                let urlstring = API.fileApi.rawValue + getCameraList[downloadedCound].soundfile
+                let url = NSURL(string: urlstring)
+                downloadFileFromURL(url: url!, count: downloadedCound)
+    
+            } else if getCameraList[downloadedCound].type == "" {
+                let urlstring = API.fileApi.rawValue + getCameraList[downloadedCound].soundfile
+                let url = NSURL(string: urlstring)
+                downloadFileFromURL(url: url!, count: downloadedCound)
+            } else {
+                let count = downloadedCound + 1
+                self.downloadFile(Response: getCameraList, downloadedCound: count)
+            }
+            
+        } else  {
+            print(self.odiResponseModel.cameraList)
+            self.clearTempFolder()
+            self.HIDE_SIC(customView: self.view)
+        }
+        
+    }
+    
+    func downloadFileFromURL(url:NSURL,count:Int){
+        
+        var downloadTask:URLSessionDownloadTask
+        downloadTask = URLSession.shared.downloadTask(with: url as URL, completionHandler: { [weak self](URL, response, error) -> Void in
+            
+            let time = NSNumber(value:(NSDate().timeIntervalSince1970 * 1000))
+            let fileName = NSString(format:"%@_music.mov",time)
+            let documentsUrl:URL =  (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL?)!
+            let destinationFileUrl = documentsUrl.appendingPathComponent(fileName as String)
+            
+            do {
+                try FileManager.default.copyItem(at: URL!, to: destinationFileUrl)
+            } catch (let writeError) {
+                print("Error creating a file \(destinationFileUrl) : \(writeError)")
+            }
+            self?.odiResponseModel.cameraList[count].path = destinationFileUrl
+            let count = count + 1
+            self?.downloadFile(Response: (self?.odiResponseModel.cameraList)!, downloadedCound: count)
+        })
+        downloadTask.resume()
+    }
+    
+    //Mark :- It's GG
+    func clearTempFolder() {
+        let fileManager = FileManager.default
+        let tempFolderPath = NSTemporaryDirectory()
+        do {
+            let filePaths = try fileManager.contentsOfDirectory(atPath: tempFolderPath)
+            for filePath in filePaths {
+                try fileManager.removeItem(atPath: tempFolderPath + filePath)
+            }
+        } catch {
+            print("Could not clear temp folder: \(error)")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         print("viewWillAppear")
+        
+        
         self.addObserver()
         
     }
@@ -34,7 +111,6 @@ class CameraViewController: UIViewController {
         print("viewDidAppear")
         styleCaptureButton()
         configureCameraController()
-        
     }
     override func viewWillDisappear(_ animated: Bool) {
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
@@ -46,6 +122,7 @@ class CameraViewController: UIViewController {
         self.audioPlayer.audioPlayerNil()
         self.progressView.progress = 0
         self.removeObserver()
+        self.removeObserverForOdi()
     }
     
     func addObserver(){
@@ -55,9 +132,11 @@ class CameraViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "transitionBack") , object: nil)
     }
     
-    func goBack(notification: NSNotification){
+    @objc func goBack(notification: NSNotification){
         if let navigationController = self.navigationController
         {
+            AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+            self.clearTempFolder()
             let _ = navigationController.popViewController(animated: true)
         }
     }
@@ -73,25 +152,33 @@ class CameraViewController: UIViewController {
             // Configure output path in temporary folder
             let outputPath = NSTemporaryDirectory() + "output.mov"
             let outputFileURL = URL(fileURLWithPath: outputPath)
-            cameraController.videoOutput?.startRecording(toOutputFileURL: outputFileURL, recordingDelegate: self)
+            cameraController.videoOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
+            
+            
             //Button configure
             self.closeButton.isHidden = true
             self.swapCameraButton.isHidden = true
             captureButton.setImage(#imageLiteral(resourceName: "stop2"), for: .normal)
+            
             startCameraTimer()
             
+            
         } else {
+            kareokeLabel.setContentOffset(.zero, animated: false)
             isRecording = false
             cameraController.videoOutput?.stopRecording()
             self.skipButton.isHidden = true
+            self.skipButton2.isHidden = true
             self.stopTimer()
-            self.stopCameraTimer()
             self.cameraTimerCount = 0
             self.closeButton.isHidden = false
             self.swapCameraButton.isHidden = false
             self.audioPlayer.pausePlayer()
             self.audioPlayer.audioPlayerNil()
             self.progressView.progress = 0
+            self.lines.removeAll()
+            lineDuration = 0
+            lineCharacterDuration = 0
             captureButton.setImage(#imageLiteral(resourceName: "rec"), for: .normal)
         }
     }
@@ -123,13 +210,21 @@ class CameraViewController: UIViewController {
     @IBAction func backToControllerAct(_ sender: Any) {
         if let navigationController = self.navigationController
         {
+            AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+            self.clearTempFolder()
             let _ = navigationController.popViewController(animated: true)
         }
     }
     
     @IBAction func skipButtonAction(_ sender: Any) {
+        kareokeLabel.setContentOffset(.zero, animated: false)
         stopTimer()
-        stopCameraTimer()
+        skipButton.isHidden = true
+        skipButton2.isHidden = true
+        self.progressView.progress = 0.0
+        self.lines.removeAll()
+        lineDuration = 0
+        lineCharacterDuration = 0
         cameraTimerCount += 1
         startCameraTimer()
     }
@@ -137,13 +232,20 @@ class CameraViewController: UIViewController {
     
     //Storyboard Veriable
     @IBOutlet weak var skipButton: UIButton!
+    @IBOutlet weak var skipButton2: UIButton!
+    
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var closeTitleButton: UIButton!
     @IBOutlet weak var swapCameraButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
-    @IBOutlet weak var kareokeLabel: UILabel!
+    
+    @IBOutlet weak var kareokeLabel: UITextView!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var transparenView: UIView!
+    
+    //FileOutPut
+    var fileOutPut : AVCaptureFileOutput!
     
     //Support Classes
     let cameraController = CameraController()
@@ -151,13 +253,16 @@ class CameraViewController: UIViewController {
     
     //Supporter Veriable
     var isRecording = false
-    var isFrontCamera = false
+    var isFrontCamera = true
     var isTextClosed = false
     //For timer
     var duration = 0
+    var lineDuration = 0
+    var lineCharacterDuration = 0
+    var lines = [String]()
+    
     var subtitleString = ""
     var timer = Timer()
-    var cameraTimer = Timer()
     var cameraTimerDuration = 0
     var cameraTimerCount = 0
     var progressValue : Double = 0.0
@@ -167,6 +272,9 @@ class CameraViewController: UIViewController {
     var odileData = (userId: "", videoId: "")
     var uploadData : [String : AnyObject] = [:]
     var videoPath = ""
+    
+    
+    
 }
 
 extension CameraViewController {
@@ -183,118 +291,135 @@ extension CameraViewController {
     
     
     func startCameraTimer(){
-        cameraTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self,   selector: (#selector(self.updateCameraTimer)), userInfo: nil, repeats: true)
-    }
-    
-    @objc func updateCameraTimer(){
-        cameraTimerDuration += 1
-        if odiResponseModel.cameraList.count > cameraTimerCount {
-            switch odiResponseModel.cameraList[cameraTimerCount].type {
-            case "0":
-                if cameraTimerDuration == 1 {
-                    skipButton.isHidden = true
-                    audioPlayer.initialPlayer(resource: odiResponseModel.cameraList[cameraTimerCount].soundfile, view: self.view)
-                    audioPlayer.playPlayer()
-                    subtitleString = odiResponseModel.cameraList[cameraTimerCount].text
-                    self.runTimer(interval: TimeInterval(Float(audioPlayer.playerGetDuration()) / Float(subtitleString.count)))
-                    progressValue = 1.0 / Double(audioPlayer.playerGetDuration() + 1)
-                }
-                if cameraTimerDuration <= (audioPlayer.playerGetDuration() + 1) {
-                    self.progressView.progress += Float(progressValue)
-                }
-                else{
-                    cameraTimer.invalidate()
-                    self.progressView.progress = 0.0
-                    cameraTimerDuration = 0
-                    cameraTimerCount += 1
-                    if odiResponseModel.cameraList.count > cameraTimerCount {
-                        startCameraTimer()
-                    }
-                }
-            case "1":
-                if cameraTimerDuration == 1 {
-                    skipButton.isHidden = false
-                    let myMutableString = NSMutableAttributedString(
-                        string: odiResponseModel.cameraList[cameraTimerCount].text,
-                        attributes: [NSAttachmentAttributeName : UIFont(
-                            name: "Georgia",
-                            size: 18.0)!])
-                    kareokeLabel.attributedText = myMutableString
-                    progressValue = 1.0 / Double(odiResponseModel.cameraList[cameraTimerCount].duration)!
-                }
-                if cameraTimerDuration <= Int(odiResponseModel.cameraList[cameraTimerCount].duration)! {
-                    self.progressView.progress += Float(progressValue)
-                }
-                else{
-                    cameraTimer.invalidate()
-                    self.progressView.progress = 0.0
-                    cameraTimerDuration = 0
-                    cameraTimerCount += 1
-                    if odiResponseModel.cameraList.count > cameraTimerCount {
-                        startCameraTimer()
-                    }
-                }
-            default:
-                break
-            }
+        
+        if odiResponseModel.TIP == "1" {
+            subtitleString = odiResponseModel.cameraList[cameraTimerCount].text
+            self.runTimer(interval: TimeInterval(Float(odiResponseModel.cameraList[cameraTimerCount].duration)! / Float(subtitleString.count)))
+            UIView.animate(withDuration: TimeInterval(Float(odiResponseModel.cameraList[cameraTimerCount].duration)!) , animations: {
+                self.progressView.progress = 1.0
+                self.view.layoutIfNeeded()
+            })
+        } else if odiResponseModel.TIP == "2" {
+            typeTwoOdiFunc()
+        } else if odiResponseModel.TIP == "3" {
+            audioPlayer.initialPlayer(resource: odiResponseModel.cameraList[cameraTimerCount].path! as NSURL)
+            audioPlayer.playPlayer()
+            UIView.animate(withDuration: TimeInterval(audioPlayer.playerGetDuration() + 1) , animations: {
+                self.progressView.progress = 1.0
+                self.view.layoutIfNeeded()
+            })
         }
         
     }
     
+    fileprivate func addObserverForOdi(){
+        NotificationCenter.default.addObserver(self, selector: #selector(self.typeTwoOdiFunc), name: NSNotification.Name.typeTwoOdi, object: nil)
+    }
+    
+    fileprivate func removeObserverForOdi(){
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.typeTwoOdi, object: nil)
+    }
+    
+    @objc func typeTwoOdiFunc(){
+        if odiResponseModel.cameraList.count > cameraTimerCount {
+            switch odiResponseModel.cameraList[cameraTimerCount].type {
+            case "0":
+                audioPlayer.initialPlayer(resource: odiResponseModel.cameraList[cameraTimerCount].path! as NSURL)
+                audioPlayer.playPlayer()
+                subtitleString = odiResponseModel.cameraList[cameraTimerCount].text
+                self.runTimer(interval: TimeInterval(Float(audioPlayer.playerGetDuration()) / Float(subtitleString.count)))
+                progressValue = Double(1.0 / Float(subtitleString.count))
+                skipButton.isHidden = true
+                skipButton2.isHidden = true
+            case "1":
+                subtitleString = odiResponseModel.cameraList[cameraTimerCount].text
+                self.runTimer(interval: TimeInterval(Float(odiResponseModel.cameraList[cameraTimerCount].duration)! / Float(subtitleString.count)))
+                progressValue = Double(1.0 / Float(subtitleString.count))
+                
+            default:break
+            }
+        }
+    }
     
     func runTimer(interval: TimeInterval) {
-        timer = Timer.scheduledTimer(timeInterval: 0.11, target: self,   selector: (#selector(self.updateTimer)), userInfo: nil, repeats: true)
-    }
-    @objc func updateTimer() {
-        duration += 1
-        let myMutableString = NSMutableAttributedString(
-            string: subtitleString,
-            attributes: [NSAttachmentAttributeName : UIFont(
-                name: "Georgia",
-                size: 18.0)!])
-        myMutableString.addAttribute(
-            NSForegroundColorAttributeName,
-            value: UIColor.blue,
-            range: NSRange(
-                location:0,
-                length:duration))
-        self.kareokeLabel.attributedText = myMutableString
-        if duration == subtitleString.count {
-            duration = 0
+        if timer.isValid {
             timer.invalidate()
         }
+        
+        timer = Timer.scheduledTimer(timeInterval: interval, target: self,   selector: (#selector(self.updateTimer)), userInfo: nil, repeats: true)
     }
-    func stopCameraTimer(){
-        if cameraTimer != nil {
-            if cameraTimer.isValid {
-                cameraTimer.invalidate()
-                cameraTimerDuration = 0
-                progressValue = 0
+    
+    @objc func updateTimer() {
+        duration += 1
+        lineCharacterDuration += 1
+        self.kareokeLabel.attributedText = customAttiribitudText()
+        
+        if odiResponseModel.TIP == "2" {
+            self.progressView.progress += Float(progressValue)
+        }
+        
+        switch odiResponseModel.cameraList[cameraTimerCount].type {
+          case "1":
+            self.skipButton.isHidden = false
+            self.skipButton2.isHidden = false
+        default:break
+        }
+        
+
+        if lines.count == 0 {
+            self.lines = getLinesArrayOfString(in: kareokeLabel)
+        }
+        if kareokeLabel.contentSize.height > kareokeLabel.frame.height { //Scroll var mı kontrolü
+            if lines.count != 0 {
+                if lineCharacterDuration == lines[lineDuration].count {
+                    if lineDuration < 1 || (lines.count - lineDuration) < 3 {
+                        //İlk satır ve son 3 satırda scrrol yapmaması için.
+                    } else {
+                        if let fontUnwrapped = self.kareokeLabel.font{
+                            print("\(lineDuration) satır bitti")
+                            self.kareokeLabel.setContentOffset(CGPoint(x: 0, y: kareokeLabel.contentOffset.y + fontUnwrapped.lineHeight + 4.4), animated: true)
+                        }
+                    }
+                    lineDuration += 1
+                    lineCharacterDuration = 0
+                }
+                
+            }
+        }
+        
+        
+        if duration == subtitleString.count {
+            kareokeLabel.setContentOffset(.zero, animated: false)
+            kareokeLabel.attributedText = freeAttiribitudText()
+            self.progressView.progress = 0.0
+            cameraTimerCount += 1
+            duration = 0
+            lineDuration = 0
+            lineCharacterDuration = 0
+            self.lines.removeAll()
+            stopTimer()
+            self.skipButton.isHidden = true
+            self.skipButton2.isHidden = true
+            if odiResponseModel.cameraList.count > cameraTimerCount {
+                 NotificationCenter.default.post(name: NSNotification.Name.typeTwoOdi, object: nil, userInfo: nil)
             }
         }
     }
-    
-    
     
     func stopTimer(){
-        if timer != nil {
-            if timer.isValid {
+        if timer.isValid {
                 timer.invalidate()
                 duration = 0
-            }
         }
-        let myMutableString = NSMutableAttributedString(
-            string: "",
-            attributes: [NSAttachmentAttributeName : UIFont(
-                name: "Georgia",
-                size: 18.0)!])
-        self.kareokeLabel.attributedText = myMutableString
+        self.kareokeLabel.attributedText = freeAttiribitudText()
     }
     
 }
 
+
+//Mark: -Compress File
 extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
-    func capture(_ output: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         self.SHOW_SIC(type: .compressVideo)
         //For compress code
         guard let data = NSData(contentsOf: outputFileURL as URL) else {
@@ -361,23 +486,106 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
         return String(format: "%4.2f %@", convertedValue, tokens[multiplyFactor])
     }
     func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?)-> Void) {
-        let urlAsset = AVURLAsset(url: inputURL, options: nil)
-        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetMediumQuality) else {
+        
+        let videoAsset: AVAsset = AVAsset( url: inputURL )
+        let clipVideoTrack = videoAsset.tracks(withMediaType: AVMediaType.video).first! as AVAssetTrack
+        
+        
+        let composition = AVMutableComposition()
+        composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: CMPersistentTrackID())
+        
+        
+        let videoComposition = AVMutableVideoComposition()
+        videoComposition.renderSize = CGSize(width: clipVideoTrack.naturalSize.width, height: clipVideoTrack.naturalSize.height)
+        videoComposition.frameDuration = CMTimeMake(1, 30)
+        
+        let transformer = AVMutableVideoCompositionLayerInstruction(assetTrack: clipVideoTrack)
+        
+        let instruction = AVMutableVideoCompositionInstruction()
+        let startTime = CMTimeMake(0, 1)
+        let timeRange = CMTimeRangeMake(startTime, videoAsset.duration)
+        instruction.timeRange = timeRange
+        var transform = CGAffineTransform.identity
+        
+        
+        
+        if isFrontCamera {
+            transform = transform.scaledBy(x: -1.0, y: 1.0)
+            transform = transform.translatedBy(x: 0.0, y: clipVideoTrack.naturalSize.height)
+            transform = transform.rotated(by: degreeToRadian(180.0))
+            transform = transform.translatedBy(x: 0.0, y: 0.0)
+        }
+        
+        
+        transformer.setTransform(transform, at: kCMTimeZero)
+        instruction.layerInstructions = [transformer]
+        videoComposition.instructions = [instruction]
+        
+        
+        //let urlAsset = AVURLAsset(url: inputURL, options: nil)
+        guard let exportSession = AVAssetExportSession(asset: videoAsset, presetName: AVAssetExportPresetMediumQuality) else {
             handler(nil)
-            
             return
         }
         
+        exportSession.videoComposition = videoComposition
         exportSession.outputURL = outputURL
-        exportSession.outputFileType = AVFileTypeQuickTimeMovie
+        exportSession.outputFileType = AVFileType.mov
         exportSession.shouldOptimizeForNetworkUse = true
         exportSession.exportAsynchronously { () -> Void in
             handler(exportSession)
         }
     }
+    func degreeToRadian(_ x: CGFloat) -> CGFloat {
+        return .pi * x / 180.0
+    }
+    
+    func squareVideoCompositionForAsset(asset: AVAsset) -> AVVideoComposition {
+        let track = asset.tracks(withMediaType: AVMediaType.video)[0]
+        let length = max(track.naturalSize.width, track.naturalSize.height)
+        
+        var transform = track.preferredTransform
+        
+        let size = track.naturalSize
+        
+        var scale = CGFloat()
+        if (transform.a == 0 && transform.b == 1 && transform.c == -1 && transform.d == 0) {
+            scale = -1
+        }
+        else if (transform.a == 0 && transform.b == -1 && transform.c == 1 && transform.d == 0) {
+            scale = -1
+        }
+        else if (transform.a == 1 && transform.b == 0 && transform.c == 0 && transform.d == 1) {
+            scale = 1
+        }
+        else if (transform.a == -1 && transform.b == 0 && transform.c == 0 && transform.d == -1) {
+            scale = 1
+        }
+        
+        transform = transform.translatedBy(x: scale * -(size.width - length) / 2, y: scale * -(size.height - length) / 2)
+        transform = transform.rotated(by: degreeToRadian(90))
+        
+        let transformer = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+        transformer.setTransform(transform, at: kCMTimeZero)
+        
+        let instruction = AVMutableVideoCompositionInstruction()
+        instruction.timeRange = CMTimeRange(start: kCMTimeZero, duration: kCMTimePositiveInfinity)
+        instruction.layerInstructions = [transformer]
+        
+        let composition = AVMutableVideoComposition()
+        composition.frameDuration = CMTime(value: 1, timescale: 30)
+        composition.renderSize = CGSize(width: length, height: length)
+        composition.instructions = [instruction]
+        
+        return composition
+    }
     
 }
 
+//Scrool textview
+extension CameraViewController {
+    
+}
 
 
 struct AppUtility {
@@ -398,4 +606,98 @@ struct AppUtility {
     }
     
 }
+
+//MARK: - UITextView
+extension UITextView{
+    
+    func numberOfLines() -> Int{
+        if let fontUnwrapped = self.font{
+            return Int(self.contentSize.height / fontUnwrapped.lineHeight)
+        }
+        
+        return 0
+    }
+    
+}
+
+//Mark: -Attiribitud String
+extension CameraViewController {
+    func customAttiribitudText() -> NSMutableAttributedString {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        paragraph.lineSpacing = 4.4
+        let attributes:  [NSAttributedStringKey : Any] = [kCTParagraphStyleAttributeName as NSAttributedStringKey: paragraph]
+        kareokeLabel.textContainerInset = .zero
+        let myMutableString = NSMutableAttributedString(
+            string: subtitleString,
+            attributes: [kCTFontAttributeName as NSAttributedStringKey : UIFont(
+                name: "Arial",
+                size: 19.0)!])
+        myMutableString.addAttributes(attributes, range: NSRange(
+            location:0,
+            length:duration))
+        myMutableString.addAttribute(
+            .foregroundColor,
+            value: UIColor.white,
+            range: NSRange(
+                location:0,
+                length:subtitleString.count))
+        myMutableString.addAttribute(
+            .foregroundColor,
+            value: UIColor.red,
+            range: NSRange(
+                location:0,
+                length:duration))
+        return myMutableString
+    }
+    
+    
+    func freeAttiribitudText() -> NSMutableAttributedString {
+        let myMutableString = NSMutableAttributedString(
+            string: " ",
+            attributes: [kCTFontAttributeName as NSAttributedStringKey : UIFont(
+                name: "Arial",
+                size: 19.0)!])
+        return myMutableString
+    }
+    
+    func getLinesArrayOfString(in label: UITextView) -> [String] {
+        /// An empty string's array
+        var linesArray = [String]()
+        
+        guard let text = label.text, let font = label.font else {return linesArray}
+        
+        let rect = label.frame
+        
+        let myFont: CTFont = CTFontCreateWithName(font.fontName as CFString, font.pointSize, nil)
+        let attStr = NSMutableAttributedString(string: text)
+        attStr.addAttribute(.font, value: myFont, range: NSRange(location: 0, length: attStr.length))
+        
+        let frameSetter: CTFramesetter = CTFramesetterCreateWithAttributedString(attStr as CFAttributedString)
+        let path: CGMutablePath = CGMutablePath()
+        path.addRect(CGRect(x: 0, y: 0, width: rect.size.width - 10, height: 100000), transform: .identity)
+        
+        let frame: CTFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil)
+        guard let lines = CTFrameGetLines(frame) as? [Any] else {return linesArray}
+        
+        for line in lines {
+            
+            let lineRef = line as! CTLine
+            let lineRange: CFRange = CTLineGetStringRange(lineRef)
+            let range = NSRange(location: lineRange.location, length: lineRange.length)
+            let lineString: String = (text as NSString).substring(with: range)
+            
+            linesArray.append(lineString)
+            
+        }
+        return linesArray
+    }
+    
+}
+
+
+extension NSNotification.Name {
+    static let typeTwoOdi = NSNotification.Name("TypeTwoOdi")
+}
+
 

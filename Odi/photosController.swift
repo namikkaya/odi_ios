@@ -24,13 +24,22 @@ class PhotosViewController: UIViewController {
     @IBOutlet weak var closeImage1: UIImageView!
     fileprivate var photoLibrary: PhotoLibrary!
     fileprivate var numberOfSections = 0
+    let onesignalID = UserPrefence.getOneSignalId()
+    
+    
     
     @IBOutlet weak var dragImageView: UIImageView!
+    @IBOutlet weak var dragImageViewSmall1 : UIImageView!
+    @IBOutlet weak var dragImageViewSmall2 : UIImageView!
+    var choicesImageView = 0 // 1 = Scroolview1, 2= Scroolview2, 3= Scroolview3
+    
     var service : UploadImageService = UploadImageService()
     var id = ""
+    var isLoadNotificationID = false
+    
     override func viewDidLoad() {
     
-       
+        pushNotificationID()
         service.serviceDelegate = self
         addTapped()
         initCollectionView()
@@ -45,16 +54,33 @@ class PhotosViewController: UIViewController {
                 }
             }
         }
+        
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
     @IBAction func saveButtonClicked(_ sender: UIBarButtonItem) {
-        self.closeImage1.image = nil
-        self.closeImage2.image = nil
-        self.closeImage3.image = nil
-        self.dragImageView.image = nil
-        service.connectService(fileName: "profil_\(id).jpg", image: scrennShotView.screenShot!)
-        self.view.isUserInteractionEnabled = false
-        self.navigationController?.navigationBar.isUserInteractionEnabled = false
-        self.SHOW_SIC(type: .image)
+
+        if dragImageView.image != nil || dragImageViewSmall1.image != nil || dragImageViewSmall2.image != nil {
+            self.showToast(message: "Tüm çerçeveleri doldurmalısın.")
+        } else {
+            self.closeImage1.image = nil
+            self.closeImage2.image = nil
+            self.closeImage3.image = nil
+            self.dragImageView.isHidden = true
+            self.dragImageViewSmall1.isHidden = true
+            self.dragImageViewSmall2.isHidden = true
+            service.connectService(fileName: "profil_\(id).jpg", image: scrennShotView.screenShot!)
+            self.view.isUserInteractionEnabled = false
+            self.navigationController?.navigationBar.isUserInteractionEnabled = false
+            self.SHOW_SIC(type: .image)
+        }
+        
+        
+        
+        
     }
     func addTapped() {
         self.closeImage1.isUserInteractionEnabled = true
@@ -67,26 +93,81 @@ class PhotosViewController: UIViewController {
         let gesture3 = UITapGestureRecognizer(target: self, action: #selector(tapped3))
         self.closeImage3.addGestureRecognizer(gesture3)
         
-    }
-    func tapped1()  {
-        self.scrollView1.imageView?.image = nil
-    }
-    func tapped2()  {
-        self.scrollView2.imageView?.image = nil
-    }
-    func tapped3()  {
-        self.scrollView3.imageView?.image = nil
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.tintColor = UIColor.white
+        
+        self.scrollView1.isUserInteractionEnabled = true
+        let gesture4 = UITapGestureRecognizer(target: self, action: #selector(tapped4))
+        self.scrollView1.addGestureRecognizer(gesture4)
+        
+        self.scrollView2.isUserInteractionEnabled = true
+        let gesture5 = UITapGestureRecognizer(target: self, action: #selector(tapped5))
+        self.scrollView2.addGestureRecognizer(gesture5)
+        
+        self.scrollView3.isUserInteractionEnabled = true
+        let gesture6 = UITapGestureRecognizer(target: self, action: #selector(tapped6))
+        self.scrollView3.addGestureRecognizer(gesture6)
         
     }
+    @objc func tapped1()  {
+        self.scrollView1.imageView?.image = nil
+        dragImageView.image = #imageLiteral(resourceName: "kolaj-maker-big")
+    }
+    @objc func tapped2()  {
+        self.scrollView2.imageView?.image = nil
+        dragImageViewSmall1.image = #imageLiteral(resourceName: "kolaj-maker-small")
+    }
+    @objc func tapped3()  {
+        self.scrollView3.imageView?.image = nil
+        dragImageViewSmall2.image = #imageLiteral(resourceName: "kolaj-maker-small")
+    }
+    
+    @objc func tapped4()  {
+        choicesImageView = 1
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageViewSmall1, color: .black)
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageViewSmall2, color: .black)
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageView, color: .orange)
+    }
+    @objc func tapped5()  {
+        choicesImageView = 2
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageViewSmall1, color: .orange)
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageViewSmall2, color: .black)
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageView, color: .black)
+    }
+    @objc func tapped6()  {
+        choicesImageView = 3
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageViewSmall1, color: .black)
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageViewSmall2, color: .orange)
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageView, color: .black)
+    }
+    
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageViewSmall1, color: .black)
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageViewSmall2, color: .black)
+        self.centerStartBezierPath(cornerRadius: 0, myView: dragImageView, color: .black)
+        
+    }
+    func pushNotificationID(){
+        isLoadNotificationID = true
+        let url = URL(string: "http://odi.odiapp.com.tr/core/usernotid.php?userID=\(id)&phoneID=\(onesignalID)")!
+        print(url)
+        let request = URLRequest(url: url)
+        self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+        self.webViewForSuccess?.isHidden = true
+        self.view.addSubview(self.webViewForSuccess!)
+        webViewForSuccess!.navigationDelegate = self
+        webViewForSuccess!.load(request)
+    }
+    
 }
 extension  PhotosViewController: UploadImageServiceDelegte {
     func getResponse(error: Bool) {
         if error {
-            let url = URL(string: "http://odi.beranet.com/?update=ok")!
+            let url = URL(string: "http://odi.odiapp.com.tr/?update=ok")!
             let request = URLRequest(url: url)
             self.webViewForSuccess = WKWebView(frame: CGRect.zero)
             self.webViewForSuccess?.isHidden = true
@@ -116,25 +197,35 @@ extension  PhotosViewController: UploadImageServiceDelegte {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    func showToast(message: String) {
+        self.HIDE_SIC(customView: self.view)
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        
+        // Create the actions
+        let okAction = UIAlertAction(title: "Tamam",style: UIAlertActionStyle.default) {
+            UIAlertAction in
+          
+            
+        }
+        // Add the actions
+        alertController.addAction(okAction)
+        // Present the controller
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
 }
 extension PhotosViewController : WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  didFinish navigation: WKNavigation!) {
-        showAlert(message: "İşleminiz başarı ile gerçekleştrildi")
-    }
-}
-extension PhotosViewController : DraggableCellDelegate {
-    func draggingComplete(image: UIImage, location: CGPoint) {
-        if scrollView1.frame.contains(location) {
-            scrollView1.configureWith(image: image)
-        } else if scrollView2.frame.contains(location) {
-            scrollView2.configureWith(image: image)
-        } else if scrollView3.frame.contains(location) {
-            scrollView3.configureWith(image: image)
+        if isLoadNotificationID {
+            isLoadNotificationID = false
         }
-        
+        else{
+            showAlert(message: "İşleminiz başarıyla gerçekleştirildi")
+        }
     }
 }
+
 extension PhotosViewController: UICollectionViewDataSource {
     
     fileprivate var numberOfElementsInRow: Int {
@@ -142,9 +233,7 @@ extension PhotosViewController: UICollectionViewDataSource {
     }
     
     var sizeForCell: CGSize {
-        let _numberOfElementsInRow = CGFloat(numberOfElementsInRow)
-        let allWidthBetwenCells = _numberOfElementsInRow == 0 ? 0 : collectionViewFlowLayout.minimumInteritemSpacing*(_numberOfElementsInRow-1)
-        let width = (collectionView.frame.height - allWidthBetwenCells)/_numberOfElementsInRow
+        let width = (self.collectionView.frame.width / 4) - 2
         return CGSize(width: width, height: width)
     }
     
@@ -163,7 +252,7 @@ extension PhotosViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-        cell.draggableDelegate = self
+        
         return cell
     }
     
@@ -188,4 +277,75 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
             }
         }
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
+            print(choicesImageView)
+            switch choicesImageView {
+            case 1:
+                self.scrollView1.configureWith(image: cell.cellImageView.image!)
+                self.dragImageView.image = nil
+            case 2:
+                self.scrollView2.configureWith(image: cell.cellImageView.image!)
+                self.dragImageViewSmall1.image = nil
+            case 3:
+                self.scrollView3.configureWith(image: cell.cellImageView.image!)
+                self.dragImageViewSmall2.image = nil
+            default: self.showToast(message: "Önce kolaj seçimi yapmalısınız.")
+            }
+        }
+        
+    }
 }
+
+extension PhotosViewController {
+    func centerStartBezierPath(cornerRadius:CGFloat,myView: UIView,color: UIColor){
+        
+        let path = UIBezierPath()
+        let frame = myView.frame
+        let layer = CAShapeLayer()
+        
+        path.move(to: CGPoint(x: frame.width / 2.0, y: 0))
+        path.addLine(to: CGPoint(x: frame.width - cornerRadius, y: 0))
+        path.addArc(withCenter: CGPoint(x: frame.width - cornerRadius , y: cornerRadius),
+                    radius: cornerRadius,
+                    startAngle: CGFloat(-CGFloat.pi / 2),
+                    endAngle: 0,
+                    clockwise: true)
+        path.addLine(to: CGPoint(x: frame.width, y: frame.height - cornerRadius))
+        path.addArc(withCenter: CGPoint(x: frame.width - cornerRadius, y: frame.height - cornerRadius) , radius: cornerRadius, startAngle: 0, endAngle: CGFloat(CGFloat.pi / 2), clockwise: true)
+        
+        path.addLine(to: CGPoint(x: cornerRadius, y: frame.height))
+        path.addArc(withCenter: CGPoint(x:cornerRadius, y: frame.height - cornerRadius) , radius: cornerRadius, startAngle: CGFloat(CGFloat.pi / 2), endAngle: CGFloat.pi, clockwise: true)
+        path.addLine(to: CGPoint(x: 0, y: cornerRadius))
+        path.addArc(withCenter: CGPoint(x:cornerRadius, y: cornerRadius) , radius: cornerRadius, startAngle: CGFloat.pi, endAngle: CGFloat(CGFloat.pi * 3/2), clockwise: true)
+        
+        path.close()
+        path.apply(CGAffineTransform(translationX: 0, y: 0))
+        
+        layer.path = path.cgPath
+        layer.fillColor = nil
+        layer.strokeColor = color.cgColor
+        layer.strokeStart = 0.0
+        layer.strokeEnd = 0.0
+        layer.lineDashPattern = [6, 6]
+        layer.lineWidth = 2.0
+        layer.lineJoin = kCALineJoinRound
+        myView.layer.addSublayer(layer)
+        self.choiseAnimate(customLayer: layer)
+    }
+    
+    func choiseAnimate(customLayer : CAShapeLayer) {
+        let anim1 = CABasicAnimation(keyPath: "strokeEnd")
+        anim1.fromValue         = 0.0
+        anim1.toValue           = 1.0
+        anim1.duration          = 0.1
+        anim1.repeatCount       = 1.0
+        anim1.autoreverses      = false
+        anim1.isRemovedOnCompletion = false
+        anim1.isAdditive = true
+        anim1.fillMode = kCAFillModeForwards
+        customLayer.add(anim1, forKey: "strokeEnd")
+    }
+}
+
+

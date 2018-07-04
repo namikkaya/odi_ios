@@ -54,7 +54,7 @@ class PostConnection
     func PostConnectionImage(fileName: String,image: UIImage)
     {
         
-        var r  = URLRequest(url: URL(string: "http://odi.beranet.com/profilupload.php")!)
+        var r  = URLRequest(url: URL(string: "http://odi.odiapp.com.tr/profilupload.php")!)
         r.httpMethod = "POST"
         let boundary = "Boundary-\(UUID().uuidString)"
         r.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")

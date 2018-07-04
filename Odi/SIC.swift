@@ -38,10 +38,20 @@ extension UIViewController {
         switch type {
         case .image:
             popOverVC.label.text = "Kolaj yükleniyor lütfen bekleyiniz..."
+            popOverVC.indicator.activityIndicatorViewStyle = .whiteLarge
+        case .profileImage:
+            popOverVC.label.text = "Profil resminiz yükleniyor lütfen bekleyiniz..."
+            popOverVC.indicator.activityIndicatorViewStyle = .whiteLarge
         case .video:
             popOverVC.label.text = "Video yükleniyor lütfen bekleyiniz..."
+            popOverVC.indicator.activityIndicatorViewStyle = .whiteLarge
         case .compressVideo:
             popOverVC.label.text = "Video sıkıştırılıyor."
+            popOverVC.indicator.activityIndicatorViewStyle = .whiteLarge
+        case .reload:
+            popOverVC.label.text = ""
+            popOverVC.view.backgroundColor = UIColor.white
+            popOverVC.indicator.activityIndicatorViewStyle = .gray
         }
         self.addChildViewController(popOverVC)
         popOverVC.view.frame = self.view.frame
@@ -50,7 +60,6 @@ extension UIViewController {
     }
     func HIDE_SIC(customView: UIView){
         DispatchQueue.main.async {
-            //print("Start remove sibview")
             if let viewWithTag = customView.viewWithTag(101) {
                 viewWithTag.removeFromSuperview()
             }else{
@@ -60,7 +69,31 @@ extension UIViewController {
     }
 }
 enum SICType {
+    case profileImage
     case video
     case image
     case compressVideo
+    case reload
 }
+
+
+class UserPrefence {
+    
+    static let userDefaults = UserDefaults.standard
+    
+    static func saveOneSignalId(id: String) {
+        self.userDefaults.set(id, forKey: oneSignalUserId)
+    }
+    static func getOneSignalId() -> String {
+        if let id = userDefaults.value(forKeyPath: oneSignalUserId) as? String {
+            return id
+        }
+        return ""
+    }
+    static func removeoneSignalUserId(){
+        UserDefaults.standard.removeObject(forKey: oneSignalUserId)
+    }
+    
+    private static let oneSignalUserId = "oneSignalUserId"
+}
+

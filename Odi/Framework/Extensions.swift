@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 private var dataAssocKey = 0
 
@@ -261,6 +262,42 @@ extension UIImageView {
     }
 }
 
+extension UIImage {
+    
+    struct RotationOptions: OptionSet {
+        let rawValue: Int
+        
+        static let flipOnVerticalAxis = RotationOptions(rawValue: 1)
+        static let flipOnHorizontalAxis = RotationOptions(rawValue: 2)
+    }
+    
+    func rotated(by rotationAngle: Measurement<UnitAngle>, options: RotationOptions = []) -> UIImage? {
+        guard let cgImage = self.cgImage else { return nil }
+        
+        let rotationInRadians = CGFloat(rotationAngle.converted(to: .radians).value)
+        let transform = CGAffineTransform(rotationAngle: rotationInRadians)
+        var rect = CGRect(origin: .zero, size: self.size).applying(transform)
+        rect.origin = .zero
+        
+        let renderer = UIGraphicsImageRenderer(size: rect.size)
+        return renderer.image { renderContext in
+            renderContext.cgContext.translateBy(x: rect.midX, y: rect.midY)
+            renderContext.cgContext.rotate(by: rotationInRadians)
+            
+            let x = options.contains(.flipOnVerticalAxis) ? -1.0 : 1.0
+            let y = options.contains(.flipOnHorizontalAxis) ? 1.0 : -1.0
+            renderContext.cgContext.scaleBy(x: CGFloat(x), y: CGFloat(y))
+            
+            let drawRect = CGRect(origin: CGPoint(x: -self.size.width/2, y: -self.size.height/2), size: self.size)
+            renderContext.cgContext.draw(cgImage, in: drawRect)
+        }
+    }
+    
+}
+
+
+
+
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -338,7 +375,7 @@ extension UITextField {
     func setPlaceholderColor(color:UIColor!) {
         if self.placeholder != nil {
             self.attributedPlaceholder = NSAttributedString(string:self.placeholder!,
-                                                            attributes:[NSForegroundColorAttributeName: color])
+                                                            attributes:[kCTForegroundColorAttributeName as NSAttributedStringKey: color])
         }
         
     }
@@ -365,12 +402,12 @@ extension UIButton {
     }
     
     func underline() {
-        let attributes = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
-        let attributedText = NSAttributedString(string: self.currentTitle!, attributes: attributes)
+        let attributes = [kCTUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+        let attributedText = NSAttributedString(string: self.currentTitle!, attributes: attributes as [NSAttributedStringKey : Any])
         self.titleLabel?.attributedText = attributedText
     }
     
-    override func shake() {
+    func shakeButton() {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
         animation.duration = 0.6
@@ -387,6 +424,16 @@ extension Date {
         let result = formatter.string(from: date)
         return result
     }
+    func getCurrentHour() -> String {
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        let seconds = calendar.component(.second, from: date)
+        return String(hour) + String(minutes) + String(seconds)
+    }
+    
 }
 enum VerticalLocation: String {
     case bottom

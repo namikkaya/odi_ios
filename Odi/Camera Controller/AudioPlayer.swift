@@ -12,18 +12,26 @@ import AVFoundation
 
 class AudioPlayer: NSObject {
     
-    var player:AVPlayer?
-    var playerItem:AVPlayerItem?
+    var player:AVAudioPlayer?
+
     
-    func initialPlayer(resource : String, view: UIView){
-        //İnitial player
-        let url = URL(string: API.fileApi.rawValue + resource)
-        let playerItem:AVPlayerItem = AVPlayerItem(url: url!)
-        player = AVPlayer(playerItem: playerItem)
-        let playerLayer=AVPlayerLayer(player: player!)
-        playerLayer.frame=CGRect(x:0, y:0, width:10, height:50)
-        view.layer.addSublayer(playerLayer)
+    func initialPlayer(resource : NSURL){
+        do {
+            self.player = try AVAudioPlayer(contentsOf: resource as URL)
+            player?.prepareToPlay()
+            
+        } catch let error as NSError {
+            //self.player = nil
+            print(error.localizedDescription)
+        } catch {
+            print("AVAudioPlayer init failed")
+        }
+        
     }
+    
+   
+    
+    
     func playPlayer(){
         if player != nil {
             self.player?.play()
@@ -35,13 +43,14 @@ class AudioPlayer: NSObject {
         }
     }
     func playerGetDuration() -> Int {
-        let duration : CMTime = player!.currentItem!.asset.duration
-        let seconds : Int = Int(CMTimeGetSeconds(duration))
-        return seconds
+        if player != nil {
+            let duration = player?.duration
+            return Int(duration!)
+        }
+        return 0
     }
     func audioPlayerNil(){
         self.player = nil
-        self.playerItem = nil
     }
     
     

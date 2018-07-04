@@ -7,15 +7,67 @@
 //
 
 import UIKit
+import WebKit
+import OneSignal
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, OSSubscriptionObserver {
 
     var window: UIWindow?
-    var orientationLock = UIInterfaceOrientationMask.all
-
+    var orientationLock = UIInterfaceOrientationMask.portrait
+   
+    
+    
+    func configureOneSignal(options : [UIApplicationLaunchOptionsKey: Any]?) {
+        
+        let notificationReceivedBlock: OSHandleNotificationReceivedBlock = { notification in
+            
+        }
+        
+        let notificationOpenedBlock: OSHandleNotificationActionBlock = { result in
+            
+        }
+        
+        OneSignal.idsAvailable { (pushID, pushToken) in
+            if let playerId = pushID {
+                print("Current playerId \(playerId)")
+                UserPrefence.saveOneSignalId(id: playerId)
+            }
+        }
+        
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false,
+                                     kOSSettingsKeyInAppLaunchURL: true]
+        
+        OneSignal.initWithLaunchOptions(options,
+                                        appId: "237ba484-e8cd-450f-8cde-57f8fd7e3569",
+                                        handleNotificationReceived: notificationReceivedBlock,
+                                        handleNotificationAction: notificationOpenedBlock,
+                                        settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification
+        OneSignal.add(self as OSSubscriptionObserver)
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            print("User accepted notifications: \(accepted)")
+        })
+    }
+    
+    func onOSSubscriptionChanged(_ stateChanges: OSSubscriptionStateChanges!) {
+        if !stateChanges.from.subscribed && stateChanges.to.subscribed {
+            print("Subscribed for OneSignal push notifications!")
+        }
+        print("SubscriptionStateChange: \n\(stateChanges)")
+        
+        //The player id is inside stateChanges. But be careful, this value can be nil if the user has not granted you permission to send notifications.
+        if let playerId = stateChanges.to.userId {
+            print("Current playerId \(playerId)")
+            UserPrefence.saveOneSignalId(id: playerId)
+        }
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        configureOneSignal(options: launchOptions)
+        
         return true
     }
 
