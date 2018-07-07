@@ -23,8 +23,8 @@ class DragableScrollView: UIScrollView {
             self.delegate = self
             let scaleHeight = self.frame.width/(imageView?.bounds.size.width)!
             let scaleWidth = self.frame.height/(imageView?.bounds.size.height)!
-            self.minimumZoomScale = 0.1
-            self.maximumZoomScale = 10.0
+            self.minimumZoomScale = min(scaleHeight,scaleWidth)
+            self.maximumZoomScale = 5.0
             self.zoomScale = min(scaleHeight,scaleWidth)
         }
         
