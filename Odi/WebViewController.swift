@@ -8,6 +8,8 @@
 
 import UIKit
 import WebKit
+import AVFoundation
+import Photos
 
 class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate,WKUIDelegate{
     
@@ -21,6 +23,9 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
     //Response Model
     var odiResponseModel = GetCameraResponseModel()
     var webViewReloadBool = false
+    var thumbNailImage = UIImage()
+     var ftp = FTPUpload(baseUrl: "ftp.odiapp.com.tr:21", userName: "odiFtp@odiapp.com.tr", password: "Root123*" , directoryPath: "/img/")
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,8 +75,11 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
                     print("UserID:", odileData.userId)
                 case 4:
                     UIApplication.shared.open(URL(string : odileData.userId)!, options: [:], completionHandler: { (status) in
-                        
                     })
+                case 5:
+                    self.requestAlertViewForVideo(pickerController: pickerController, vc: self)
+                case 6:
+                    self.requestAlertViewForVideo(pickerController: pickerController, vc: self)
                 default:break;
                 }
             }
@@ -109,6 +117,14 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
             let stringArray = src.components(separatedBy: "=")
             self.odileData.userId = stringArray[1] //userID is link
             return 4
+        } else if src.range(of: "showreel") != nil {
+            let stringArray = src.components(separatedBy: "=")
+            self.odileData.userId = stringArray[1] //userID is link
+            return 5
+        } else if src.range(of: "tanitim") != nil {
+            let stringArray = src.components(separatedBy: "=")
+            self.odileData.userId = stringArray[1] //userID is link
+            return 6
         }
         return 0
     }
@@ -153,17 +169,63 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
 }
 
 extension WebViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerEditedImage] as! UIImage
-        service.connectService(fileName: "profilImage_\(odileData.userId).jpg", image: image)
-        self.webView?.navigationDelegate = self
-        self.SHOW_SIC(type: .profileImage)
-        dismiss(animated:true, completion: nil)
+   public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if odileData.userId.range(of:"showreel") != nil {
+            let videoURL = info[UIImagePickerControllerMediaURL] as? URL
+            do {
+                let videoData = try Data(contentsOf: videoURL!)
+                self.thumbNailImage = getThumbnailFrom(path: videoURL!)!
+                uploadVideo(videoData: videoData)
+            } catch {
+                print("Unable to load data: \(error)")
+            }
+            
+            print("videoURL:\(String(describing: videoURL))")
+            self.dismiss(animated: true, completion: nil)
+        } else if odileData.userId.range(of:"tanitim") != nil {
+            print("&&Tanitim")
+            let videoURL = info[UIImagePickerControllerMediaURL] as? URL
+            do {
+                let videoData = try Data(contentsOf: videoURL!)
+                self.thumbNailImage = getThumbnailFrom(path: videoURL!)!
+                uploadVideo(videoData: videoData)
+            } catch {
+                print("Unable to load data: \(error)")
+            }
+            print("videoURL:\(String(describing: videoURL))")
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            let image = info[UIImagePickerControllerEditedImage] as! UIImage
+            service.connectService(fileName: "profilImage_\(odileData.userId).jpg", image: image)
+            self.webView?.navigationDelegate = self
+            self.SHOW_SIC(type: .profileImage)
+            dismiss(animated:true, completion: nil)
+        }   
     }
     
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.pickerController.dismiss(animated: true, completion: nil)
         print("Cancel")
+    }
+    
+    func getThumbnailFrom(path: URL) -> UIImage? {
+        do {
+            
+            let asset = AVURLAsset(url: path , options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let thumbnail = UIImage(cgImage: cgImage)
+            
+            return thumbnail
+            
+        } catch let error {
+            
+            print("*** Error generating thumbnail: \(error.localizedDescription)")
+            return nil
+            
+        }
+        
     }
     
 }
@@ -208,3 +270,47 @@ extension  WebViewController: UploadImageServiceDelegte {
     }
     
 }
+//Mark: -Upload
+extension WebViewController {
+    func uploadVideo(videoData: Data){
+        self.SHOW_SIC(type: .video)
+        DispatchQueue.global(qos: .background).async {
+            print((self.odileData.userId))
+            self.ftp.send(data:  videoData , with: "\(self.odileData.userId).MOV", success: { error in
+                DispatchQueue.main.async {
+                    if error {
+                        self.uploadDefaultImage(image: self.thumbNailImage)
+                        print("Yolladımm")
+                    }
+                    else{
+                        self.HIDE_SIC(customView: self.view)
+                    }
+                }
+            })
+        }
+    }
+    
+    func uploadDefaultImage(image: UIImage) {
+        DispatchQueue.global(qos: .background).async {
+            guard let imageData = UIImagePNGRepresentation(image) else { return }
+            self.ftp.send(data:  imageData , with: "\(self.odileData.userId).jpg", success: { error in
+                DispatchQueue.main.async {
+                    if error {
+                        self.webView?.reload()
+                    }
+                    else{
+                        self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz fakat videonuz galerinize kayıt edilmiştir.")
+                    }
+                    self.HIDE_SIC(customView: self.view)
+                    
+                }
+            })
+        }
+    }
+    
+    
+}
+
+
+
+
