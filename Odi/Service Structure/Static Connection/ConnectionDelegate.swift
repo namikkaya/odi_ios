@@ -14,4 +14,5 @@ protocol ConnectionDelegate : class{
     func getError(errMessage : String)
     func getJson(xmlData : XMLIndexer)
     func getStrin(string : String)
+    func progressHandler(value: Float)
 }

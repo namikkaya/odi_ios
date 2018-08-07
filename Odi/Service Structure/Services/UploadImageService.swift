@@ -11,8 +11,6 @@ import SWXMLHash
 class UploadImageService : ConnectionDelegate
 {
     
-    
-    
     let connection = PostConnection()
     var serviceDelegate : UploadImageServiceDelegte?
     
@@ -36,12 +34,20 @@ class UploadImageService : ConnectionDelegate
     }
     func getJson(xmlData: XMLIndexer) {
     }
+    
+    func progressHandler(value: Float) {
+        if serviceDelegate != nil {
+            serviceDelegate?.progressHandler(value: value)
+        }
+    }
+    
     init(){
         self.connection.delegate = self
     }
     
 }
 protocol UploadImageServiceDelegte {
+    func progressHandler(value: Float)
     func getResponse(error: Bool)
     func getError(errorMessage : String)
 }

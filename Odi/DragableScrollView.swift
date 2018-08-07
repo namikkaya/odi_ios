@@ -15,17 +15,32 @@ class DragableScrollView: UIScrollView {
         self.imageView?.removeFromSuperview()
         self.imageView = UIImageView()
         if imageView != nil {
-            self.addSubview(imageView!)
+            self.imageView?.frame = CGRect(x: 0.0, y: 0.0, width: self.size.width, height: self.size.height)
             self.imageView?.isUserInteractionEnabled = true
             self.imageView?.contentMode = .scaleAspectFit
             self.imageView?.image = image
-            self.imageView?.frame = CGRect(x: 0.0, y: 0.0, width: image.size.width, height: image.size.height)
+            self.addSubview(imageView!)
             self.delegate = self
-            let scaleHeight = self.frame.width/(imageView?.bounds.size.width)!
-            let scaleWidth = self.frame.height/(imageView?.bounds.size.height)!
-            self.minimumZoomScale = min(scaleHeight,scaleWidth)
-            self.maximumZoomScale = 5.0
-            self.zoomScale = min(scaleHeight,scaleWidth)
+            
+            
+            let newSize = imageSizeAspectFit(imgview: imageView!)
+            let scaleHeight = self.size.height / newSize.height
+            let scaleWidth = self.size.width / newSize.width
+            let minZoom = max(scaleWidth, scaleHeight)
+            print(minZoom)
+            
+            self.minimumZoomScale = minZoom + 0.065
+            self.maximumZoomScale = 10.0
+            self.zoomScale = minZoom + 0.065
+            self.contentSize = imageSizeAspectFit(imgview: imageView!)
+            self.imageView?.center = self.contentCenter
+            if self.contentSize.width < self.visibleSize.width {
+                self.imageView?.center.x = self.visibleSize.center.x
+            }
+            if self.contentSize.height < self.visibleSize.height {
+                self.imageView?.center.y = self.visibleSize.center.y
+            }
+            
         }
         
     }
@@ -40,6 +55,35 @@ class DragableScrollView: UIScrollView {
         let croppedImage = UIImage(cgImage: croppedCGImage!)
         return croppedImage
     }
+    
+    func imageSizeAspectFit(imgview: UIImageView) -> CGSize {
+        var newwidth: CGFloat
+        var newheight: CGFloat
+        let image: UIImage = imgview.image!
+        
+        if image.size.height >= image.size.width {
+            newheight = imgview.frame.size.height;
+            newwidth = (image.size.width / image.size.height) * newheight
+            if newwidth > imgview.frame.size.width {
+                let diff: CGFloat = imgview.frame.size.width - newwidth
+                newheight = newheight + diff / newheight * newheight
+                newwidth = imgview.frame.size.width
+            }
+        }
+        else {
+            newwidth = imgview.frame.size.width
+            newheight = (image.size.height / image.size.width) * newwidth
+            if newheight > imgview.frame.size.height {
+                let diff: CGFloat = imgview.frame.size.height - newheight
+                newwidth = newwidth + diff / newwidth * newwidth
+                newheight = imgview.frame.size.height
+            }
+        }
+        
+        print(newwidth, newheight)
+        //adapt UIImageView size to image size
+        return CGSize(width: newwidth, height: newheight)
+    }
    
 }
 extension DragableScrollView: UIScrollViewDelegate {
@@ -48,8 +92,9 @@ extension DragableScrollView: UIScrollViewDelegate {
         return imageView
     }
     
+    
     func scrollViewDidZoom(_ scrollView: UIScrollView){
-        scrollView.applyZoomToImageView()
+        self.applyZoomToImageView()
     }
 }
 extension UIView {
@@ -66,13 +111,14 @@ extension UIView {
 }
 
 
-extension UIScrollView {
+extension DragableScrollView {
     
     func applyZoomToImageView() {
         guard let imageView = delegate?.viewForZooming?(in: self) as? UIImageView else { return }
         guard let image = imageView.image else { return }
+        let imageSize = imageSizeAspectFit(imgview: imageView)
         guard imageView.frame.size.valid && image.size.valid else { return }
-        let size = image.size ~> imageView.frame.size
+        let size = imageSize ~> imageView.frame.size
         imageView.frame.size = size
         self.contentInset = UIEdgeInsets(
             x: self.frame.size.width ~> size.width,

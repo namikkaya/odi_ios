@@ -49,6 +49,7 @@ extension UIViewController{
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
             pickerController.delegate = vc as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
             pickerController.sourceType = UIImagePickerControllerSourceType.camera
+            pickerController.mediaTypes = [kUTTypeImage] as [String]
             pickerController.allowsEditing = true
             self.present(pickerController, animated: true, completion: nil)
         }
@@ -61,6 +62,7 @@ extension UIViewController{
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
             pickerController.delegate = vc as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
             pickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            pickerController.mediaTypes = [kUTTypeImage] as [String]
             pickerController.allowsEditing = true
             self.present(pickerController, animated: true, completion: nil)
         }
@@ -73,6 +75,20 @@ extension UIViewController{
             pickerController.mediaTypes = [kUTTypeMovie] as [String]
             pickerController.allowsEditing = true
             self.present(pickerController, animated: true, completion: nil)
+        }
+    }
+    
+    func openCameraForVideo(pickerController : UIImagePickerController, vc: UIViewController) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+            pickerController.delegate = vc as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
+            pickerController.sourceType = UIImagePickerControllerSourceType.camera
+            pickerController.mediaTypes = [kUTTypeMovie as String]
+            pickerController.allowsEditing = true
+            self.present(pickerController, animated: true, completion: nil)
+        }
+        else {
+            let alertWarning = UIAlertView(title:"Warning", message: "You don't have camera", delegate:nil, cancelButtonTitle:"OK", otherButtonTitles:"")
+            alertWarning.show()
         }
     }
     

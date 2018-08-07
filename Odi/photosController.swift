@@ -11,6 +11,8 @@ import Photos
 import WebKit
 class PhotosViewController: UIViewController {
     
+    var popUpController : SIC?
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
@@ -75,7 +77,7 @@ class PhotosViewController: UIViewController {
             service.connectService(fileName: "profil_\(id).jpg", image: scrennShotView.screenShot!)
             self.view.isUserInteractionEnabled = false
             self.navigationController?.navigationBar.isUserInteractionEnabled = false
-            self.SHOW_SIC(type: .image)
+            self.popUpController = self.SHOW_SIC(type: .image)
         }
         
         
@@ -165,6 +167,17 @@ class PhotosViewController: UIViewController {
     
 }
 extension  PhotosViewController: UploadImageServiceDelegte {
+    func progressHandler(value: Float) {
+        if let popup = popUpController {
+            DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
+                    DispatchQueue.main.async { () -> Void in
+                        popup.setProgress(progressValue: value)
+                    }
+            }
+        }
+        print("Value:",value)
+    }
+    
     func getResponse(error: Bool) {
         if error {
             let url = URL(string: "http://odi.odiapp.com.tr/?update=ok")!
@@ -189,7 +202,7 @@ extension  PhotosViewController: UploadImageServiceDelegte {
         let okAction = UIAlertAction(title: "Tamam",style: UIAlertActionStyle.default) {
             UIAlertAction in
             self.navigationController?.popViewController(animated: true)
-            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "transitionBackToWebview"), object: nil, userInfo: nil)
         }
         // Add the actions
         alertController.addAction(okAction)

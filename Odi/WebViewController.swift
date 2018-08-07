@@ -13,7 +13,11 @@ import Photos
 
 class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate,WKUIDelegate{
     
+    
+    
+    var popUpController : SIC?
     var webView: WKWebView?
+    var webViewForSuccess: WKWebView?
     var odiDataService = GetCameraServices()
     var odileData = (userId: "", videoId: "")
     var pickerController = UIImagePickerController()
@@ -23,8 +27,9 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
     //Response Model
     var odiResponseModel = GetCameraResponseModel()
     var webViewReloadBool = false
+    var backToOdi = false
     var thumbNailImage = UIImage()
-     var ftp = FTPUpload(baseUrl: "ftp.odiapp.com.tr:21", userName: "odiFtp@odiapp.com.tr", password: "Root123*" , directoryPath: "/img/")
+     var ftp = FTPUpload(baseUrl: "odi.odiapp.com.tr", userName: "odiFtp@odiapp.com.tr", password: "Root123*" , directoryPath: "/img/")
     
     
     override func viewDidLoad() {
@@ -33,7 +38,6 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         o.add(self, name: "foo")
         let config = WKWebViewConfiguration()
         config.userContentController = o
-        
         self.webView = WKWebView(frame: self.view.bounds, configuration: config)
         self.webView?.scrollView.backgroundColor = UIColor(red: 255.0 / 255.0, green: 133.0 / 255.0, blue: 0.0, alpha: 1.0)
         self.view.addSubview(self.webView!)
@@ -47,15 +51,22 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":webView!]))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":webView!]))
         let url = URL(string:"http://odi.odiapp.com.tr/?kulID=\(oneSignalID)")
-        
-        let req = URLRequest(url:url!)
-        self.webView!.load(req)
+        let request = URLRequest(url: url!)
+        webView!.load(request)
+        self.popUpController = SHOW_SIC(type: .reload)
+        self.webView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil);
+        self.addObserver()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress" {
+            if self.popUpController != nil  {
+                DispatchQueue.main.async { () -> Void in
+                    self.popUpController?.setProgress(progressValue: Float((self.webView?.estimatedProgress)!))
+                }
+            }
+        }
     }
-    
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         print(message.name)
         print(message.body)
@@ -131,13 +142,8 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
     override func viewWillAppear(_ animated: Bool) {
         AppUtility.lockOrientation(.portrait)
         switch UIDevice.current.orientation {
-        case .portrait:
-            SHOW_SIC(type: .reload)
-            //self.webView?.reload()
-            let url = URL(string: "http://odi.odiapp.com.tr/?update=ok")!
-            let request = URLRequest(url: url)
-            webView!.load(request)
-            self.webViewReloadBool = true
+        case .portrait:break
+                        
         default:break
         }
         self.navigationController?.isNavigationBarHidden = true
@@ -147,13 +153,22 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
                  didFinish navigation: WKNavigation!) {
         if isUpdatedProfileImage == true {
             HIDE_SIC(customView: self.view)
-            showAlert(message: "İşleminiz başarı ile gerçekleştrildi")
             isUpdatedProfileImage = false
         }
-        if webViewReloadBool == true {
+        else if webViewReloadBool == true {
             HIDE_SIC(customView: self.view)
             webViewReloadBool = false
         }
+        else if webView.tag == 5 {
+            self.popUpController = SHOW_SIC(type: .reload)
+            self.webView?.reload()
+            self.webViewReloadBool = true
+        }
+        else if self.childViewControllers.count == 1 {
+            HIDE_SIC(customView: self.view)
+        }
+        print(self.childViewControllers.count)
+        
     }
     
     
@@ -166,39 +181,71 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         return nil
     }
     
+    func addObserver(){
+        NotificationCenter.default.addObserver(self, selector: #selector(self.comeBack(notification:)), name: NSNotification.Name(rawValue: "transitionBackToWebview") , object: nil)
+    }
+    func removeObserver(){
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "transitionBackToWebview") , object: nil)
+    }
+    
+    @objc func comeBack(notification: NSNotification){
+        self.popUpController = SHOW_SIC(type: .reload)
+        webView?.reload()
+        self.webViewReloadBool = true
+    }
+    
 }
 
 extension WebViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if odileData.userId.range(of:"showreel") != nil {
+           
             let videoURL = info[UIImagePickerControllerMediaURL] as? URL
-            do {
-                let videoData = try Data(contentsOf: videoURL!)
-                self.thumbNailImage = getThumbnailFrom(path: videoURL!)!
-                uploadVideo(videoData: videoData)
-            } catch {
-                print("Unable to load data: \(error)")
+            guard let videoData = NSData(contentsOf: videoURL!) else {
+                return
             }
-            
-            print("videoURL:\(String(describing: videoURL))")
+            if Double(videoData.length / 1048576) < 50 {
+                do {
+                    let videoData = try Data(contentsOf: videoURL!)
+                    self.thumbNailImage = getThumbnailFrom(path: videoURL!)!
+                    uploadVideo(videoData: videoData)
+                } catch {
+                    print("Unable to load data: \(error)")
+                }
+                
+                print("videoURL:\(String(describing: videoURL))")
+            } else {
+                showAlert(message: "Seçtiğiniz videonun boyutu çok büyük")
+            }
             self.dismiss(animated: true, completion: nil)
         } else if odileData.userId.range(of:"tanitim") != nil {
             print("&&Tanitim")
             let videoURL = info[UIImagePickerControllerMediaURL] as? URL
-            do {
-                let videoData = try Data(contentsOf: videoURL!)
-                self.thumbNailImage = getThumbnailFrom(path: videoURL!)!
-                uploadVideo(videoData: videoData)
-            } catch {
-                print("Unable to load data: \(error)")
+            guard let videoData = NSData(contentsOf: videoURL!) else {
+                return
             }
-            print("videoURL:\(String(describing: videoURL))")
+            
+            if Double(videoData.length / 1048576) < 50 {
+                print("File size after compression: \(Double(videoData.length / 1048576)) mb")
+                do {
+                    let videoData = try Data(contentsOf: videoURL!)
+                    self.thumbNailImage = getThumbnailFrom(path: videoURL!)!
+                    uploadVideo(videoData: videoData)
+                } catch {
+                    print("Unable to load data: \(error)")
+                }
+                print("videoURL:\(String(describing: videoURL))")
+            } else {
+                showAlert(message: "Seçtiğiniz videonun boyutu çok büyük")
+            }
+            
+           
             self.dismiss(animated: true, completion: nil)
         } else {
             let image = info[UIImagePickerControllerEditedImage] as! UIImage
             service.connectService(fileName: "profilImage_\(odileData.userId).jpg", image: image)
             self.webView?.navigationDelegate = self
-            self.SHOW_SIC(type: .profileImage)
+            self.popUpController = self.SHOW_SIC(type: .profileImage)
             dismiss(animated:true, completion: nil)
         }   
     }
@@ -216,7 +263,6 @@ extension WebViewController: UIImagePickerControllerDelegate, UINavigationContro
             imgGenerator.appliesPreferredTrackTransform = true
             let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
             let thumbnail = UIImage(cgImage: cgImage)
-            
             return thumbnail
             
         } catch let error {
@@ -242,6 +288,16 @@ extension WebViewController : GetCameraDelegate {
 }
 
 extension  WebViewController: UploadImageServiceDelegte {
+    func progressHandler(value: Float) {
+        if let popup = popUpController {
+            DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
+                DispatchQueue.main.async { () -> Void in
+                    popup.setProgress(progressValue: value)
+                }
+            }
+        }
+    }
+    
     func getResponse(error: Bool) {
         if error {
             isUpdatedProfileImage = true
@@ -273,17 +329,29 @@ extension  WebViewController: UploadImageServiceDelegte {
 //Mark: -Upload
 extension WebViewController {
     func uploadVideo(videoData: Data){
-        self.SHOW_SIC(type: .video)
+        self.popUpController = self.SHOW_SIC(type: .video)
         DispatchQueue.global(qos: .background).async {
             print((self.odileData.userId))
             self.ftp.send(data:  videoData , with: "\(self.odileData.userId).MOV", success: { error in
                 DispatchQueue.main.async {
                     if error {
-                        self.uploadDefaultImage(image: self.thumbNailImage)
-                        print("Yolladımm")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // change 2 to desired number of seconds
+                            if self.popUpController != nil {
+                                self.popUpController?.label.text = "Video resmi yükleniyor."
+                                self.popUpController?.progressView.setProgress(0.0, animated: false)
+                            }
+                            self.uploadDefaultImage(image: self.thumbNailImage)
+                            print("Yolladımm")
+                        }
                     }
                     else{
                         self.HIDE_SIC(customView: self.view)
+                    }
+                }
+            }, progressHandlar: {value in
+                if self.popUpController != nil {
+                    DispatchQueue.main.async { () -> Void in
+                        self.popUpController?.setProgress(progressValue: value)
                     }
                 }
             })
@@ -296,17 +364,55 @@ extension WebViewController {
             self.ftp.send(data:  imageData , with: "\(self.odileData.userId).jpg", success: { error in
                 DispatchQueue.main.async {
                     if error {
-                        self.webView?.reload()
+                        self.showreelAndtanitimWebview()
                     }
                     else{
-                        self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz fakat videonuz galerinize kayıt edilmiştir.")
+                        self.HIDE_SIC(customView: self.view)
+                        self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz.")
+                        
                     }
-                    self.HIDE_SIC(customView: self.view)
-                    
                 }
+            }, progressHandlar: {value in
+                if self.popUpController != nil {
+                    DispatchQueue.main.async { () -> Void in
+                        self.popUpController?.setProgress(progressValue: value)
+                    }
+                }
+
             })
         }
     }
+    
+    func showreelAndtanitimWebview(){
+         if self.odileData.userId.range(of: "showreel") != nil {
+            let id = self.odileData.userId.components(separatedBy: "_")
+            print(id)
+            let url = URL(string: "http://odi.odiapp.com.tr/?yeni_islem=showreel&id=\(id[1])")!
+            let request = URLRequest(url: url)
+            self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+            self.webViewForSuccess?.isHidden = true
+            self.webViewForSuccess?.tag = 5
+            self.view.addSubview(self.webViewForSuccess!)
+            self.webViewForSuccess!.uiDelegate = self
+            self.webViewForSuccess!.navigationDelegate = self
+            self.webViewForSuccess!.load(request)
+         } else {
+            let id = self.odileData.userId.components(separatedBy: "_")
+            print(id)
+            print(id)
+            let url = URL(string: "http://odi.odiapp.com.tr/?yeni_islem=tanitim&id=\(id[1])")!
+            let request = URLRequest(url: url)
+            self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+            self.webViewForSuccess?.isHidden = true
+            self.webViewForSuccess?.tag = 5
+            self.view.addSubview(self.webViewForSuccess!)
+            self.webViewForSuccess!.uiDelegate = self
+            self.webViewForSuccess!.navigationDelegate = self
+            self.webViewForSuccess!.load(request)
+        }
+
+    }
+
     
     
 }

@@ -10,10 +10,14 @@ import Foundation
 import SWXMLHash
 
 
-class PostConnection
+class PostConnection : NSObject
 {
     
     var delegate : ConnectionDelegate?
+    var session : URLSession?
+    var expectedContentLength = 0
+    var buffer:NSMutableData = NSMutableData()
+    var dataTask:URLSessionDataTask?
     
     func PostConnection(serviceUrl: String)
     {
@@ -25,9 +29,11 @@ class PostConnection
         theRequest.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
         theRequest.httpMethod = "POST"
         
+        let configuration = URLSessionConfiguration.default
+        let manqueue = OperationQueue.main
+        session = URLSession(configuration: configuration, delegate: self, delegateQueue: manqueue)
         
-        
-        URLSession.shared.dataTask(with: theRequest as URLRequest) { (data, response, error) in
+        session?.dataTask(with: theRequest as URLRequest) { (data, response, error) in
             print("Started Connection..")
             guard let data = data, error == nil else {                                                 // check for fundamental networking error
                 print("error=\(String(describing: error))")
@@ -43,11 +49,11 @@ class PostConnection
             }
             
             let newXML = SWXMLHash.parse(data)
-                if  self.delegate != nil {
-                    DispatchQueue.main.async {
-                        self.delegate?.getJson(xmlData: newXML)
-                    }
+            if  self.delegate != nil {
+                DispatchQueue.main.async {
+                    self.delegate?.getJson(xmlData: newXML)
                 }
+            }
             
             }.resume()
     }
@@ -64,37 +70,11 @@ class PostConnection
                                 mimeType: "image/jpg",
                                 filename: fileName)
         
-        
-        URLSession.shared.dataTask(with: r) { (data, response, error) in
-            print("Started Connection..")
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                print("error=\(String(describing: error))")
-                self.delegate?.getError(errMessage: "servisResponse")
-                return
-            }
-            
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(String(describing: response))")
-                self.delegate?.getError(errMessage: "servisResponse")
-                return
-            }
-            var string = ""
-            if let returnData = String(data: data, encoding: .utf8) {
-                string = returnData
-            } else {
-                print("")
-            }
-            if let da = data as? String {
-                print(da)
-            }
-            if  self.delegate != nil {
-                DispatchQueue.main.async {
-                    self.delegate?.getStrin(string: string)
-                }
-            }
-            
-            }.resume()
+        let configuration = URLSessionConfiguration.default
+        let manqueue = OperationQueue.main
+        session = URLSession(configuration: configuration, delegate: self, delegateQueue: manqueue)
+        dataTask = session?.dataTask(with: r)
+        dataTask?.resume()
         
     }
     func createBody(parameters: [String: String],
@@ -127,5 +107,54 @@ extension NSMutableData {
     func appendString(_ string: String) {
         let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false)
         append(data!)
+    }
+}
+
+extension PostConnection: URLSessionDataDelegate {
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse,
+                    completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        completionHandler(.allow)
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        buffer.append(data)
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
+        if self.delegate != nil {
+            DispatchQueue.main.async {
+                self.delegate?.progressHandler(value: Float(totalBytesSent) / Float(totalBytesExpectedToSend))
+            }
+        }
+        
+        
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if buffer.length > 0 {
+            let nsdata = NSData(data: buffer as Data)
+            let data = Data(referencing: nsdata)
+            var string = ""
+            if let returnData = String(data: data, encoding: .utf8) {
+                string = returnData
+            } else {
+                print("")
+            }
+            if let da = data as? String {
+                print(da)
+            }
+            if  self.delegate != nil {
+                DispatchQueue.main.async {
+                    self.delegate?.getStrin(string: string)
+                }
+            }
+        } else {
+            self.delegate?.getError(errMessage: "servisResponse")
+            return
+        }
+        
+        
+        
     }
 }

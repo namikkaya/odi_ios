@@ -138,6 +138,7 @@ class CameraViewController: UIViewController {
             AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
             self.clearTempFolder()
             let _ = navigationController.popViewController(animated: true)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "transitionBackToWebview"), object: nil, userInfo: nil)
         }
     }
     
@@ -352,20 +353,24 @@ extension CameraViewController {
     @objc func updateTimer() {
         duration += 1
         lineCharacterDuration += 1
-        self.kareokeLabel.attributedText = customAttiribitudText()
+        
         
         if odiResponseModel.TIP == "2" {
             self.progressView.progress += Float(progressValue)
+            
+            switch odiResponseModel.cameraList[cameraTimerCount].type {
+            case "0":
+                self.kareokeLabel.attributedText = customAttiribitudText(fontColor: UIColor.odiColor)
+            case "1":
+                self.kareokeLabel.attributedText = customAttiribitudText(fontColor: UIColor.userColor)
+                self.skipButton.isHidden = false
+                self.skipButton2.isHidden = false
+            default:break
+            }
+        } else {
+            self.kareokeLabel.attributedText = customAttiribitudText(fontColor: UIColor.userColor)
         }
         
-        switch odiResponseModel.cameraList[cameraTimerCount].type {
-          case "1":
-            self.skipButton.isHidden = false
-            self.skipButton2.isHidden = false
-        default:break
-        }
-        
-
         if lines.count == 0 {
             self.lines = getLinesArrayOfString(in: kareokeLabel)
         }
@@ -420,7 +425,7 @@ extension CameraViewController {
 //Mark: -Compress File
 extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        self.SHOW_SIC(type: .compressVideo)
+        
         //For compress code
         guard let data = NSData(contentsOf: outputFileURL as URL) else {
             return
@@ -528,12 +533,23 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
             return
         }
         
+        
         exportSession.videoComposition = videoComposition
         exportSession.outputURL = outputURL
         exportSession.outputFileType = AVFileType.mov
         exportSession.shouldOptimizeForNetworkUse = true
         exportSession.exportAsynchronously { () -> Void in
             handler(exportSession)
+        }
+        
+        
+        let popup = self.SHOW_SIC(type: .compressVideo)
+        DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
+            while exportSession.status == .waiting || exportSession.status == .exporting {
+                DispatchQueue.main.async { () -> Void in
+                    popup?.setProgress(progressValue: exportSession.progress)
+                }
+            }
         }
     }
     func degreeToRadian(_ x: CGFloat) -> CGFloat {
@@ -622,7 +638,7 @@ extension UITextView{
 
 //Mark: -Attiribitud String
 extension CameraViewController {
-    func customAttiribitudText() -> NSMutableAttributedString {
+    func customAttiribitudText(fontColor: UIColor) -> NSMutableAttributedString {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
         paragraph.lineSpacing = 4.4
@@ -638,13 +654,13 @@ extension CameraViewController {
             length:duration))
         myMutableString.addAttribute(
             .foregroundColor,
-            value: UIColor.white,
+            value: fontColor,
             range: NSRange(
                 location:0,
                 length:subtitleString.count))
         myMutableString.addAttribute(
             .foregroundColor,
-            value: UIColor.red,
+            value: UIColor.white,
             range: NSRange(
                 location:0,
                 length:duration))
@@ -695,9 +711,18 @@ extension CameraViewController {
     
 }
 
+//Mark :- For Exporter
+extension CameraController {
+    
+}
+
+
 
 extension NSNotification.Name {
     static let typeTwoOdi = NSNotification.Name("TypeTwoOdi")
 }
-
+extension UIColor {
+    static let odiColor = UIColor(red: 0.0 / 255.0, green: 131.0 / 255.0, blue: 178.0 / 255.0, alpha: 1.0)
+    static let userColor = UIColor(red: 255.0 / 255.0, green: 132.0 / 255.0, blue: 0.0 / 255.0, alpha: 1.0)
+}
 

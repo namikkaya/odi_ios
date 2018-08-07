@@ -54,7 +54,7 @@ extension FTPUpload {
 
 // MARK: - FTP Write
 extension FTPUpload {
-    public func send(data: Data, with fileName: String, success: @escaping ((Bool)->Void)) {
+    public func send(data: Data, with fileName: String, success: @escaping ((Bool)->Void), progressHandlar: @escaping ((Float)->Void)) {
         
         print(fileName)
         guard let ftpWriteStream = ftpWriteStream(forFileName: fileName) else {
@@ -79,10 +79,14 @@ extension FTPUpload {
         
         var offset: Int = 0
         var dataToSendSize: Int = fileSize
+        print("dataToSendSize:",Int64(fileSize))
         
         while true {
             let bytesWritten = CFWriteStreamWrite(ftpWriteStream, &buffer[offset], dataToSendSize)
+            progressHandlar(Float(offset) / Float(fileSize))
+            
             if bytesWritten > 0 {
+                
                 offset += bytesWritten.littleEndian
                 dataToSendSize -= bytesWritten
             } else if bytesWritten < 0 {

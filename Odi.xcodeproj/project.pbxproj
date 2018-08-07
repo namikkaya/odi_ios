@@ -21,6 +21,7 @@
 		2217E49F1FEB512B004A02AF /* UploadImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E49E1FEB512B004A02AF /* UploadImageService.swift */; };
 		224459541FEBF8B700DEA02A /* SIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224459531FEBF8B700DEA02A /* SIC.swift */; };
 		3EA212BBEF4F30234FA0AC52 /* Pods_Odi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280D2E0228502BBBA8815D93 /* Pods_Odi.framework */; };
+		9507D42F21190E1E00DB816A /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9507D42E21190E1E00DB816A /* ServiceManager.swift */; };
 		950D9A301FEB4A65004F5507 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A2D1FEB4A65004F5507 /* CameraController.swift */; };
 		950D9A311FEB4A65004F5507 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A2E1FEB4A65004F5507 /* CameraViewController.swift */; };
 		950D9A321FEB4A65004F5507 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A2F1FEB4A65004F5507 /* AudioPlayer.swift */; };
@@ -31,6 +32,7 @@
 		950D9A411FEC8C95004F5507 /* PlayVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A401FEC8C95004F5507 /* PlayVideoController.swift */; };
 		950D9A441FEC8FCB004F5507 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A431FEC8FCB004F5507 /* Player.swift */; };
 		950D9A461FEC93A5004F5507 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A451FEC93A4004F5507 /* Extensions.swift */; };
+		952373632117B792002A588A /* CircleViewClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952373622117B791002A588A /* CircleViewClass.swift */; };
 		953125BA203DE75E00611222 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953125B9203DE75E00611222 /* ViewControllerExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +56,7 @@
 		224459531FEBF8B700DEA02A /* SIC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIC.swift; sourceTree = "<group>"; };
 		280D2E0228502BBBA8815D93 /* Pods_Odi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Odi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32E6CA614FA311A79905E66F /* Pods-Odi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Odi/Pods-Odi.release.xcconfig"; sourceTree = "<group>"; };
+		9507D42E21190E1E00DB816A /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		950D9A2D1FEB4A65004F5507 /* CameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		950D9A2E1FEB4A65004F5507 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		950D9A2F1FEB4A65004F5507 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
@@ -64,6 +67,7 @@
 		950D9A401FEC8C95004F5507 /* PlayVideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayVideoController.swift; sourceTree = "<group>"; };
 		950D9A431FEC8FCB004F5507 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		950D9A451FEC93A4004F5507 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		952373622117B791002A588A /* CircleViewClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleViewClass.swift; sourceTree = "<group>"; };
 		953125B9203DE75E00611222 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		95E3EB77204C88390004BDA7 /* Odi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Odi.entitlements; sourceTree = "<group>"; };
 		D3014EAC0050B9CD9FE7B464 /* Pods-Odi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Odi/Pods-Odi.debug.xcconfig"; sourceTree = "<group>"; };
@@ -126,6 +130,14 @@
 			path = Odi;
 			sourceTree = "<group>";
 		};
+		9507D42D21190E0A00DB816A /* Static Connection New */ = {
+			isa = PBXGroup;
+			children = (
+				9507D42E21190E1E00DB816A /* ServiceManager.swift */,
+			);
+			path = "Static Connection New";
+			sourceTree = "<group>";
+		};
 		950D9A2C1FEB4A57004F5507 /* Camera Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +151,7 @@
 		950D9A331FEB4A69004F5507 /* Service Structure */ = {
 			isa = PBXGroup;
 			children = (
+				9507D42D21190E0A00DB816A /* Static Connection New */,
 				950D9A361FEB4A81004F5507 /* Services */,
 				950D9A351FEB4A7E004F5507 /* APİ */,
 				950D9A341FEB4A75004F5507 /* Static Connection */,
@@ -186,6 +199,7 @@
 			children = (
 				950D9A451FEC93A4004F5507 /* Extensions.swift */,
 				950D9A431FEC8FCB004F5507 /* Player.swift */,
+				952373622117B791002A588A /* CircleViewClass.swift */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -350,10 +364,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Odi/Pods-Odi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CircleProgressView/CircleProgressView.framework",
 				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CircleProgressView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,6 +384,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				952373632117B792002A588A /* CircleViewClass.swift in Sources */,
 				2217E49D1FEB32A8004A02AF /* Photos.swift in Sources */,
 				2217E49B1FEB329C004A02AF /* photosController.swift in Sources */,
 				950D9A321FEB4A65004F5507 /* AudioPlayer.swift in Sources */,
@@ -378,6 +395,7 @@
 				2217E4831FEB26ED004A02AF /* AppDelegate.swift in Sources */,
 				953125BA203DE75E00611222 /* ViewControllerExtension.swift in Sources */,
 				950D9A411FEC8C95004F5507 /* PlayVideoController.swift in Sources */,
+				9507D42F21190E1E00DB816A /* ServiceManager.swift in Sources */,
 				950D9A3C1FEB4A90004F5507 /* GetCameraServices.swift in Sources */,
 				2217E49F1FEB512B004A02AF /* UploadImageService.swift in Sources */,
 				2205ABA51FED882D00B80C97 /* Ftp.swift in Sources */,

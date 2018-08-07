@@ -11,6 +11,10 @@ import SWXMLHash
 
 class GetCameraServices : ConnectionDelegate
 {
+    func progressHandler(value: Float) {
+        
+    }
+    
    
     
     

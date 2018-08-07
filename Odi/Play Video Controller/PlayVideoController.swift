@@ -13,6 +13,8 @@ import WebKit
 import Photos
 class PlayVideoController: UIViewController {
     
+    
+    var popUpController : SIC?
     var isImageUpload = false
     var currentTime = ""
     var thumbNailImage = UIImage()
@@ -79,18 +81,31 @@ class PlayVideoController: UIViewController {
     }
     
     @IBAction func uploadFileButtonAct(_ sender: Any) {
-        self.SHOW_SIC(type: .video)
+        self.popUpController = self.SHOW_SIC(type: .video)
         self.currentTime = Date().getCurrentHour()
         DispatchQueue.global(qos: .background).async {
             self.ftp.send(data:  self.videoData! , with: "\(self.videoId)_\(self.userId)_VID_\(Date().getTodayDateString())_\(self.currentTime).MOV", success: { error in
                 DispatchQueue.main.async {
                     if error {
-                        self.uploadDefaultImage(image: self.thumbNailImage)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // change 2 to desired number of seconds
+                            if self.popUpController != nil {
+                                self.popUpController?.label.text = "Video resmi yükleniyor."
+                                self.popUpController?.progressView.setProgress(0.0, animated: false)
+                            }
+                            self.uploadDefaultImage(image: self.thumbNailImage)
+                            print("Yolladımm")
+                        }
                     }
                     else{
                        
                     }
                     self.addVideoGalleruy(filePath: self.filePath, compressedURL: self.videoURL!)
+                }
+            }, progressHandlar: {value in
+                if self.popUpController != nil {
+                    DispatchQueue.main.async { () -> Void in
+                        self.popUpController?.setProgress(progressValue: value)
+                    }
                 }
             })
         }
@@ -177,6 +192,12 @@ class PlayVideoController: UIViewController {
                         self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz fakat videonuz galerinize kayıt edilmiştir.")
                     }
                     
+                }
+            }, progressHandlar: {value in
+                if self.popUpController != nil {
+                    DispatchQueue.main.async { () -> Void in
+                        self.popUpController?.setProgress(progressValue: value)
+                    }
                 }
             })
         }
