@@ -53,16 +53,21 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
         let url = URL(string:"http://odi.odiapp.com.tr/?kulID=\(oneSignalID)")
         let request = URLRequest(url: url!)
         webView!.load(request)
-        self.popUpController = SHOW_SIC(type: .reload)
         self.webView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil);
         self.addObserver()
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "estimatedProgress" {
-            if self.popUpController != nil  {
-                DispatchQueue.main.async { () -> Void in
-                    self.popUpController?.setProgress(progressValue: Float((self.webView?.estimatedProgress)!))
+        print(Float((self.webView?.estimatedProgress)!))
+        DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
+            if keyPath == "estimatedProgress" {
+                if self?.popUpController != nil && self?.popUpController?.type == .reload {
+                    DispatchQueue.main.async { () -> Void in
+                        self?.popUpController?.setProgress(progressValue: Float((self?.webView?.estimatedProgress)!))
+                        if Float((self?.webView?.estimatedProgress)!) == 1 {
+                            self?.HIDE_SIC(customView: (self?.view)!)
+                        }
+                    }
                 }
             }
         }
@@ -141,6 +146,7 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
     }
     override func viewWillAppear(_ animated: Bool) {
         AppUtility.lockOrientation(.portrait)
+        //self.popUpController = SHOW_SIC(type: .reload)
         switch UIDevice.current.orientation {
         case .portrait:break
                         
@@ -164,10 +170,7 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
             self.webView?.reload()
             self.webViewReloadBool = true
         }
-        else if self.childViewControllers.count == 1 {
-            HIDE_SIC(customView: self.view)
-        }
-        print(self.childViewControllers.count)
+
         
     }
     
@@ -289,6 +292,7 @@ extension WebViewController : GetCameraDelegate {
 
 extension  WebViewController: UploadImageServiceDelegte {
     func progressHandler(value: Float) {
+        print("UploadImageServiceDelegte: ",value)
         if let popup = popUpController {
             DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
                 DispatchQueue.main.async { () -> Void in

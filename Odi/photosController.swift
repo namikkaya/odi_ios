@@ -303,7 +303,7 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
             case 3:
                 self.scrollView3.configureWith(image: cell.cellImageView.image!)
                 self.dragImageViewSmall2.image = nil
-            default: self.showToast(message: "Önce kolaj seçimi yapmalısınız.")
+            default: self.showToast(message: "Çerçeveyi seç,yüklemek istediğin fotoğrafa dokun")
             }
         }
         

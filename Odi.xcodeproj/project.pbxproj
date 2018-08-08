@@ -34,6 +34,7 @@
 		950D9A461FEC93A5004F5507 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D9A451FEC93A4004F5507 /* Extensions.swift */; };
 		952373632117B792002A588A /* CircleViewClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952373622117B791002A588A /* CircleViewClass.swift */; };
 		953125BA203DE75E00611222 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953125B9203DE75E00611222 /* ViewControllerExtension.swift */; };
+		95B3738F211B4EA900FBA394 /* 3,2,1_ses.wav in Resources */ = {isa = PBXBuildFile; fileRef = 95B3738E211B4EA900FBA394 /* 3,2,1_ses.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		950D9A451FEC93A4004F5507 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		952373622117B791002A588A /* CircleViewClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleViewClass.swift; sourceTree = "<group>"; };
 		953125B9203DE75E00611222 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		95B3738E211B4EA900FBA394 /* 3,2,1_ses.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "3,2,1_ses.wav"; sourceTree = "<group>"; };
 		95E3EB77204C88390004BDA7 /* Odi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Odi.entitlements; sourceTree = "<group>"; };
 		D3014EAC0050B9CD9FE7B464 /* Pods-Odi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Odi/Pods-Odi.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				95E3EB77204C88390004BDA7 /* Odi.entitlements */,
+				95B3738D211B4E8300FBA394 /* Recourses */,
 				953125BB203DE8D200611222 /* Protocol */,
 				953125B7203DE74300611222 /* Extension */,
 				950D9A421FEC8FBA004F5507 /* Framework */,
@@ -227,6 +230,14 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		95B3738D211B4E8300FBA394 /* Recourses */ = {
+			isa = PBXGroup;
+			children = (
+				95B3738E211B4EA900FBA394 /* 3,2,1_ses.wav */,
+			);
+			path = Recourses;
+			sourceTree = "<group>";
+		};
 		D637B915AC399284017E047D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +328,7 @@
 				2217E48D1FEB26EE004A02AF /* LaunchScreen.storyboard in Resources */,
 				2217E48A1FEB26EE004A02AF /* Assets.xcassets in Resources */,
 				2217E4971FEB3266004A02AF /* CollectionViewCell.xib in Resources */,
+				95B3738F211B4EA900FBA394 /* 3,2,1_ses.wav in Resources */,
 				2217E4881FEB26ED004A02AF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

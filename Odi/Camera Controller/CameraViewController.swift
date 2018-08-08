@@ -26,18 +26,23 @@ class CameraViewController: UIViewController {
         addObserverForOdi()
         
         //Mark :- Download mp3 file
-        
-        
         if odiResponseModel.TIP != "1" {
             DispatchQueue.main.async {
-                self.SHOW_SIC(type: .reload)
+                self.popupController = self.SHOW_SIC(type: .reload)
                 self.downloadFile(Response: self.odiResponseModel.cameraList, downloadedCound: 0)
             }
         }
     }
     
     func downloadFile(Response getCameraList:[GetCameraList],downloadedCound: Int) {
-        print(downloadedCound)
+        
+        DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
+            if self?.popupController != nil {
+                DispatchQueue.main.async { () -> Void in
+                    self?.popupController?.progressView.setProgress(Double(Double(downloadedCound) / Double(getCameraList.count)), animated: true)
+                }
+            }
+        }
         if downloadedCound < getCameraList.count {
             if getCameraList[downloadedCound].type == "0"
             {
@@ -57,7 +62,9 @@ class CameraViewController: UIViewController {
         } else  {
             print(self.odiResponseModel.cameraList)
             self.clearTempFolder()
-            self.HIDE_SIC(customView: self.view)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.HIDE_SIC(customView: self.view)
+            }
         }
         
     }
@@ -102,7 +109,6 @@ class CameraViewController: UIViewController {
         super.viewWillAppear(true)
         print("viewWillAppear")
         
-        
         self.addObserver()
         
     }
@@ -134,12 +140,19 @@ class CameraViewController: UIViewController {
     
     @objc func goBack(notification: NSNotification){
         if let navigationController = self.navigationController
-        {
-            AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
-            self.clearTempFolder()
-            let _ = navigationController.popViewController(animated: true)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "transitionBackToWebview"), object: nil, userInfo: nil)
-        }
+            {
+                let popup = self.SHOW_SIC(type: .reload)
+                popup?.setProgress(progressValue: 1.0)
+                AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+                self.clearTempFolder()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                    self.HIDE_SIC(customView: (self.view)!)
+                    let _ = navigationController.popViewController(animated: true)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "transitionBackToWebview"), object: nil, userInfo: nil)
+                })
+            }
+        
+        
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -149,38 +162,15 @@ class CameraViewController: UIViewController {
     //Action Button
     @IBAction func CaptureButtonAction(_ sender: UIButton) {
         if !isRecording {
-            isRecording = true
-            // Configure output path in temporary folder
-            let outputPath = NSTemporaryDirectory() + "output.mov"
-            let outputFileURL = URL(fileURLWithPath: outputPath)
-            cameraController.videoOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
-            
-            
-            //Button configure
-            self.closeButton.isHidden = true
-            self.swapCameraButton.isHidden = true
-            captureButton.setImage(#imageLiteral(resourceName: "stop2"), for: .normal)
-            
-            startCameraTimer()
+            self.isNotFinishedCapture = false
+            self.captureButton.isUserInteractionEnabled = false
+            audioPlayer.startCaputeredMusic(recourceName: "3,2,1_ses", delegateVC: self)
+            audioPlayer.playPlayerForAction(viewController: self)
             
             
         } else {
-            kareokeLabel.setContentOffset(.zero, animated: false)
-            isRecording = false
-            cameraController.videoOutput?.stopRecording()
-            self.skipButton.isHidden = true
-            self.skipButton2.isHidden = true
-            self.stopTimer()
-            self.cameraTimerCount = 0
-            self.closeButton.isHidden = false
-            self.swapCameraButton.isHidden = false
-            self.audioPlayer.pausePlayer()
-            self.audioPlayer.audioPlayerNil()
-            self.progressView.progress = 0
-            self.lines.removeAll()
-            lineDuration = 0
-            lineCharacterDuration = 0
-            captureButton.setImage(#imageLiteral(resourceName: "rec"), for: .normal)
+            self.isNotFinishedCapture = true
+            stopCaptureVideo()
         }
     }
     
@@ -210,11 +200,17 @@ class CameraViewController: UIViewController {
     
     @IBAction func backToControllerAct(_ sender: Any) {
         if let navigationController = self.navigationController
-        {
-            AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
-            self.clearTempFolder()
-            let _ = navigationController.popViewController(animated: true)
-        }
+            {
+                let popup = self.SHOW_SIC(type: .reload)
+                popup?.setProgress(progressValue: 1.0)
+                AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+                self.clearTempFolder()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                    self.HIDE_SIC(customView: (self.view)!)
+                    let _ = navigationController.popViewController(animated: true)
+                })
+            }
+        
     }
     
     @IBAction func skipButtonAction(_ sender: Any) {
@@ -232,6 +228,7 @@ class CameraViewController: UIViewController {
     
     
     //Storyboard Veriable
+    @IBOutlet weak var actionLabel: UILabel!
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var skipButton2: UIButton!
     
@@ -251,11 +248,13 @@ class CameraViewController: UIViewController {
     //Support Classes
     let cameraController = CameraController()
     var audioPlayer = AudioPlayer()
+    var popupController : SIC?
     
     //Supporter Veriable
     var isRecording = false
     var isFrontCamera = true
     var isTextClosed = false
+    var isNotFinishedCapture = false
     //For timer
     var duration = 0
     var lineDuration = 0
@@ -406,7 +405,9 @@ extension CameraViewController {
             self.skipButton.isHidden = true
             self.skipButton2.isHidden = true
             if odiResponseModel.cameraList.count > cameraTimerCount {
-                 NotificationCenter.default.post(name: NSNotification.Name.typeTwoOdi, object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: NSNotification.Name.typeTwoOdi, object: nil, userInfo: nil)
+            } else {
+                stopCaptureVideo()
             }
         }
     }
@@ -456,6 +457,7 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
                 self.uploadData["videoURL"] = compressedURL as AnyObject
                 self.uploadData["userId"] = self.odileData.userId  as AnyObject
                 self.uploadData["videoId"] = self.odileData.videoId as AnyObject
+                self.uploadData["isNotFinishedCapture"] = self.isNotFinishedCapture as AnyObject
                 self.goto(screenID: "PlayVideoControllerID", animated: true, data: self.uploadData as AnyObject, isModal: true)
                 print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
             case .failed:
@@ -711,12 +713,70 @@ extension CameraViewController {
     
 }
 
-//Mark :- For Exporter
-extension CameraController {
-    
+//Mark :- For Capture button action
+extension CameraViewController {
+    func startCaptureVideo(){
+        isRecording = true
+        // Configure output path in temporary folder
+        let outputPath = NSTemporaryDirectory() + "output.mov"
+        let outputFileURL = URL(fileURLWithPath: outputPath)
+        cameraController.videoOutput?.startRecording(to: outputFileURL, recordingDelegate: self)
+        //Button configure
+        self.closeButton.isHidden = true
+        self.swapCameraButton.isHidden = true
+        captureButton.setImage(#imageLiteral(resourceName: "stop2"), for: .normal)
+        startCameraTimer()
+    }
+    func stopCaptureVideo(){
+        kareokeLabel.setContentOffset(.zero, animated: false)
+        isRecording = false
+        cameraController.videoOutput?.stopRecording()
+        self.skipButton.isHidden = true
+        self.skipButton2.isHidden = true
+        self.stopTimer()
+        self.cameraTimerCount = 0
+        self.closeButton.isHidden = false
+        self.swapCameraButton.isHidden = false
+        self.audioPlayer.pausePlayer()
+        self.audioPlayer.audioPlayerNil()
+        self.progressView.progress = 0
+        self.lines.removeAll()
+        lineDuration = 0
+        lineCharacterDuration = 0
+        captureButton.setImage(#imageLiteral(resourceName: "rec"), for: .normal)
+    }
 }
 
-
+extension CameraViewController : AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        self.audioPlayer.player?.delegate = nil
+        self.audioPlayer.audioPlayerNil()
+        if self.audioPlayer.timer.isValid {
+            self.audioPlayer.timer.invalidate()
+        }
+        self.actionLabel.isHidden = true
+        self.captureButton.isUserInteractionEnabled = true
+        self.startCaptureVideo()
+    }
+    
+    @objc func updateTimerForPlayerCurrentTime() {
+        let timePlayed = audioPlayer.player?.currentTime
+        let seconds = Int(Float(timePlayed!).truncatingRemainder(dividingBy: 60))
+        switch seconds {
+        case 0:
+            self.actionLabel.isHidden = false
+            self.actionLabel.text = "3"
+        case 1:
+            self.actionLabel.text = "2"
+        case 2:
+            self.actionLabel.text = "1"
+        default:break
+        }
+        
+        print(seconds)
+        
+    }
+}
 
 extension NSNotification.Name {
     static let typeTwoOdi = NSNotification.Name("TypeTwoOdi")

@@ -226,7 +226,7 @@
         <!--Camera View Controller-->
         <scene sceneID="397-bT-BJK">
             <objects>
-                <viewController id="fMY-QS-n5E" customClass="CameraViewController" customModule="Odi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CameraViewControllerID" id="fMY-QS-n5E" customClass="CameraViewController" customModule="Odi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fR8-yX-j6s">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -245,6 +245,12 @@
                                     <action selector="CaptureButtonAction:" destination="fMY-QS-n5E" eventType="touchUpInside" id="2vR-23-XAo"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3mR-tU-Vwf">
+                                <rect key="frame" x="148" y="244" width="80.5" height="200"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="120"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dmx-3T-Tz3">
                                 <rect key="frame" x="0.0" y="566" width="375" height="101"/>
                                 <subviews>
@@ -340,6 +346,8 @@
                         <constraints>
                             <constraint firstItem="dmx-3T-Tz3" firstAttribute="bottom" secondItem="qj2-Pj-2qu" secondAttribute="bottom" id="9Wi-Sq-3qV"/>
                             <constraint firstItem="2UD-26-bEP" firstAttribute="leading" secondItem="qj2-Pj-2qu" secondAttribute="leading" id="L3d-gZ-ZWz"/>
+                            <constraint firstItem="3mR-tU-Vwf" firstAttribute="height" secondItem="fR8-yX-j6s" secondAttribute="height" multiplier="0.3" id="L73-PM-UKa"/>
+                            <constraint firstItem="3mR-tU-Vwf" firstAttribute="centerY" secondItem="qj2-Pj-2qu" secondAttribute="centerY" id="Ltq-we-r9L"/>
                             <constraint firstItem="2UD-26-bEP" firstAttribute="trailing" secondItem="qj2-Pj-2qu" secondAttribute="trailing" id="QVW-Dh-RYt"/>
                             <constraint firstItem="2UD-26-bEP" firstAttribute="bottom" secondItem="qj2-Pj-2qu" secondAttribute="bottom" id="RBR-ko-Hqc"/>
                             <constraint firstItem="dmx-3T-Tz3" firstAttribute="leading" secondItem="qj2-Pj-2qu" secondAttribute="leading" id="RNs-8v-cT1"/>
@@ -347,6 +355,7 @@
                             <constraint firstItem="qj2-Pj-2qu" firstAttribute="trailing" secondItem="dmx-3T-Tz3" secondAttribute="trailing" id="Ti2-Lh-aNa"/>
                             <constraint firstItem="2UD-26-bEP" firstAttribute="top" secondItem="fR8-yX-j6s" secondAttribute="top" id="b9Q-eP-Hid"/>
                             <constraint firstItem="qj2-Pj-2qu" firstAttribute="trailing" secondItem="StT-6E-DYg" secondAttribute="trailing" constant="15" id="fOE-DK-jiC"/>
+                            <constraint firstItem="3mR-tU-Vwf" firstAttribute="centerX" secondItem="qj2-Pj-2qu" secondAttribute="centerX" id="swj-Am-hwH"/>
                             <constraint firstItem="StT-6E-DYg" firstAttribute="height" secondItem="2UD-26-bEP" secondAttribute="height" multiplier="0.18" id="weg-2n-md4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qj2-Pj-2qu"/>
@@ -354,6 +363,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="actionLabel" destination="3mR-tU-Vwf" id="aLn-av-SEr"/>
                         <outlet property="cameraView" destination="2UD-26-bEP" id="cr5-EL-s9P"/>
                         <outlet property="captureButton" destination="StT-6E-DYg" id="aO2-HP-RKb"/>
                         <outlet property="closeButton" destination="HP5-5d-keC" id="iXw-fy-0Le"/>
@@ -442,6 +452,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="uploadVideoButton" destination="cac-8a-nKI" id="udg-in-uCx"/>
                         <outlet property="videoView" destination="Tpp-Ag-T0j" id="mxb-Bx-wsZ"/>
                     </connections>
                 </viewController>

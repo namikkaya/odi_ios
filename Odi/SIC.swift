@@ -19,14 +19,12 @@ class SIC: UIViewController {
 
 
     func setProgress(progressValue: Float?) {
-        print(Double(progressValue!))
         progressView.setProgress(Double(progressValue!), animated: true)
-        
     }
     
     
     
-    
+    var type = SICType.reload
     @IBOutlet weak var progressView: CircleProgressView!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var radiusView: UIView!
@@ -37,7 +35,7 @@ extension UIViewController {
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SICID") as! SIC
         popOverVC.view.tag = 101
         popOverVC.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        
+        popOverVC.type = type
         switch type {
         case .image:
             popOverVC.label.text = "Kolaj yükleniyor lütfen bekleyiniz..."

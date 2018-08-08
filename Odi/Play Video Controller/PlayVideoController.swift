@@ -14,6 +14,7 @@ import Photos
 class PlayVideoController: UIViewController {
     
     
+    @IBOutlet weak var uploadVideoButton: UIButton!
     var popUpController : SIC?
     var isImageUpload = false
     var currentTime = ""
@@ -38,6 +39,14 @@ class PlayVideoController: UIViewController {
             }
             if let videoId = uploadData["videoId"] as? String {
                 self.videoId = videoId
+            }
+            if let isNotFinishedVideo = uploadData["isNotFinishedCapture"] as? Bool {
+                if isNotFinishedVideo {
+                    self.uploadVideoButton.isHidden = true
+                    self.showAlertForNotFinishedCapture(message: "Odinizi tamamen bitirmediğiniz için video'yu upload edemessiniz...(Gereken text'i söylerseniz değiştirim)")
+                } else {
+                    self.uploadVideoButton.isHidden = false
+                }
             }
             if let videoPath = uploadData["videoURL"] as? URL {
                 self.videoURL = videoPath
@@ -128,6 +137,20 @@ class PlayVideoController: UIViewController {
             else {
                 self.navigationController?.popToRootViewController(animated: true)
             }
+        }
+        // Add the actions
+        alertController.addAction(okAction)
+        // Present the controller
+        self.present(alertController, animated: true, completion: nil)
+    }
+    func showAlertForNotFinishedCapture(message: String) {
+        self.HIDE_SIC(customView: self.view)
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        
+        // Create the actions
+        let okAction = UIAlertAction(title: "Tamam",style: UIAlertActionStyle.default) {
+            UIAlertAction in
+           
         }
         // Add the actions
         alertController.addAction(okAction)
