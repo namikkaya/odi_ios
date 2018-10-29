@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSSubscriptionObserver {
 
     var window: UIWindow?
     var orientationLock = UIInterfaceOrientationMask.portrait
+    var firstLogin = true
    
     
     

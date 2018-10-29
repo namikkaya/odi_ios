@@ -10,7 +10,7 @@ import UIKit
 import CircleProgressView
 
 
-class SIC: UIViewController {
+class SIC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,20 +38,20 @@ extension UIViewController {
         popOverVC.type = type
         switch type {
         case .image:
-            popOverVC.label.text = "Kolaj yükleniyor lütfen bekleyiniz..."
+            popOverVC.label.text = "Kolaj yükleniyor lütfen bekleyiniz"
         case .profileImage:
-            popOverVC.label.text = "Profil resminiz yükleniyor lütfen bekleyiniz..."
+            popOverVC.label.text = "Profil fotoğrafınız yükleniyor"
         case .video:
-            popOverVC.label.text = "Video yükleniyor lütfen bekleyiniz..."
+            popOverVC.label.text = "Video yükleniyor lütfen bekleyiniz"
         case .compressVideo:
-            popOverVC.label.text = "Video sıkıştırılıyor."
+            popOverVC.label.text = "Video sıkıştırılıyor"
 
         case .reload:
             popOverVC.label.text = ""
             popOverVC.view.backgroundColor = UIColor.white
         }
         self.addChildViewController(popOverVC)
-        popOverVC.view.frame = self.view.frame
+        popOverVC.view.frame = UIScreen.main.bounds
         self.view.addSubview(popOverVC.view)
         popOverVC.didMove(toParentViewController: self)
         

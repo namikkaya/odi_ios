@@ -53,4 +53,29 @@ class PhotoLibrary {
         }
         return resultArray
     }
+    
+    func getPhotosPagesToPages(nowIndex: Int)  -> [UIImage] {
+        var resultArray = [UIImage]()
+        DispatchQueue.global(qos: .background).async {
+            
+            for index in nowIndex..<nowIndex + 20 {
+                if index < self.fetchResult.count {
+                    self.imgManager.requestImage(for: self.fetchResult.object(at: index) as PHAsset, targetSize: UIScreen.main.bounds.size, contentMode: PHImageContentMode.aspectFill, options: self.requestOptions) { (image, _) in
+                        
+                        if let image = image {
+                            resultArray.append(image)
+                        }
+                    }
+                } else {
+                    break
+                }
+                
+            }
+
+        }
+        
+        
+        
+        return resultArray
+    }
 }

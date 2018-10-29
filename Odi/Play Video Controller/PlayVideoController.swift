@@ -11,7 +11,7 @@ import AVFoundation
 import MediaPlayer
 import WebKit
 import Photos
-class PlayVideoController: UIViewController {
+class PlayVideoController: BaseViewController {
     
     
     @IBOutlet weak var uploadVideoButton: UIButton!
@@ -41,12 +41,12 @@ class PlayVideoController: UIViewController {
                 self.videoId = videoId
             }
             if let isNotFinishedVideo = uploadData["isNotFinishedCapture"] as? Bool {
-                if isNotFinishedVideo {
-                    self.uploadVideoButton.isHidden = true
-                    self.showAlertForNotFinishedCapture(message: "Odinizi tamamen bitirmediğiniz için video'yu upload edemessiniz...(Gereken text'i söylerseniz değiştirim)")
-                } else {
-                    self.uploadVideoButton.isHidden = false
-                }
+//                if isNotFinishedVideo {
+//                    self.uploadVideoButton.isHidden = true
+//                    self.showAlertForNotFinishedCapture(message: "Odinizi tamamen bitirmediğiniz için video'yu upload edemessiniz...(Gereken text'i söylerseniz değiştirim)")
+//                } else {
+//                    self.uploadVideoButton.isHidden = false
+//                }
             }
             if let videoPath = uploadData["videoURL"] as? URL {
                 self.videoURL = videoPath
@@ -98,7 +98,7 @@ class PlayVideoController: UIViewController {
                     if error {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // change 2 to desired number of seconds
                             if self.popUpController != nil {
-                                self.popUpController?.label.text = "Video resmi yükleniyor."
+                                self.popUpController?.label.text = "Tamamlanıyor."
                                 self.popUpController?.progressView.setProgress(0.0, animated: false)
                             }
                             self.uploadDefaultImage(image: self.thumbNailImage)
@@ -108,7 +108,7 @@ class PlayVideoController: UIViewController {
                     else{
                        
                     }
-                    self.addVideoGalleruy(filePath: self.filePath, compressedURL: self.videoURL!)
+                    //self.addVideoGalleruy(filePath: self.filePath, compressedURL: self.videoURL!)
                 }
             }, progressHandlar: {value in
                 if self.popUpController != nil {
@@ -212,7 +212,7 @@ class PlayVideoController: UIViewController {
                         
                     }
                     else{
-                        self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz fakat videonuz galerinize kayıt edilmiştir.")
+                        self.showAlert(message: "İşleminizi şuanda gerçekleştiremiyoruz.")
                     }
                     
                 }

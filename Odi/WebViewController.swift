@@ -10,14 +10,42 @@ import UIKit
 import WebKit
 import AVFoundation
 import Photos
+import AVKit
 
-class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate,WKUIDelegate{
+class WebViewController: BaseViewController, WKScriptMessageHandler, WKNavigationDelegate,WKUIDelegate{
     
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let viewAnimateHiddenOrigin : CGPoint = {
+        let y : CGFloat =  -UIScreen.main.bounds.height
+        let x : CGFloat = 0
+        let coordinate = CGPoint.init(x: x, y: y)
+        return coordinate
+    }()
+    let fullScreenOrigin : CGPoint = CGPoint.init(x: 0, y: 0)
+    @IBOutlet var LaunchView: UIView!
     
+    func initialLaunchViewConfigure(){
+        //Origin configure
+        self.LaunchView.alpha = 1.0
+        self.LaunchView.frame = UIScreen.main.bounds
+        self.LaunchView.frame.origin = fullScreenOrigin
+        //Added View's in VC View
+        self.view.addSubview(LaunchView)
+    }
+    
+    func hideLaunchScreenWithAnimate(){
+        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [.beginFromCurrentState], animations: {
+            self.LaunchView.alpha = 0.4
+            self.LaunchView.frame.origin = self.viewAnimateHiddenOrigin
+        })
+    }
+    
+    
+    //MArk ----
     var popUpController : SIC?
-    var webView: WKWebView?
-    var webViewForSuccess: WKWebView?
+    var webView: FullScreenWKWebView?
+    var webViewForSuccess: FullScreenWKWebView?
     var odiDataService = GetCameraServices()
     var odileData = (userId: "", videoId: "")
     var pickerController = UIImagePickerController()
@@ -31,30 +59,40 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
     var thumbNailImage = UIImage()
      var ftp = FTPUpload(baseUrl: "odi.odiapp.com.tr", userName: "odiFtp@odiapp.com.tr", password: "Root123*" , directoryPath: "/img/")
     
+    @IBOutlet weak var webViewContainer: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //MArk ------
         let o = WKUserContentController()
         o.add(self, name: "foo")
         let config = WKWebViewConfiguration()
         config.userContentController = o
-        self.webView = WKWebView(frame: self.view.bounds, configuration: config)
-        self.webView?.scrollView.backgroundColor = UIColor(red: 255.0 / 255.0, green: 133.0 / 255.0, blue: 0.0, alpha: 1.0)
+        self.webView = FullScreenWKWebView(frame: self.webViewContainer.bounds, configuration: config)
         self.view.addSubview(self.webView!)
-        webView?.translatesAutoresizingMaskIntoConstraints = false
-        webView = WKWebView(frame:.zero , configuration: config)
-        view.addSubview(webView!)
+        webViewContainer.addSubview(webView!)
         webView?.uiDelegate = self
-        //view = webView
-        webView!.translatesAutoresizingMaskIntoConstraints = false
         self.webView?.navigationDelegate = self
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":webView!]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0":webView!]))
+        self.addConstraints(to: webView!, with: self.webViewContainer)
         let url = URL(string:"http://odi.odiapp.com.tr/?kulID=\(oneSignalID)")
         let request = URLRequest(url: url!)
         webView!.load(request)
         self.webView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil);
         self.addObserver()
+        
+        if appDelegate.firstLogin {
+            self.initialLaunchViewConfigure()
+        }
+        
+    }
+    
+    func addConstraints(to webView: UIView, with superView: UIView) {
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        let leadingConstraint = NSLayoutConstraint(item: webView, attribute: .leading, relatedBy: .equal, toItem: superView, attribute: .leading, multiplier: 1, constant: 0)
+        let trailingConstraint = NSLayoutConstraint(item: webView, attribute: .trailing, relatedBy: .equal, toItem: superView, attribute: .trailing, multiplier: 1, constant: 0)
+        let topConstraint = NSLayoutConstraint(item: webView, attribute: .top, relatedBy: .equal, toItem: superView, attribute: .top, multiplier: 1, constant: 0.0)
+        let bottomConstraint = NSLayoutConstraint(item: webView, attribute: .bottom, relatedBy: .equal, toItem: superView, attribute: .bottom, multiplier: 1, constant: 0)
+        superView.addConstraints([leadingConstraint, trailingConstraint, topConstraint, bottomConstraint])
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -96,6 +134,9 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
                     self.requestAlertViewForVideo(pickerController: pickerController, vc: self)
                 case 6:
                     self.requestAlertViewForVideo(pickerController: pickerController, vc: self)
+                case 7:
+                    print("UserID:",self.odileData.userId)
+                    playTrailer(videoPath: self.odileData.userId)
                 default:break;
                 }
             }
@@ -133,20 +174,29 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
             let stringArray = src.components(separatedBy: "=")
             self.odileData.userId = stringArray[1] //userID is link
             return 4
-        } else if src.range(of: "showreel") != nil {
+        } else if src.range(of: "ek=showreel") != nil {
             let stringArray = src.components(separatedBy: "=")
             self.odileData.userId = stringArray[1] //userID is link
             return 5
-        } else if src.range(of: "tanitim") != nil {
+        } else if src.range(of: "ek=tanitim") != nil {
             let stringArray = src.components(separatedBy: "=")
             self.odileData.userId = stringArray[1] //userID is link
             return 6
+        } else if src.range(of: "videoPlayer=") != nil {
+            let stringArray = src.components(separatedBy: "=")
+            self.odileData.userId = stringArray[1] //userID is link
+            return 7
         }
         return 0
     }
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         AppUtility.lockOrientation(.portrait)
-        //self.popUpController = SHOW_SIC(type: .reload)
+        UIApplication.shared.statusBarStyle = .lightContent
         switch UIDevice.current.orientation {
         case .portrait:break
                         
@@ -170,7 +220,13 @@ class WebViewController: UIViewController, WKScriptMessageHandler, WKNavigationD
             self.webView?.reload()
             self.webViewReloadBool = true
         }
-
+        
+        if appDelegate.firstLogin {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.hideLaunchScreenWithAnimate()
+                self.appDelegate.firstLogin = false
+            }
+        }
         
     }
     
@@ -393,7 +449,7 @@ extension WebViewController {
             print(id)
             let url = URL(string: "http://odi.odiapp.com.tr/?yeni_islem=showreel&id=\(id[1])")!
             let request = URLRequest(url: url)
-            self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+            self.webViewForSuccess = FullScreenWKWebView(frame: CGRect.zero)
             self.webViewForSuccess?.isHidden = true
             self.webViewForSuccess?.tag = 5
             self.view.addSubview(self.webViewForSuccess!)
@@ -406,7 +462,7 @@ extension WebViewController {
             print(id)
             let url = URL(string: "http://odi.odiapp.com.tr/?yeni_islem=tanitim&id=\(id[1])")!
             let request = URLRequest(url: url)
-            self.webViewForSuccess = WKWebView(frame: CGRect.zero)
+            self.webViewForSuccess = FullScreenWKWebView(frame: CGRect.zero)
             self.webViewForSuccess?.isHidden = true
             self.webViewForSuccess?.tag = 5
             self.view.addSubview(self.webViewForSuccess!)
@@ -417,10 +473,30 @@ extension WebViewController {
 
     }
 
+    func playTrailer(videoPath : String){
+        guard let url = URL(string: videoPath) else {
+            return
+        }
+        // Create an AVPlayer, passing it the HTTP Live Streaming URL.
+        let player = AVPlayer(url: url)
+        
+        // Create a new AVPlayerViewController and pass it a reference to the player.
+        let controller = AVPlayerViewController()
+        controller.player = player
+        
+        // Modally present the player and call the player's play() method when complete.
+        present(controller, animated: true) {
+            player.play()
+        }
+    }
     
     
 }
 
-
+class FullScreenWKWebView: WKWebView {
+    override var safeAreaInsets: UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+}
 
 

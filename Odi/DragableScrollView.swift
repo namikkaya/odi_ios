@@ -99,14 +99,11 @@ extension DragableScrollView: UIScrollViewDelegate {
 }
 extension UIView {
     var screenShot: UIImage?  {
-        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 1.0);
-        if let _ = UIGraphicsGetCurrentContext() {
-            drawHierarchy(in: bounds, afterScreenUpdates: true)
-            let screenshot = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return screenshot
+        let renderer = UIGraphicsImageRenderer(size: bounds.size)
+        let image = renderer.image { ctx in
+            self.drawHierarchy(in: bounds, afterScreenUpdates: true)
         }
-        return nil
+        return image
     }
 }
 
@@ -137,7 +134,7 @@ extension DragableScrollView {
         return CGPoint(x: contentSize.width / 2, y: contentSize.height / 2)
     }
     
-    private var visibleSize: CGSize {
+    override internal var visibleSize: CGSize {
         let size: CGSize = bounds.standardized.size
         return CGSize(
             width:  size.width - contentInset.left - contentInset.right,

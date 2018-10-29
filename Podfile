@@ -8,6 +8,7 @@ target 'Odi' do
   # Pods for Odi
   pod 'SWXMLHash', '~> 4.0.0'
   pod 'OneSignal', '>= 2.5.2', '< 3.0'
-	pod 'CircleProgressView'
+  pod 'CircleProgressView'
+  pod 'ReachabilitySwift'
 
 end

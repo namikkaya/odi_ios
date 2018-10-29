@@ -49,7 +49,6 @@ extension CameraController {
 
         }
         
-        
         // Get the input data source
         guard let captureDeviceInput = try? AVCaptureDeviceInput(device: currentDevice!) else { return }
         guard let captureAudioDeviceInput = try? AVCaptureDeviceInput(device: audioDevice!) else { return }

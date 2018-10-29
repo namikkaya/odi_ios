@@ -15,14 +15,14 @@ import CoreGraphics
 import CoreText
 
 
-class CameraViewController: UIViewController {
+class CameraViewController: BaseViewController {
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        AppUtility.lockOrientation(.landscapeRight)
+        AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
         addObserverForOdi()
         
         //Mark :- Download mp3 file
@@ -530,7 +530,7 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
         
         
         //let urlAsset = AVURLAsset(url: inputURL, options: nil)
-        guard let exportSession = AVAssetExportSession(asset: videoAsset, presetName: AVAssetExportPresetMediumQuality) else {
+        guard let exportSession = AVAssetExportSession(asset: videoAsset, presetName: AVAssetExportPreset960x540) else {
             handler(nil)
             return
         }
@@ -546,7 +546,7 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate {
         
         
         let popup = self.SHOW_SIC(type: .compressVideo)
-        DispatchQueue.global(qos: .background).async { [weak self] () -> Void in
+        DispatchQueue.global(qos: .background).async { () -> Void in
             while exportSession.status == .waiting || exportSession.status == .exporting {
                 DispatchQueue.main.async { () -> Void in
                     popup?.setProgress(progressValue: exportSession.progress)

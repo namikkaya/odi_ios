@@ -23,7 +23,6 @@ public class FTPUpload {
     }
 }
 
-
 // MARK: - Steam Setup
 extension FTPUpload {
     private func setFtpUserName(for ftpWriteStream: CFWriteStream, userName: CFString) {
