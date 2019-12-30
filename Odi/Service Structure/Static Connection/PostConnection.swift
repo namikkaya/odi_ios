@@ -66,7 +66,7 @@ class PostConnection : NSObject
         r.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         r.httpBody = createBody(parameters: ["":""],
                                 boundary: boundary,
-                                data:  UIImageJPEGRepresentation(image, 1.0)!,
+                                data:  image.jpegData(compressionQuality: 1.0)!,
                                 mimeType: "image/jpg",
                                 filename: fileName)
         
@@ -141,9 +141,7 @@ extension PostConnection: URLSessionDataDelegate {
             } else {
                 print("")
             }
-            if let da = data as? String {
-                print(da)
-            }
+        
             if  self.delegate != nil {
                 DispatchQueue.main.async {
                     self.delegate?.getStrin(string: string)

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KayaCameraView" customModule="Odi" customModuleProvider="target">
+            <connections>
+                <outlet property="bottomViewContentContainer" destination="yfn-Wq-pFc" id="3e8-5S-HF4"/>
+                <outlet property="changeButton" destination="lGs-kz-drf" id="HVd-dn-Iuy"/>
+                <outlet property="closeButton" destination="Fgk-q6-OqI" id="akR-YQ-Htu"/>
+                <outlet property="contentContainer" destination="hXP-s7-cxS" id="SEx-ZU-But"/>
+                <outlet property="countDown" destination="4zt-An-nXe" id="zFh-wP-ObW"/>
+                <outlet property="galleryButton" destination="foQ-Cl-au1" id="jmX-0b-gNb"/>
+                <outlet property="horizontalSubtitleContainer" destination="huP-nY-0h0" id="MJH-lz-8Od"/>
+                <outlet property="nextButton" destination="GFr-l5-uxn" id="Zp8-zD-9CZ"/>
+                <outlet property="previewView" destination="Pga-LJ-IGk" id="gdv-xb-k6v"/>
+                <outlet property="recordButton" destination="R5E-k4-7ej" id="e30-7H-INM"/>
+                <outlet property="settingButton" destination="Mw7-qC-vYf" id="sKL-vD-paM"/>
+                <outlet property="settingView" destination="UTW-AK-0sJ" id="Jep-wh-HVI"/>
+                <outlet property="soundButton" destination="zA2-l5-2EJ" id="p2G-ri-UU2"/>
+                <outlet property="textButton" destination="IK1-OG-qnd" id="d7P-Vj-61N"/>
+                <outlet property="timeSlider" destination="Oc3-7t-hXN" id="TwQ-qH-qBc"/>
+                <outlet property="verticalSubtitleContainer" destination="1F5-Uw-aDH" id="MaX-L9-AdN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pga-LJ-IGk">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4zt-An-nXe" customClass="KayaCountDown" customModule="Odi" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXP-s7-cxS">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfn-Wq-pFc">
+                            <rect key="frame" x="0.0" y="791" width="414" height="105"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="huP-nY-0h0" customClass="KayaKaraokeViewManager" customModule="Odi" customModuleProvider="target">
+                                    <rect key="frame" x="54" y="8" width="312" height="89"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="odi-logo-b" translatesAutoresizingMaskIntoConstraints="NO" id="foQ-Cl-au1">
+                                    <rect key="frame" x="230" y="28.5" width="48" height="48"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="48" id="6L1-13-JrB"/>
+                                        <constraint firstAttribute="width" constant="48" id="Eh2-mM-BUm"/>
+                                    </constraints>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lGs-kz-drf">
+                                    <rect key="frame" x="310" y="36.5" width="32" height="32"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="32" id="2bV-P3-dR2"/>
+                                        <constraint firstAttribute="height" constant="32" id="pdF-hi-tZy"/>
+                                    </constraints>
+                                    <color key="tintColor" red="0.92855726520000004" green="0.92855726520000004" blue="0.92855726520000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <state key="normal" image="changeCamera">
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="28"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="changeCamera:" destination="-1" eventType="touchUpInside" id="0t4-Nn-8G8"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mw7-qC-vYf">
+                                    <rect key="frame" x="374" y="36.5" width="32" height="32"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="32" id="Ojr-og-jRJ"/>
+                                        <constraint firstAttribute="height" constant="32" id="kn6-hU-odd"/>
+                                    </constraints>
+                                    <color key="tintColor" red="0.92855726520000004" green="0.92855726520000004" blue="0.92855726520000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <state key="normal" image="magicWand">
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="28"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="settingButtonEvent:" destination="-1" eventType="touchUpInside" id="NdG-wJ-Qmo"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IK1-OG-qnd" customClass="KayaTextButton" customModule="Odi" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="20.5" width="64" height="64"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="64" id="CDD-A2-EfY"/>
+                                        <constraint firstAttribute="height" constant="64" id="pxZ-Sp-QdK"/>
+                                    </constraints>
+                                    <state key="normal" image="texton"/>
+                                    <connections>
+                                        <action selector="textButtonEvent:" destination="-1" eventType="touchUpInside" id="5n5-3S-XlZ"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zA2-l5-2EJ" customClass="KayaSoundButton" customModule="Odi" customModuleProvider="target">
+                                    <rect key="frame" x="64" y="20.5" width="64" height="64"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="64" id="07r-sq-qye"/>
+                                        <constraint firstAttribute="height" constant="64" id="aRp-6Y-gZj"/>
+                                    </constraints>
+                                    <state key="normal" image="unmute"/>
+                                    <connections>
+                                        <action selector="soundButtonEvent:" destination="-1" eventType="touchUpInside" id="6ZZ-bG-ld5"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFr-l5-uxn">
+                                    <rect key="frame" x="342" y="20.5" width="64" height="64"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="64" id="DPX-bK-CYe"/>
+                                        <constraint firstAttribute="width" constant="64" id="pIq-22-dOZ"/>
+                                    </constraints>
+                                    <state key="normal" image="next"/>
+                                    <connections>
+                                        <action selector="nextButtonEvent:" destination="-1" eventType="touchUpInside" id="Gfn-E2-MIR"/>
+                                    </connections>
+                                </button>
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Oc3-7t-hXN" customClass="KayaSlider" customModule="Odi" customModuleProvider="target">
+                                    <rect key="frame" x="-2" y="0.0" width="418" height="31"/>
+                                    <color key="minimumTrackTintColor" red="0.96522049489999995" green="0.96522049489999995" blue="0.96522049489999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="maximumTrackTintColor" red="0.21797668147208127" green="0.21797668147208127" blue="0.21797668147208127" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="trackHeight">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </slider>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="zA2-l5-2EJ" firstAttribute="leading" secondItem="IK1-OG-qnd" secondAttribute="trailing" id="1ci-T1-rLb"/>
+                                <constraint firstAttribute="height" constant="105" id="957-gC-oMX"/>
+                                <constraint firstAttribute="trailing" secondItem="GFr-l5-uxn" secondAttribute="trailing" constant="8" id="Dir-00-2yI"/>
+                                <constraint firstItem="huP-nY-0h0" firstAttribute="leading" secondItem="yfn-Wq-pFc" secondAttribute="leading" constant="54" id="ElR-8C-SRj"/>
+                                <constraint firstAttribute="trailing" secondItem="Mw7-qC-vYf" secondAttribute="trailing" constant="8" id="I88-Rc-IOe"/>
+                                <constraint firstItem="huP-nY-0h0" firstAttribute="top" secondItem="yfn-Wq-pFc" secondAttribute="top" constant="8" id="IPv-j8-OLE"/>
+                                <constraint firstItem="Mw7-qC-vYf" firstAttribute="centerY" secondItem="yfn-Wq-pFc" secondAttribute="centerY" id="QZB-64-NX0"/>
+                                <constraint firstItem="lGs-kz-drf" firstAttribute="centerY" secondItem="yfn-Wq-pFc" secondAttribute="centerY" id="ZpG-Xv-uSU"/>
+                                <constraint firstItem="zA2-l5-2EJ" firstAttribute="centerY" secondItem="yfn-Wq-pFc" secondAttribute="centerY" id="ZuM-9Z-gEP"/>
+                                <constraint firstItem="IK1-OG-qnd" firstAttribute="leading" secondItem="yfn-Wq-pFc" secondAttribute="leading" id="a7c-zZ-dcJ"/>
+                                <constraint firstItem="lGs-kz-drf" firstAttribute="leading" secondItem="foQ-Cl-au1" secondAttribute="trailing" constant="32" id="hwt-k1-kIF"/>
+                                <constraint firstItem="Oc3-7t-hXN" firstAttribute="top" secondItem="yfn-Wq-pFc" secondAttribute="top" id="kEQ-81-evc"/>
+                                <constraint firstAttribute="trailing" secondItem="Oc3-7t-hXN" secondAttribute="trailing" id="mNI-z3-qPt"/>
+                                <constraint firstItem="GFr-l5-uxn" firstAttribute="centerY" secondItem="yfn-Wq-pFc" secondAttribute="centerY" id="ma6-Ou-IJc"/>
+                                <constraint firstAttribute="bottom" secondItem="huP-nY-0h0" secondAttribute="bottom" constant="8" id="nQ4-c3-fV5"/>
+                                <constraint firstItem="Mw7-qC-vYf" firstAttribute="leading" secondItem="huP-nY-0h0" secondAttribute="trailing" constant="8" id="p2d-D3-iBy"/>
+                                <constraint firstItem="foQ-Cl-au1" firstAttribute="centerY" secondItem="yfn-Wq-pFc" secondAttribute="centerY" id="p3b-lH-kJC"/>
+                                <constraint firstItem="IK1-OG-qnd" firstAttribute="centerY" secondItem="yfn-Wq-pFc" secondAttribute="centerY" id="v9H-Lj-vAm"/>
+                                <constraint firstItem="Mw7-qC-vYf" firstAttribute="leading" secondItem="lGs-kz-drf" secondAttribute="trailing" constant="32" id="xBE-Cc-F0Z"/>
+                                <constraint firstItem="Oc3-7t-hXN" firstAttribute="leading" secondItem="yfn-Wq-pFc" secondAttribute="leading" id="xlH-du-ky5"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1F5-Uw-aDH" customClass="KayaKaraokeViewManager" customModule="Odi" customModuleProvider="target">
+                            <rect key="frame" x="20" y="74" width="374" height="192"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="192" id="aCI-dg-PNz"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UTW-AK-0sJ" customClass="KayaCameraSettingView" customModule="Odi" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="791"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fgk-q6-OqI">
+                            <rect key="frame" x="362" y="16" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="36" id="53K-lk-BdT"/>
+                                <constraint firstAttribute="height" constant="36" id="r0S-V7-xPY"/>
+                            </constraints>
+                            <state key="normal" image="closeButtonIcon"/>
+                            <connections>
+                                <action selector="closeButtonEvent:" destination="-1" eventType="touchUpInside" id="bG2-FH-uSV"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R5E-k4-7ej" customClass="KayaRecordButton" customModule="Odi" customModuleProvider="target">
+                            <rect key="frame" x="324" y="414" width="68" height="68"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="68" id="CcI-Df-ggM"/>
+                                <constraint firstAttribute="height" constant="68" id="E6q-Se-14o"/>
+                            </constraints>
+                            <connections>
+                                <action selector="recordButtonEvent:" destination="-1" eventType="touchUpInside" id="a8q-Lr-ixP"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="yfn-Wq-pFc" secondAttribute="trailing" id="ATE-7t-EWW"/>
+                        <constraint firstAttribute="trailing" secondItem="UTW-AK-0sJ" secondAttribute="trailing" id="G6y-Vx-dFR"/>
+                        <constraint firstItem="1F5-Uw-aDH" firstAttribute="top" secondItem="hXP-s7-cxS" secondAttribute="top" constant="74" id="GLW-6c-Roh"/>
+                        <constraint firstAttribute="bottom" secondItem="yfn-Wq-pFc" secondAttribute="bottom" id="Oxe-vp-KSl"/>
+                        <constraint firstItem="R5E-k4-7ej" firstAttribute="centerY" secondItem="hXP-s7-cxS" secondAttribute="centerY" id="PUR-cu-dGu"/>
+                        <constraint firstItem="UTW-AK-0sJ" firstAttribute="leading" secondItem="hXP-s7-cxS" secondAttribute="leading" id="Qsx-bd-NlN"/>
+                        <constraint firstAttribute="trailing" secondItem="Fgk-q6-OqI" secondAttribute="trailing" constant="16" id="Rhk-B7-o6U"/>
+                        <constraint firstItem="UTW-AK-0sJ" firstAttribute="top" secondItem="hXP-s7-cxS" secondAttribute="top" id="TFS-zI-mbJ"/>
+                        <constraint firstItem="yfn-Wq-pFc" firstAttribute="top" secondItem="UTW-AK-0sJ" secondAttribute="bottom" id="UbE-sj-0Na"/>
+                        <constraint firstItem="1F5-Uw-aDH" firstAttribute="leading" secondItem="hXP-s7-cxS" secondAttribute="leading" constant="20" id="VIr-vb-eyN"/>
+                        <constraint firstItem="Fgk-q6-OqI" firstAttribute="top" secondItem="hXP-s7-cxS" secondAttribute="top" constant="16" id="elm-eS-Z50"/>
+                        <constraint firstItem="yfn-Wq-pFc" firstAttribute="leading" secondItem="hXP-s7-cxS" secondAttribute="leading" id="hDf-xf-ISj"/>
+                        <constraint firstAttribute="trailing" secondItem="1F5-Uw-aDH" secondAttribute="trailing" constant="20" id="k3q-eR-fty"/>
+                        <constraint firstAttribute="trailing" secondItem="R5E-k4-7ej" secondAttribute="trailing" constant="22" id="uyM-8z-aMa"/>
+                        <constraint firstItem="R5E-k4-7ej" firstAttribute="centerY" secondItem="hXP-s7-cxS" secondAttribute="centerY" id="xoO-wT-vQT"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.041560913710000001" green="0.041560913710000001" blue="0.041560913710000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <constraints>
+                <constraint firstItem="4zt-An-nXe" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="2x3-kJ-H6S"/>
+                <constraint firstItem="4zt-An-nXe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="95r-Iv-xXv"/>
+                <constraint firstAttribute="bottom" secondItem="Pga-LJ-IGk" secondAttribute="bottom" id="Bbz-Zv-ZFW"/>
+                <constraint firstItem="Pga-LJ-IGk" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="CFR-GJ-Yw5"/>
+                <constraint firstItem="hXP-s7-cxS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="DKq-dc-5UA"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="4zt-An-nXe" secondAttribute="trailing" id="ZWF-Ri-HiK"/>
+                <constraint firstItem="Pga-LJ-IGk" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="aE5-Av-Wpq"/>
+                <constraint firstAttribute="bottom" secondItem="hXP-s7-cxS" secondAttribute="bottom" id="avS-mO-ph3"/>
+                <constraint firstItem="Pga-LJ-IGk" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="hl8-gp-Szg"/>
+                <constraint firstItem="hXP-s7-cxS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="niT-ro-FGW"/>
+                <constraint firstItem="hXP-s7-cxS" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="rba-6e-0vB"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="4zt-An-nXe" secondAttribute="bottom" id="wNm-vO-I35"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-23" y="133"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="changeCamera" width="42" height="42"/>
+        <image name="closeButtonIcon" width="40" height="40"/>
+        <image name="magicWand" width="42" height="42"/>
+        <image name="next" width="64" height="64"/>
+        <image name="odi-logo-b" width="125" height="61"/>
+        <image name="texton" width="64" height="64"/>
+        <image name="unmute" width="80" height="80"/>
+    </resources>
+</document>

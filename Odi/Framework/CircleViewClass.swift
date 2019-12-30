@@ -122,7 +122,7 @@ class CircleViewClass: UIView {
         anim1.autoreverses      = false
         anim1.isRemovedOnCompletion = false
         anim1.isAdditive = true
-        anim1.fillMode = kCAFillModeForwards
+        anim1.fillMode = CAMediaTimingFillMode.forwards
         customLayer.add(anim1, forKey: "strokeEnd")
     }
     

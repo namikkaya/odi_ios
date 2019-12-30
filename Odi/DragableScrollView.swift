@@ -13,6 +13,7 @@ class DragableScrollView: UIScrollView {
     var imageView : UIImageView?
     func configureWith(image: UIImage){
         self.imageView?.removeFromSuperview()
+        self.imageView = nil
         self.imageView = UIImageView()
         if imageView != nil {
             self.imageView?.frame = CGRect(x: 0.0, y: 0.0, width: self.size.width, height: self.size.height)
@@ -34,6 +35,11 @@ class DragableScrollView: UIScrollView {
             self.zoomScale = minZoom + 0.065
             self.contentSize = imageSizeAspectFit(imgview: imageView!)
             self.imageView?.center = self.contentCenter
+            let newContentOffsetX : CGFloat = (self.contentSize.width - self.frame.size.width) / 2;
+            let newContentOffsetY : CGFloat = (self.contentSize.height - self.frame.size.height) / 2;
+            self.contentOffset = CGPoint(x: newContentOffsetX, y: newContentOffsetY);
+            
+            
             if self.contentSize.width < self.visibleSize.width {
                 self.imageView?.center.x = self.visibleSize.center.x
             }
@@ -64,6 +70,7 @@ class DragableScrollView: UIScrollView {
         if image.size.height >= image.size.width {
             newheight = imgview.frame.size.height;
             newwidth = (image.size.width / image.size.height) * newheight
+            
             if newwidth > imgview.frame.size.width {
                 let diff: CGFloat = imgview.frame.size.width - newwidth
                 newheight = newheight + diff / newheight * newheight
@@ -121,6 +128,8 @@ extension DragableScrollView {
             x: self.frame.size.width ~> size.width,
             y: self.frame.size.height ~> size.height
         )
+        
+        
         imageView.center = self.contentCenter
         if self.contentSize.width < self.visibleSize.width {
             imageView.center.x = self.visibleSize.center.x

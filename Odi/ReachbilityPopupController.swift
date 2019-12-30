@@ -10,6 +10,7 @@ import UIKit
 import Reachability
 
 class ReachbilityPopupController: UIViewController {
+    private let TAG:String = "ReachbilityPopupController:"
 
     var reachability =  Reachability()!
     var isNoConnection = false
@@ -21,7 +22,6 @@ class ReachbilityPopupController: UIViewController {
     }
 
     @IBOutlet weak var popupView: UIView!
-
     
     func setupReachability() {
         if isNoConnection {
@@ -37,10 +37,12 @@ class ReachbilityPopupController: UIViewController {
     @objc func internetChanged(note: Notification) {
         let reachability = note.object as! Reachability
         if reachability.connection != .none {
-            print("REachable")
             self.back(animated: true, isModal: true)
+            let _data:[String: Bool] = ["status": true]
+            NotificationCenter.default.post(name: NSNotification.Name.ODI.INTERNET_CONNECTION_STATUS, object: nil, userInfo: _data)
         } else {
-           print("Not Reachable")
+            let _data:[String: Bool] = ["status": false]
+            NotificationCenter.default.post(name: NSNotification.Name.ODI.INTERNET_CONNECTION_STATUS, object: nil, userInfo: _data)
         }
     }
     

@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 import OneSignal
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, OSSubscriptionObserver {
@@ -19,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSSubscriptionObserver {
    
     
     
-    func configureOneSignal(options : [UIApplicationLaunchOptionsKey: Any]?) {
+    func configureOneSignal(options : [UIApplication.LaunchOptionsKey: Any]?) {
         
         let notificationReceivedBlock: OSHandleNotificationReceivedBlock = { notification in
             
@@ -28,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSSubscriptionObserver {
         let notificationOpenedBlock: OSHandleNotificationActionBlock = { result in
             
         }
+        
         
         OneSignal.idsAvailable { (pushID, pushToken) in
             if let playerId = pushID {
@@ -56,19 +58,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSSubscriptionObserver {
         if !stateChanges.from.subscribed && stateChanges.to.subscribed {
             print("Subscribed for OneSignal push notifications!")
         }
-        print("SubscriptionStateChange: \n\(stateChanges)")
         
-        //The player id is inside stateChanges. But be careful, this value can be nil if the user has not granted you permission to send notifications.
+        
         if let playerId = stateChanges.to.userId {
             print("Current playerId \(playerId)")
             UserPrefence.saveOneSignalId(id: playerId)
         }
     }
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         configureOneSignal(options: launchOptions)
+        /*let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
         
+        // Replace 'YOUR_APP_ID' with your OneSignal App ID.
+        OneSignal.initWithLaunchOptions(launchOptions,
+                                        appId: "237ba484-e8cd-450f-8cde-57f8fd7e3569",
+                                        handleNotificationAction: nil,
+                                        settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
+        
+        // Recommend moving the below line to prompt for push after informing the user about
+        //   how your app will use them.
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            print("User accepted notifications: \(accepted)")
+        })*/
+        FirebaseApp.configure()
         return true
     }
 
@@ -80,6 +96,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSSubscriptionObserver {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("ARKA PLANA İTELENDİ")
+        NotificationCenter.default.post(name: NSNotification.Name.ODI.APP_WILL_BACKGROUND, object: nil, userInfo: nil)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

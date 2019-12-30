@@ -15,9 +15,6 @@ class GetCameraServices : ConnectionDelegate
         
     }
     
-   
-    
-    
     let connection = PostConnection()
     var serviceDelegate : GetCameraDelegate?
     

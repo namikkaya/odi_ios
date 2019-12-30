@@ -40,7 +40,6 @@ extension FTPUpload {
     
     fileprivate func ftpWriteStream(forFileName fileName: String) -> CFWriteStream? {
         let fullyQualifiedPath = "ftp://\(ftpBaseUrl)/\(directoryPath)/\(fileName)"
-        
         guard let ftpUrl = CFURLCreateWithString(kCFAllocatorDefault, fullyQualifiedPath as CFString, nil) else { return nil }
         let ftpStream = CFWriteStreamCreateWithFTPURL(kCFAllocatorDefault, ftpUrl)
         let ftpWriteStream = ftpStream.takeRetainedValue()
@@ -73,12 +72,11 @@ extension FTPUpload {
         
         defer {
             CFWriteStreamClose(ftpWriteStream)
-            buffer.deallocate(capacity: fileSize)
+            //buffer.deallocate(capacity: fileSize)
         }
         
         var offset: Int = 0
         var dataToSendSize: Int = fileSize
-        print("dataToSendSize:",Int64(fileSize))
         
         while true {
             let bytesWritten = CFWriteStreamWrite(ftpWriteStream, &buffer[offset], dataToSendSize)
@@ -95,14 +93,11 @@ extension FTPUpload {
                 return
             } else if bytesWritten == 0 {
                 // SUCCESS
+                success(true)
                 print("FTPUpload - Completed!!")
                 break
             }
         }
-        success(true)
     }
-    
-    
-    
 }
 

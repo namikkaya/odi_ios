@@ -23,6 +23,7 @@ class CameraController: NSObject {
     
     var audioConnection :AVCaptureConnection?
     var previewLayer: AVCaptureVideoPreviewLayer?
+    var isFront:Bool = true
 }
 
 extension CameraController {
@@ -31,14 +32,16 @@ extension CameraController {
         // Selecting input device
         captureSession.automaticallyConfiguresApplicationAudioSession = false
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+            //try AVAudioSession.sharedInstance().setCategory (convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord), with: [.mix, .allowBluetooth, .defaultToSpeaker])
+            
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
             try AVAudioSession.sharedInstance().setActive(true)
             
         } catch let error as NSError {
             print(error)
         }
         
-        if let device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInDuoCamera, for: AVMediaType.video, position: .front) {
+        if let device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInDualCamera, for: AVMediaType.video, position: .front) {
             currentDevice = device
             
         } else if let device = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: .front)  {
@@ -53,8 +56,6 @@ extension CameraController {
         guard let captureDeviceInput = try? AVCaptureDeviceInput(device: currentDevice!) else { return }
         guard let captureAudioDeviceInput = try? AVCaptureDeviceInput(device: audioDevice!) else { return }
 
-        
-        
         videoOutput = AVCaptureMovieFileOutput()
         
         // Configure the session with the input and the output devices
@@ -70,17 +71,21 @@ extension CameraController {
             print("captureSession can't add input")
         }        
         
-
         // Configure camera preview layer
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer?.connection?.videoOrientation = .landscapeRight
+        videoOutput?.connection(with: AVMediaType.video)?.videoOrientation = .landscapeRight
+        if (videoOutput?.connection(with: AVMediaType.video)!.isVideoMirroringSupported)! {
+            videoOutput?.connection(with: AVMediaType.video)?.isVideoMirrored = true
+        }
+        
     
-        previewLayer?.videoGravity = AVLayerVideoGravity.resize
+        previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
         previewLayer?.frame = view.layer.frame
         
+        previewLayer?.setNeedsDisplay()
         view.layer.addSublayer(previewLayer!)
-        
-       
+        previewLayer?.setNeedsDisplay()
         
         // Start captureSession
         captureSession.startRunning()
@@ -102,11 +107,13 @@ extension CameraController {
         if let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio) {
             newAudioDevice = audioDevice
         }
-        
+        var cameraStatus:Bool = true
         if input.device.position == .back {
             newDevice = captureDevice(with: .front)
+            cameraStatus = true
         } else {
             newDevice = captureDevice(with: .back)
+            cameraStatus = false
         }
         
         // Create new capture input
@@ -118,6 +125,16 @@ extension CameraController {
         captureSession.removeInput(inputAudio)
         captureSession.addInput(captureDeviceInput)
         captureSession.addInput(captureAudioDeviceInput)
+        if (cameraStatus) {
+            previewLayer?.connection?.videoOrientation = .landscapeRight
+            videoOutput?.connection(with: AVMediaType.video)?.videoOrientation = .landscapeRight
+            if (videoOutput?.connection(with: AVMediaType.video)!.isVideoMirroringSupported)! {
+                videoOutput?.connection(with: AVMediaType.video)?.isVideoMirrored = true
+            }
+        }else {
+            previewLayer?.connection?.videoOrientation = .landscapeRight
+            videoOutput?.connection(with: AVMediaType.video)?.videoOrientation = .landscapeRight
+        }
     }
     
     /// Create new capture device with requested position
@@ -140,7 +157,7 @@ extension CameraController {
             {
                 try device.lockForConfiguration()
                 device.torchMode = .on
-                device.flashMode = .on
+                //device.flashMode = .on
                 device.unlockForConfiguration()
             }
         }catch{
@@ -155,7 +172,7 @@ extension CameraController {
             if (device.hasTorch){
                 try device.lockForConfiguration()
                 device.torchMode = .off
-                device.flashMode = .off
+                //device.flashMode = .off
                 device.unlockForConfiguration()
             }
         }catch{
@@ -166,3 +183,8 @@ extension CameraController {
     
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
+}

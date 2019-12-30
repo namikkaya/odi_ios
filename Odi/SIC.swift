@@ -17,11 +17,18 @@ class SIC: BaseViewController {
         self.radiusView.layer.cornerRadius = 15.0
     }
 
-
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        self.view.frame = UIScreen.main.bounds
+    }
+    
     func setProgress(progressValue: Float?) {
         progressView.setProgress(Double(progressValue!), animated: true)
     }
     
+    func setProgressNoAnimation(progressValue: Float?) {
+        progressView.setProgress(Double(progressValue!), animated: false)
+    }
     
     
     var type = SICType.reload
@@ -29,9 +36,16 @@ class SIC: BaseViewController {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var radiusView: UIView!
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if type == SICType.reload {
+        }
+    }
+    
 }
 extension UIViewController {
-    func SHOW_SIC(type : SICType ) -> SIC?{
+    
+    func SHOW_SIC(type : SICType) -> SIC?{
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SICID") as! SIC
         popOverVC.view.tag = 101
         popOverVC.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -44,24 +58,29 @@ extension UIViewController {
         case .video:
             popOverVC.label.text = "Video yükleniyor lütfen bekleyiniz"
         case .compressVideo:
-            popOverVC.label.text = "Video sıkıştırılıyor"
-
+            popOverVC.label.text = "Video hazırlanıyor."
         case .reload:
             popOverVC.label.text = ""
             popOverVC.view.backgroundColor = UIColor.white
+        case .cameraReading:
+            popOverVC.label.text = "Kamera Hazırlanıyor..."
+            popOverVC.view.backgroundColor = UIColor.white
+        case .returnOdi:
+            popOverVC.label.text = "Hazırlanıyor..."
+            popOverVC.view.backgroundColor = UIColor.white
         }
-        self.addChildViewController(popOverVC)
+        self.addChild(popOverVC)
         popOverVC.view.frame = UIScreen.main.bounds
         self.view.addSubview(popOverVC.view)
-        popOverVC.didMove(toParentViewController: self)
+        popOverVC.didMove(toParent: self)
         
         return popOverVC
     }
     func HIDE_SIC(customView: UIView){
         DispatchQueue.main.async {
             if let viewWithTag = customView.viewWithTag(101) {
-                let vc = self.childViewControllers.last
-                vc?.removeFromParentViewController()
+                let vc = self.children.last
+                vc?.removeFromParent()
                 viewWithTag.removeFromSuperview()
             }else{
                 print("No!")
@@ -76,6 +95,8 @@ enum SICType {
     case image
     case compressVideo
     case reload
+    case cameraReading
+    case returnOdi
 }
 
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04E32D4E219DE59000BED104 /* TurnPhoneSplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E32D4D219DE59000BED104 /* TurnPhoneSplashVC.swift */; };
+		04E32D50219DEE4100BED104 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E32D4F219DEE4100BED104 /* UserDefaults.swift */; };
 		2205ABA51FED882D00B80C97 /* Ftp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205ABA41FED882D00B80C97 /* Ftp.swift */; };
 		2217E4831FEB26ED004A02AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E4821FEB26ED004A02AF /* AppDelegate.swift */; };
 		2217E4851FEB26ED004A02AF /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217E4841FEB26ED004A02AF /* WebViewController.swift */; };
@@ -37,9 +39,90 @@
 		95E8E9C2213475320082E46E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95E8E9C1213475320082E46E /* Launch Screen.storyboard */; };
 		95E8E9C42134784B0082E46E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E8E9C32134784B0082E46E /* BaseViewController.swift */; };
 		95E8E9C621347A770082E46E /* ReachbilityPopupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E8E9C521347A770082E46E /* ReachbilityPopupController.swift */; };
+		C40D432B229C2ED100365412 /* sliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D4326229C2ED000365412 /* sliderCell.swift */; };
+		C40D432C229C2ED100365412 /* sliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C40D4327229C2ED000365412 /* sliderCell.xib */; };
+		C40D432D229C2ED100365412 /* sliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D4328229C2ED000365412 /* sliderViewController.swift */; };
+		C40D432E229C2ED100365412 /* models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D432A229C2ED000365412 /* models.swift */; };
+		C40D4330229E7D6000365412 /* CameraNavigationControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D432F229E7D6000365412 /* CameraNavigationControllerViewController.swift */; };
+		C40D4332229E8E2100365412 /* rootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D4331229E8E2100365412 /* rootNavigationController.swift */; };
+		C40D4334229E937D00365412 /* deciderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D4333229E937D00365412 /* deciderViewController.swift */; };
+		C4198AAF22549B0000F3AAB6 /* myExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4198AAE22549B0000F3AAB6 /* myExtension.swift */; };
+		C437F2DF235F3F4400D85B5B /* dbVideos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C437F2D9235F3F4400D85B5B /* dbVideos.swift */; };
+		C437F2E0235F3F4400D85B5B /* sqlDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C437F2DA235F3F4400D85B5B /* sqlDataManager.swift */; };
+		C437F2E1235F3F4400D85B5B /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C437F2DB235F3F4400D85B5B /* extensions.swift */; };
+		C437F2E2235F3F4400D85B5B /* dbModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C437F2DC235F3F4400D85B5B /* dbModels.swift */; };
+		C437F2E3235F3F4400D85B5B /* kayaDbManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C437F2DD235F3F4400D85B5B /* kayaDbManager.swift */; };
+		C437F2E4235F3F4400D85B5B /* dbProjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = C437F2DE235F3F4400D85B5B /* dbProjects.swift */; };
+		C43E1090239A644B00C78614 /* KayaCollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E108F239A644B00C78614 /* KayaCollageViewController.swift */; };
+		C43E10B2239A6E0D00C78614 /* KayaCollageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E10AF239A6E0D00C78614 /* KayaCollageView.swift */; };
+		C43E10B3239A6E0D00C78614 /* KayaCollageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C43E10B0239A6E0D00C78614 /* KayaCollageView.xib */; };
+		C46F3BEC235F454600D4FF97 /* fileDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46F3BEB235F454600D4FF97 /* fileDataManager.swift */; };
+		C470470523670355004A7673 /* sing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C470470423670355004A7673 /* sing.swift */; };
+		C4779279225CE015006AFFEA /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4779278225CE015006AFFEA /* NotificationService.swift */; };
+		C477927D225CE015006AFFEA /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C4779276225CE015006AFFEA /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C495F25123BA08E700E77A6C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C495F25023BA08E700E77A6C /* GoogleService-Info.plist */; };
+		C49E59A92361D5EB00E1A682 /* galleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E59A82361D5EB00E1A682 /* galleryViewController.swift */; };
+		C49E59AB2361D93000E1A682 /* galleryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C49E59AA2361D93000E1A682 /* galleryCell.xib */; };
+		C49E59AD2361D95900E1A682 /* galleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E59AC2361D95900E1A682 /* galleryCell.swift */; };
+		C49E59AF2361DDB100E1A682 /* collectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E59AE2361DDB100E1A682 /* collectionViewModel.swift */; };
+		C49E59B12361E43E00E1A682 /* galleryTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E59B02361E43E00E1A682 /* galleryTransitionManager.swift */; };
+		C4B674C2239801F4008E4EDB /* KayaSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B674C1239801F4008E4EDB /* KayaSlider.swift */; };
+		C4B8028F23A274AD00C018A1 /* fakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B8028E23A274AD00C018A1 /* fakeViewController.swift */; };
+		C4C7568D2391534300C175CA /* KayaCamManViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7568C2391534300C175CA /* KayaCamManViewController.swift */; };
+		C4C7575823915C9900C175CA /* KayaCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7573723915C9900C175CA /* KayaCameraViewController.swift */; };
+		C4C7575923915C9900C175CA /* KayaMediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7573923915C9900C175CA /* KayaMediaManager.swift */; };
+		C4C7575A23915C9900C175CA /* KayaFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7573A23915C9900C175CA /* KayaFileManager.swift */; };
+		C4C7575B23915C9900C175CA /* KayaCameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7573B23915C9900C175CA /* KayaCameraManager.swift */; };
+		C4C7575C23915C9900C175CA /* KayaAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7573C23915C9900C175CA /* KayaAudioPlayer.swift */; };
+		C4C7575D23915C9900C175CA /* KayaExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7573E23915C9900C175CA /* KayaExtensions.swift */; };
+		C4C7575E23915C9900C175CA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7573F23915C9900C175CA /* Models.swift */; };
+		C4C7575F23915C9900C175CA /* KayaSoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7574223915C9900C175CA /* KayaSoundButton.swift */; };
+		C4C7576023915C9900C175CA /* KayaRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7574423915C9900C175CA /* KayaRecordButton.swift */; };
+		C4C7576123915C9900C175CA /* countDown.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4C7574623915C9900C175CA /* countDown.wav */; };
+		C4C7576223915C9900C175CA /* KayaCountDown.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C7574723915C9900C175CA /* KayaCountDown.xib */; };
+		C4C7576323915C9900C175CA /* KayaCountDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7574823915C9900C175CA /* KayaCountDown.swift */; };
+		C4C7576423915C9900C175CA /* countDownFinal.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4C7574923915C9900C175CA /* countDownFinal.wav */; };
+		C4C7576523915C9900C175CA /* kayaToogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7574B23915C9900C175CA /* kayaToogleButton.swift */; };
+		C4C7576623915C9900C175CA /* KayaKaraokeViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7574D23915C9900C175CA /* KayaKaraokeViewManager.swift */; };
+		C4C7576723915C9900C175CA /* KayaKaraokeViewManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C7574E23915C9900C175CA /* KayaKaraokeViewManager.xib */; };
+		C4C7576823915C9900C175CA /* cameraFocusShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7575023915C9900C175CA /* cameraFocusShape.swift */; };
+		C4C7576923915C9900C175CA /* KayaCameraSettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C7575223915C9900C175CA /* KayaCameraSettingView.xib */; };
+		C4C7576A23915C9900C175CA /* KayaCameraSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7575323915C9900C175CA /* KayaCameraSettingView.swift */; };
+		C4C7576B23915C9900C175CA /* KayaCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C7575423915C9900C175CA /* KayaCameraView.xib */; };
+		C4C7576C23915C9900C175CA /* KayaTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7575623915C9900C175CA /* KayaTextButton.swift */; };
+		C4C7576D23915C9900C175CA /* KayaCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C7575723915C9900C175CA /* KayaCameraView.swift */; };
+		C4D67317237967BE001ECDBD /* APPVersionControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D67316237967BE001ECDBD /* APPVersionControl.swift */; };
+		C4D6731923797ED0001ECDBD /* versionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D6731823797ED0001ECDBD /* versionViewController.swift */; };
+		FFAC143D537223E1DE7D883E /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B024815FC9559E0BA3354 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C477927B225CE015006AFFEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2217E4771FEB26ED004A02AF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4779275225CE015006AFFEA;
+			remoteInfo = OneSignalNotificationServiceExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C47D25C6225CCC2D00D273BE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C477927D225CE015006AFFEA /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		04E32D4D219DE59000BED104 /* TurnPhoneSplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnPhoneSplashVC.swift; sourceTree = "<group>"; };
+		04E32D4F219DEE4100BED104 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		18FC96B920EA2DC2001C8A5B /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
 		2205ABA41FED882D00B80C97 /* Ftp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ftp.swift; sourceTree = "<group>"; };
 		2217E47F1FEB26ED004A02AF /* Odi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Odi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,7 +158,65 @@
 		95E8E9C1213475320082E46E /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		95E8E9C32134784B0082E46E /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		95E8E9C521347A770082E46E /* ReachbilityPopupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachbilityPopupController.swift; sourceTree = "<group>"; };
+		C40D4326229C2ED000365412 /* sliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sliderCell.swift; sourceTree = "<group>"; };
+		C40D4327229C2ED000365412 /* sliderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = sliderCell.xib; sourceTree = "<group>"; };
+		C40D4328229C2ED000365412 /* sliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sliderViewController.swift; sourceTree = "<group>"; };
+		C40D432A229C2ED000365412 /* models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = models.swift; sourceTree = "<group>"; };
+		C40D432F229E7D6000365412 /* CameraNavigationControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraNavigationControllerViewController.swift; sourceTree = "<group>"; };
+		C40D4331229E8E2100365412 /* rootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rootNavigationController.swift; sourceTree = "<group>"; };
+		C40D4333229E937D00365412 /* deciderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deciderViewController.swift; sourceTree = "<group>"; };
+		C4198AAE22549B0000F3AAB6 /* myExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myExtension.swift; sourceTree = "<group>"; };
+		C437F2D9235F3F4400D85B5B /* dbVideos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dbVideos.swift; sourceTree = "<group>"; };
+		C437F2DA235F3F4400D85B5B /* sqlDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sqlDataManager.swift; sourceTree = "<group>"; };
+		C437F2DB235F3F4400D85B5B /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		C437F2DC235F3F4400D85B5B /* dbModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dbModels.swift; sourceTree = "<group>"; };
+		C437F2DD235F3F4400D85B5B /* kayaDbManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = kayaDbManager.swift; sourceTree = "<group>"; };
+		C437F2DE235F3F4400D85B5B /* dbProjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dbProjects.swift; sourceTree = "<group>"; };
+		C43E108F239A644B00C78614 /* KayaCollageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KayaCollageViewController.swift; sourceTree = "<group>"; };
+		C43E10AF239A6E0D00C78614 /* KayaCollageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaCollageView.swift; sourceTree = "<group>"; };
+		C43E10B0239A6E0D00C78614 /* KayaCollageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KayaCollageView.xib; sourceTree = "<group>"; };
+		C46F3BEB235F454600D4FF97 /* fileDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fileDataManager.swift; sourceTree = "<group>"; };
+		C470470423670355004A7673 /* sing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sing.swift; sourceTree = "<group>"; };
+		C4779276225CE015006AFFEA /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4779278225CE015006AFFEA /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		C477927A225CE015006AFFEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C495F25023BA08E700E77A6C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C49E59A82361D5EB00E1A682 /* galleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = galleryViewController.swift; sourceTree = "<group>"; };
+		C49E59AA2361D93000E1A682 /* galleryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = galleryCell.xib; sourceTree = "<group>"; };
+		C49E59AC2361D95900E1A682 /* galleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = galleryCell.swift; sourceTree = "<group>"; };
+		C49E59AE2361DDB100E1A682 /* collectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = collectionViewModel.swift; sourceTree = "<group>"; };
+		C49E59B02361E43E00E1A682 /* galleryTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = galleryTransitionManager.swift; sourceTree = "<group>"; };
+		C4B674C1239801F4008E4EDB /* KayaSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KayaSlider.swift; sourceTree = "<group>"; };
+		C4B8028E23A274AD00C018A1 /* fakeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fakeViewController.swift; sourceTree = "<group>"; };
+		C4C7568C2391534300C175CA /* KayaCamManViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KayaCamManViewController.swift; sourceTree = "<group>"; };
+		C4C7573723915C9900C175CA /* KayaCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaCameraViewController.swift; sourceTree = "<group>"; };
+		C4C7573923915C9900C175CA /* KayaMediaManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaMediaManager.swift; sourceTree = "<group>"; };
+		C4C7573A23915C9900C175CA /* KayaFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaFileManager.swift; sourceTree = "<group>"; };
+		C4C7573B23915C9900C175CA /* KayaCameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaCameraManager.swift; sourceTree = "<group>"; };
+		C4C7573C23915C9900C175CA /* KayaAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaAudioPlayer.swift; sourceTree = "<group>"; };
+		C4C7573E23915C9900C175CA /* KayaExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaExtensions.swift; sourceTree = "<group>"; };
+		C4C7573F23915C9900C175CA /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		C4C7574223915C9900C175CA /* KayaSoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaSoundButton.swift; sourceTree = "<group>"; };
+		C4C7574423915C9900C175CA /* KayaRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaRecordButton.swift; sourceTree = "<group>"; };
+		C4C7574623915C9900C175CA /* countDown.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = countDown.wav; sourceTree = "<group>"; };
+		C4C7574723915C9900C175CA /* KayaCountDown.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KayaCountDown.xib; sourceTree = "<group>"; };
+		C4C7574823915C9900C175CA /* KayaCountDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaCountDown.swift; sourceTree = "<group>"; };
+		C4C7574923915C9900C175CA /* countDownFinal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = countDownFinal.wav; sourceTree = "<group>"; };
+		C4C7574B23915C9900C175CA /* kayaToogleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = kayaToogleButton.swift; sourceTree = "<group>"; };
+		C4C7574D23915C9900C175CA /* KayaKaraokeViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaKaraokeViewManager.swift; sourceTree = "<group>"; };
+		C4C7574E23915C9900C175CA /* KayaKaraokeViewManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KayaKaraokeViewManager.xib; sourceTree = "<group>"; };
+		C4C7575023915C9900C175CA /* cameraFocusShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cameraFocusShape.swift; sourceTree = "<group>"; };
+		C4C7575223915C9900C175CA /* KayaCameraSettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KayaCameraSettingView.xib; sourceTree = "<group>"; };
+		C4C7575323915C9900C175CA /* KayaCameraSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaCameraSettingView.swift; sourceTree = "<group>"; };
+		C4C7575423915C9900C175CA /* KayaCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KayaCameraView.xib; sourceTree = "<group>"; };
+		C4C7575623915C9900C175CA /* KayaTextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaTextButton.swift; sourceTree = "<group>"; };
+		C4C7575723915C9900C175CA /* KayaCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KayaCameraView.swift; sourceTree = "<group>"; };
+		C4D67316237967BE001ECDBD /* APPVersionControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APPVersionControl.swift; sourceTree = "<group>"; };
+		C4D6731823797ED0001ECDBD /* versionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = versionViewController.swift; sourceTree = "<group>"; };
+		CFF144038D574F18373C6E24 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		D3014EAC0050B9CD9FE7B464 /* Pods-Odi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Odi/Pods-Odi.debug.xcconfig"; sourceTree = "<group>"; };
+		D7223679A1FBBB7E08E4C3E1 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		EE8B024815FC9559E0BA3354 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +228,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C4779273225CE015006AFFEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFAC143D537223E1DE7D883E /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -94,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				2217E4811FEB26ED004A02AF /* Odi */,
+				C4779277225CE015006AFFEA /* OneSignalNotificationServiceExtension */,
 				2217E4801FEB26ED004A02AF /* Products */,
 				D637B915AC399284017E047D /* Pods */,
 				F4DC0EDC7F31D0CBB732F291 /* Frameworks */,
@@ -104,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				2217E47F1FEB26ED004A02AF /* Odi.app */,
+				C4779276225CE015006AFFEA /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,6 +262,12 @@
 		2217E4811FEB26ED004A02AF /* Odi */ = {
 			isa = PBXGroup;
 			children = (
+				C43E108E239A642C00C78614 /* KayaCollageView */,
+				C4C7573623915C9900C175CA /* cameraManager */,
+				C40D4329229C2ED000365412 /* kayaModel */,
+				C40D4325229C2ED000365412 /* kayaView */,
+				C437F2D6235F3DD400D85B5B /* kayaLib */,
+				C40D431F229BF88800365412 /* Views */,
 				95E3EB77204C88390004BDA7 /* Odi.entitlements */,
 				95B3738D211B4E8300FBA394 /* Recourses */,
 				953125BB203DE8D200611222 /* Protocol */,
@@ -123,6 +280,7 @@
 				2217E4841FEB26ED004A02AF /* WebViewController.swift */,
 				95E8E9C32134784B0082E46E /* BaseViewController.swift */,
 				224459531FEBF8B700DEA02A /* SIC.swift */,
+				04E32D4D219DE59000BED104 /* TurnPhoneSplashVC.swift */,
 				95E8E9C521347A770082E46E /* ReachbilityPopupController.swift */,
 				2217E49C1FEB32A8004A02AF /* Photos.swift */,
 				2217E4981FEB3271004A02AF /* DragableScrollView.swift */,
@@ -134,6 +292,17 @@
 				95E8E9C1213475320082E46E /* Launch Screen.storyboard */,
 				2217E4821FEB26ED004A02AF /* AppDelegate.swift */,
 				2205ABA41FED882D00B80C97 /* Ftp.swift */,
+				04E32D4F219DEE4100BED104 /* UserDefaults.swift */,
+				C40D4328229C2ED000365412 /* sliderViewController.swift */,
+				C40D432F229E7D6000365412 /* CameraNavigationControllerViewController.swift */,
+				C40D4331229E8E2100365412 /* rootNavigationController.swift */,
+				C40D4333229E937D00365412 /* deciderViewController.swift */,
+				C49E59A82361D5EB00E1A682 /* galleryViewController.swift */,
+				C470470423670355004A7673 /* sing.swift */,
+				C4D6731823797ED0001ECDBD /* versionViewController.swift */,
+				C4C7568C2391534300C175CA /* KayaCamManViewController.swift */,
+				C4B8028E23A274AD00C018A1 /* fakeViewController.swift */,
+				C495F25023BA08E700E77A6C /* GoogleService-Info.plist */,
 			);
 			path = Odi;
 			sourceTree = "<group>";
@@ -216,6 +385,7 @@
 			isa = PBXGroup;
 			children = (
 				953125B8203DE74C00611222 /* UIKit */,
+				C4198AAE22549B0000F3AAB6 /* myExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -243,11 +413,241 @@
 			path = Recourses;
 			sourceTree = "<group>";
 		};
+		C40D431F229BF88800365412 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C49E59A72361D5C100E1A682 /* collectionViewModel */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C40D4325229C2ED000365412 /* kayaView */ = {
+			isa = PBXGroup;
+			children = (
+				C40D4326229C2ED000365412 /* sliderCell.swift */,
+				C40D4327229C2ED000365412 /* sliderCell.xib */,
+				C49E59AA2361D93000E1A682 /* galleryCell.xib */,
+				C49E59AC2361D95900E1A682 /* galleryCell.swift */,
+			);
+			path = kayaView;
+			sourceTree = "<group>";
+		};
+		C40D4329229C2ED000365412 /* kayaModel */ = {
+			isa = PBXGroup;
+			children = (
+				C40D432A229C2ED000365412 /* models.swift */,
+			);
+			path = kayaModel;
+			sourceTree = "<group>";
+		};
+		C437F2D6235F3DD400D85B5B /* kayaLib */ = {
+			isa = PBXGroup;
+			children = (
+				C437F2D8235F3F4400D85B5B /* sqlliteLibrary */,
+				C49E59B02361E43E00E1A682 /* galleryTransitionManager.swift */,
+				C4D67316237967BE001ECDBD /* APPVersionControl.swift */,
+			);
+			path = kayaLib;
+			sourceTree = "<group>";
+		};
+		C437F2D8235F3F4400D85B5B /* sqlliteLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				C437F2DD235F3F4400D85B5B /* kayaDbManager.swift */,
+				C437F2DA235F3F4400D85B5B /* sqlDataManager.swift */,
+				C437F2DB235F3F4400D85B5B /* extensions.swift */,
+				C437F2DC235F3F4400D85B5B /* dbModels.swift */,
+				C437F2D9235F3F4400D85B5B /* dbVideos.swift */,
+				C437F2DE235F3F4400D85B5B /* dbProjects.swift */,
+				C46F3BEB235F454600D4FF97 /* fileDataManager.swift */,
+			);
+			path = sqlliteLibrary;
+			sourceTree = "<group>";
+		};
+		C43E108E239A642C00C78614 /* KayaCollageView */ = {
+			isa = PBXGroup;
+			children = (
+				C43E10AB239A6E0D00C78614 /* KayaCollagePhoto */,
+				C43E108F239A644B00C78614 /* KayaCollageViewController.swift */,
+			);
+			path = KayaCollageView;
+			sourceTree = "<group>";
+		};
+		C43E10AB239A6E0D00C78614 /* KayaCollagePhoto */ = {
+			isa = PBXGroup;
+			children = (
+				C43E10AD239A6E0D00C78614 /* views */,
+			);
+			path = KayaCollagePhoto;
+			sourceTree = "<group>";
+		};
+		C43E10AD239A6E0D00C78614 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				C43E10AE239A6E0D00C78614 /* collageView */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		C43E10AE239A6E0D00C78614 /* collageView */ = {
+			isa = PBXGroup;
+			children = (
+				C43E10AF239A6E0D00C78614 /* KayaCollageView.swift */,
+				C43E10B0239A6E0D00C78614 /* KayaCollageView.xib */,
+			);
+			path = collageView;
+			sourceTree = "<group>";
+		};
+		C4779277225CE015006AFFEA /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				C4779278225CE015006AFFEA /* NotificationService.swift */,
+				C477927A225CE015006AFFEA /* Info.plist */,
+			);
+			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
+		C49E59A72361D5C100E1A682 /* collectionViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C49E59AE2361DDB100E1A682 /* collectionViewModel.swift */,
+			);
+			path = collectionViewModel;
+			sourceTree = "<group>";
+		};
+		C4B674C0239801DF008E4EDB /* customSlide */ = {
+			isa = PBXGroup;
+			children = (
+				C4B674C1239801F4008E4EDB /* KayaSlider.swift */,
+			);
+			path = customSlide;
+			sourceTree = "<group>";
+		};
+		C4C7573623915C9900C175CA /* cameraManager */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7573723915C9900C175CA /* KayaCameraViewController.swift */,
+				C4C7573823915C9900C175CA /* managers */,
+				C4C7573D23915C9900C175CA /* KayaCameraLib */,
+				C4C7574023915C9900C175CA /* Views */,
+			);
+			path = cameraManager;
+			sourceTree = "<group>";
+		};
+		C4C7573823915C9900C175CA /* managers */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7573923915C9900C175CA /* KayaMediaManager.swift */,
+				C4C7573A23915C9900C175CA /* KayaFileManager.swift */,
+				C4C7573B23915C9900C175CA /* KayaCameraManager.swift */,
+				C4C7573C23915C9900C175CA /* KayaAudioPlayer.swift */,
+			);
+			path = managers;
+			sourceTree = "<group>";
+		};
+		C4C7573D23915C9900C175CA /* KayaCameraLib */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7573E23915C9900C175CA /* KayaExtensions.swift */,
+				C4C7573F23915C9900C175CA /* Models.swift */,
+			);
+			path = KayaCameraLib;
+			sourceTree = "<group>";
+		};
+		C4C7574023915C9900C175CA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C4B674C0239801DF008E4EDB /* customSlide */,
+				C4C7574123915C9900C175CA /* soundButton */,
+				C4C7574323915C9900C175CA /* recordButton */,
+				C4C7574523915C9900C175CA /* countDown */,
+				C4C7574A23915C9900C175CA /* toggleButton */,
+				C4C7574C23915C9900C175CA /* karaokeView */,
+				C4C7574F23915C9900C175CA /* shapes */,
+				C4C7575123915C9900C175CA /* subViews */,
+				C4C7575523915C9900C175CA /* textHiddenButton */,
+				C4C7575423915C9900C175CA /* KayaCameraView.xib */,
+				C4C7575723915C9900C175CA /* KayaCameraView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C4C7574123915C9900C175CA /* soundButton */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7574223915C9900C175CA /* KayaSoundButton.swift */,
+			);
+			path = soundButton;
+			sourceTree = "<group>";
+		};
+		C4C7574323915C9900C175CA /* recordButton */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7574423915C9900C175CA /* KayaRecordButton.swift */,
+			);
+			path = recordButton;
+			sourceTree = "<group>";
+		};
+		C4C7574523915C9900C175CA /* countDown */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7574623915C9900C175CA /* countDown.wav */,
+				C4C7574723915C9900C175CA /* KayaCountDown.xib */,
+				C4C7574823915C9900C175CA /* KayaCountDown.swift */,
+				C4C7574923915C9900C175CA /* countDownFinal.wav */,
+			);
+			path = countDown;
+			sourceTree = "<group>";
+		};
+		C4C7574A23915C9900C175CA /* toggleButton */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7574B23915C9900C175CA /* kayaToogleButton.swift */,
+			);
+			path = toggleButton;
+			sourceTree = "<group>";
+		};
+		C4C7574C23915C9900C175CA /* karaokeView */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7574D23915C9900C175CA /* KayaKaraokeViewManager.swift */,
+				C4C7574E23915C9900C175CA /* KayaKaraokeViewManager.xib */,
+			);
+			path = karaokeView;
+			sourceTree = "<group>";
+		};
+		C4C7574F23915C9900C175CA /* shapes */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7575023915C9900C175CA /* cameraFocusShape.swift */,
+			);
+			path = shapes;
+			sourceTree = "<group>";
+		};
+		C4C7575123915C9900C175CA /* subViews */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7575223915C9900C175CA /* KayaCameraSettingView.xib */,
+				C4C7575323915C9900C175CA /* KayaCameraSettingView.swift */,
+			);
+			path = subViews;
+			sourceTree = "<group>";
+		};
+		C4C7575523915C9900C175CA /* textHiddenButton */ = {
+			isa = PBXGroup;
+			children = (
+				C4C7575623915C9900C175CA /* KayaTextButton.swift */,
+			);
+			path = textHiddenButton;
+			sourceTree = "<group>";
+		};
 		D637B915AC399284017E047D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				D3014EAC0050B9CD9FE7B464 /* Pods-Odi.debug.xcconfig */,
 				32E6CA614FA311A79905E66F /* Pods-Odi.release.xcconfig */,
+				D7223679A1FBBB7E08E4C3E1 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
+				CFF144038D574F18373C6E24 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -256,6 +656,7 @@
 			isa = PBXGroup;
 			children = (
 				280D2E0228502BBBA8815D93 /* Pods_Odi.framework */,
+				EE8B024815FC9559E0BA3354 /* Pods_OneSignalNotificationServiceExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -272,15 +673,36 @@
 				2217E47C1FEB26ED004A02AF /* Frameworks */,
 				2217E47D1FEB26ED004A02AF /* Resources */,
 				EA7AFAC505212BF84A12EAD7 /* [CP] Embed Pods Frameworks */,
+				C47D25C6225CCC2D00D273BE /* Embed App Extensions */,
+				C495F25223BA13A100E77A6C /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C477927C225CE015006AFFEA /* PBXTargetDependency */,
 			);
 			name = Odi;
 			productName = Odi;
 			productReference = 2217E47F1FEB26ED004A02AF /* Odi.app */;
 			productType = "com.apple.product-type.application";
+		};
+		C4779275225CE015006AFFEA /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C477927E225CE015006AFFEA /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
+			buildPhases = (
+				E8174731B6CE6584C6B1188B /* [CP] Check Pods Manifest.lock */,
+				C4779272225CE015006AFFEA /* Sources */,
+				C4779273225CE015006AFFEA /* Frameworks */,
+				C4779274225CE015006AFFEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneSignalNotificationServiceExtension;
+			productName = OneSignalNotificationServiceExtension;
+			productReference = C4779276225CE015006AFFEA /* OneSignalNotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -288,21 +710,26 @@
 		2217E4771FEB26ED004A02AF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0910;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = bilal;
 				TargetAttributes = {
 					2217E47E1FEB26ED004A02AF = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 1110;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Push = {
 								enabled = 1;
 							};
 						};
+					};
+					C4779275225CE015006AFFEA = {
+						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -313,6 +740,7 @@
 			knownRegions = (
 				en,
 				Base,
+				tr,
 			);
 			mainGroup = 2217E4761FEB26ED004A02AF;
 			productRefGroup = 2217E4801FEB26ED004A02AF /* Products */;
@@ -320,6 +748,7 @@
 			projectRoot = "";
 			targets = (
 				2217E47E1FEB26ED004A02AF /* Odi */,
+				C4779275225CE015006AFFEA /* OneSignalNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -329,11 +758,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C43E10B3239A6E0D00C78614 /* KayaCollageView.xib in Resources */,
+				C4C7576B23915C9900C175CA /* KayaCameraView.xib in Resources */,
+				C495F25123BA08E700E77A6C /* GoogleService-Info.plist in Resources */,
+				C49E59AB2361D93000E1A682 /* galleryCell.xib in Resources */,
 				2217E48A1FEB26EE004A02AF /* Assets.xcassets in Resources */,
+				C4C7576123915C9900C175CA /* countDown.wav in Resources */,
+				C4C7576423915C9900C175CA /* countDownFinal.wav in Resources */,
 				2217E4971FEB3266004A02AF /* imageCollectionViewCell.xib in Resources */,
+				C4C7576223915C9900C175CA /* KayaCountDown.xib in Resources */,
+				C40D432C229C2ED100365412 /* sliderCell.xib in Resources */,
+				C4C7576723915C9900C175CA /* KayaKaraokeViewManager.xib in Resources */,
 				95B3738F211B4EA900FBA394 /* 3,2,1_ses.wav in Resources */,
 				95E8E9C2213475320082E46E /* Launch Screen.storyboard in Resources */,
+				C4C7576923915C9900C175CA /* KayaCameraSettingView.xib in Resources */,
 				2217E4881FEB26ED004A02AF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4779274225CE015006AFFEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,26 +804,75 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C495F25223BA13A100E77A6C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
+		};
+		E8174731B6CE6584C6B1188B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OneSignalNotificationServiceExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EA7AFAC505212BF84A12EAD7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Odi/Pods-Odi-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Odi/Pods-Odi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AMPopTip/AMPopTip.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/CircleProgressView/CircleProgressView.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Mantis/Mantis.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AMPopTip.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CircleProgressView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mantis.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Odi/Pods-Odi-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Odi/Pods-Odi-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -390,31 +885,91 @@
 				952373632117B792002A588A /* CircleViewClass.swift in Sources */,
 				2217E49D1FEB32A8004A02AF /* Photos.swift in Sources */,
 				2217E49B1FEB329C004A02AF /* photosController.swift in Sources */,
+				C4C7575823915C9900C175CA /* KayaCameraViewController.swift in Sources */,
 				95E8E9C42134784B0082E46E /* BaseViewController.swift in Sources */,
+				04E32D50219DEE4100BED104 /* UserDefaults.swift in Sources */,
 				950D9A321FEB4A65004F5507 /* AudioPlayer.swift in Sources */,
 				950D9A391FEB4A89004F5507 /* PostConnection.swift in Sources */,
+				C4D6731923797ED0001ECDBD /* versionViewController.swift in Sources */,
 				950D9A301FEB4A65004F5507 /* CameraController.swift in Sources */,
+				C4C7575923915C9900C175CA /* KayaMediaManager.swift in Sources */,
+				C40D4330229E7D6000365412 /* CameraNavigationControllerViewController.swift in Sources */,
+				C49E59A92361D5EB00E1A682 /* galleryViewController.swift in Sources */,
+				C4C7576823915C9900C175CA /* cameraFocusShape.swift in Sources */,
+				C4C7575A23915C9900C175CA /* KayaFileManager.swift in Sources */,
+				C437F2DF235F3F4400D85B5B /* dbVideos.swift in Sources */,
+				C4C7575D23915C9900C175CA /* KayaExtensions.swift in Sources */,
 				2217E4851FEB26ED004A02AF /* WebViewController.swift in Sources */,
+				C4C7576C23915C9900C175CA /* KayaTextButton.swift in Sources */,
 				224459541FEBF8B700DEA02A /* SIC.swift in Sources */,
+				C470470523670355004A7673 /* sing.swift in Sources */,
 				2217E4831FEB26ED004A02AF /* AppDelegate.swift in Sources */,
 				953125BA203DE75E00611222 /* ViewControllerExtension.swift in Sources */,
+				C4C7575B23915C9900C175CA /* KayaCameraManager.swift in Sources */,
+				C4198AAF22549B0000F3AAB6 /* myExtension.swift in Sources */,
+				C4C7576D23915C9900C175CA /* KayaCameraView.swift in Sources */,
 				950D9A411FEC8C95004F5507 /* PlayVideoController.swift in Sources */,
 				9507D42F21190E1E00DB816A /* ServiceManager.swift in Sources */,
+				C4C7576523915C9900C175CA /* kayaToogleButton.swift in Sources */,
+				04E32D4E219DE59000BED104 /* TurnPhoneSplashVC.swift in Sources */,
+				C49E59B12361E43E00E1A682 /* galleryTransitionManager.swift in Sources */,
+				C40D4332229E8E2100365412 /* rootNavigationController.swift in Sources */,
 				950D9A3C1FEB4A90004F5507 /* GetCameraServices.swift in Sources */,
+				C4C7576023915C9900C175CA /* KayaRecordButton.swift in Sources */,
 				2217E49F1FEB512B004A02AF /* UploadImageService.swift in Sources */,
+				C46F3BEC235F454600D4FF97 /* fileDataManager.swift in Sources */,
+				C437F2E4235F3F4400D85B5B /* dbProjects.swift in Sources */,
+				C4B674C2239801F4008E4EDB /* KayaSlider.swift in Sources */,
+				C4D67317237967BE001ECDBD /* APPVersionControl.swift in Sources */,
+				C437F2E0235F3F4400D85B5B /* sqlDataManager.swift in Sources */,
 				2205ABA51FED882D00B80C97 /* Ftp.swift in Sources */,
+				C4C7576623915C9900C175CA /* KayaKaraokeViewManager.swift in Sources */,
+				C4C7575F23915C9900C175CA /* KayaSoundButton.swift in Sources */,
+				C4C7576A23915C9900C175CA /* KayaCameraSettingView.swift in Sources */,
+				C43E10B2239A6E0D00C78614 /* KayaCollageView.swift in Sources */,
+				C437F2E1235F3F4400D85B5B /* extensions.swift in Sources */,
+				C4C7568D2391534300C175CA /* KayaCamManViewController.swift in Sources */,
 				950D9A3E1FEB4A95004F5507 /* API.swift in Sources */,
+				C437F2E3235F3F4400D85B5B /* kayaDbManager.swift in Sources */,
+				C4B8028F23A274AD00C018A1 /* fakeViewController.swift in Sources */,
+				C43E1090239A644B00C78614 /* KayaCollageViewController.swift in Sources */,
 				950D9A311FEB4A65004F5507 /* CameraViewController.swift in Sources */,
 				950D9A461FEC93A5004F5507 /* Extensions.swift in Sources */,
 				2217E4961FEB3266004A02AF /* imageCollectionViewCell.swift in Sources */,
 				2217E4991FEB3271004A02AF /* DragableScrollView.swift in Sources */,
 				950D9A441FEC8FCB004F5507 /* Player.swift in Sources */,
+				C4C7575E23915C9900C175CA /* Models.swift in Sources */,
+				C40D432E229C2ED100365412 /* models.swift in Sources */,
 				95E8E9C621347A770082E46E /* ReachbilityPopupController.swift in Sources */,
+				C4C7575C23915C9900C175CA /* KayaAudioPlayer.swift in Sources */,
+				C49E59AD2361D95900E1A682 /* galleryCell.swift in Sources */,
+				C40D432B229C2ED100365412 /* sliderCell.swift in Sources */,
 				950D9A3A1FEB4A89004F5507 /* ConnectionDelegate.swift in Sources */,
+				C40D4334229E937D00365412 /* deciderViewController.swift in Sources */,
+				C49E59AF2361DDB100E1A682 /* collectionViewModel.swift in Sources */,
+				C40D432D229C2ED100365412 /* sliderViewController.swift in Sources */,
+				C437F2E2235F3F4400D85B5B /* dbModels.swift in Sources */,
+				C4C7576323915C9900C175CA /* KayaCountDown.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4779272225CE015006AFFEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4779279225CE015006AFFEA /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C477927C225CE015006AFFEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4779275225CE015006AFFEA /* OneSignalNotificationServiceExtension */;
+			targetProxy = C477927B225CE015006AFFEA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2217E4861FEB26ED004A02AF /* Main.storyboard */ = {
@@ -546,18 +1101,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3014EAC0050B9CD9FE7B464 /* Pods-Odi.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Odi/Odi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8W2U8DSMLE;
+				CURRENT_PROJECT_VERSION = 1.0.2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 6W5VE3Q5KN;
 				INFOPLIST_FILE = Odi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.brokoly2.odi;
+				MARKETING_VERSION = 1.4.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brokoly.odi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -566,18 +1125,61 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 32E6CA614FA311A79905E66F /* Pods-Odi.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Odi/Odi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8W2U8DSMLE;
+				CURRENT_PROJECT_VERSION = 1.0.2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 6W5VE3Q5KN;
 				INFOPLIST_FILE = Odi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.brokoly2.odi;
+				MARKETING_VERSION = 1.4.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brokoly.odi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C477927F225CE015006AFFEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D7223679A1FBBB7E08E4C3E1 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6W5VE3Q5KN;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brokoly.odi.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C4779280225CE015006AFFEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CFF144038D574F18373C6E24 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6W5VE3Q5KN;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brokoly.odi.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -599,6 +1201,15 @@
 			buildConfigurations = (
 				2217E4921FEB26EE004A02AF /* Debug */,
 				2217E4931FEB26EE004A02AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C477927E225CE015006AFFEA /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C477927F225CE015006AFFEA /* Debug */,
+				C4779280225CE015006AFFEA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -183,7 +183,7 @@ open class Player: UIViewController {
             if let playerItem = self._playerItem {
                 return CMTimeGetSeconds(playerItem.duration)
             } else {
-                return CMTimeGetSeconds(kCMTimeIndefinite)
+                return CMTimeGetSeconds(CMTime.indefinite)
             }
         }
     }
@@ -194,7 +194,7 @@ open class Player: UIViewController {
             if let playerItem = self._playerItem {
                 return CMTimeGetSeconds(playerItem.currentTime())
             } else {
-                return CMTimeGetSeconds(kCMTimeIndefinite)
+                return CMTimeGetSeconds(CMTime.indefinite)
             }
         }
     }
@@ -306,7 +306,7 @@ extension Player {
     /// Begins playback of the media from the beginning.
     public func playFromBeginning() {
         self.delegate?.playerPlaybackWillStartFromBeginning?(self)
-        self._avplayer.seek(to: kCMTimeZero)
+        self._avplayer.seek(to: CMTime.zero)
         self.playFromCurrentTime()
     }
 
@@ -447,12 +447,12 @@ extension Player {
     @objc internal func playerItemDidPlayToEndTime(_ aNotification: Notification) {
         if self.playbackLoops == true {
             self.delegate?.playerWillComeThroughLoop?(self)
-            self._avplayer.seek(to: kCMTimeZero)
+            self._avplayer.seek(to: CMTime.zero)
         } else {
             if self.playbackFreezesAtEnd == true {
                 self.stop()
             } else {
-                self._avplayer.seek(to: kCMTimeZero, completionHandler: { _ in
+                self._avplayer.seek(to: CMTime.zero, completionHandler: { _ in
                     self.stop()
                 })
             }
@@ -466,9 +466,9 @@ extension Player {
     // UIApplication
     
     internal func addApplicationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationWillResignActive(_:)), name: .UIApplicationWillResignActive, object: UIApplication.shared)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationDidEnterBackground(_:)), name: .UIApplicationDidEnterBackground, object: UIApplication.shared)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationWillEnterForeground(_:)), name: .UIApplicationWillEnterForeground, object: UIApplication.shared)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationWillResignActive(_:)), name: UIApplication.willResignActiveNotification, object: UIApplication.shared)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: UIApplication.shared)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationWillEnterForeground(_:)), name: UIApplication.willEnterForegroundNotification, object: UIApplication.shared)
     }
     
     internal func removeApplicationObservers() {
@@ -537,7 +537,7 @@ extension Player
     // MARK: - AVPlayerObservers
     
     internal func addPlayerObservers() {
-        self._timeObserver = self._avplayer.addPeriodicTimeObserver(forInterval: CMTimeMake(1,100), queue: DispatchQueue.main, using: { [weak self] timeInterval in
+        self._timeObserver = self._avplayer.addPeriodicTimeObserver(forInterval: CMTimeMake(value: 1,timescale: 100), queue: DispatchQueue.main, using: { [weak self] timeInterval in
             
             let timeString = String(format: "%02.2f", CMTimeGetSeconds(timeInterval))
             guard let strongSelf = self
@@ -551,7 +551,7 @@ extension Player
     }
     
     internal func removePlayerObservers() {
-        self._avplayer.removeTimeObserver(_timeObserver)
+        self._avplayer.removeTimeObserver(_timeObserver as Any)
         self._avplayer.removeObserver(self, forKeyPath: PlayerRateKey, context: &PlayerObserverContext)
     }
     
@@ -575,13 +575,13 @@ extension Player
                     }
                 }
                 
-                let status = (change?[NSKeyValueChangeKey.newKey] as! NSNumber).intValue as AVPlayerStatus.RawValue
+                let status = (change?[NSKeyValueChangeKey.newKey] as! NSNumber).intValue as AVPlayer.Status.RawValue
                 
                 switch (status) {
-                case AVPlayerStatus.readyToPlay.rawValue:
+                case AVPlayer.Status.readyToPlay.rawValue:
                     self._playerView.playerLayer.player = self._avplayer
                     self._playerView.playerLayer.isHidden = false
-                case AVPlayerStatus.failed.rawValue:
+                case AVPlayer.Status.failed.rawValue:
                     self.playbackState = PlaybackState.failed
                 default:
                     break
@@ -595,13 +595,13 @@ extension Player
                     }
                 }
                 
-                let status = (change?[NSKeyValueChangeKey.newKey] as! NSNumber).intValue as AVPlayerStatus.RawValue
+                let status = (change?[NSKeyValueChangeKey.newKey] as! NSNumber).intValue as AVPlayer.Status.RawValue
                 
                 switch (status) {
-                case AVPlayerStatus.readyToPlay.rawValue:
+                case AVPlayer.Status.readyToPlay.rawValue:
                     self._playerView.playerLayer.player = self._avplayer
                     self._playerView.playerLayer.isHidden = false
-                case AVPlayerStatus.failed.rawValue:
+                case AVPlayer.Status.failed.rawValue:
                     self.playbackState = PlaybackState.failed
                 default:
                     break

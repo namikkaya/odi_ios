@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KayaCameraSettingView" customModule="videoMuteSystem_hub" customModuleProvider="target">
+            <connections>
+                <outlet property="lightAutoButton" destination="ZkO-Qb-a1i" id="joQ-uJ-Su3"/>
+                <outlet property="lightButton" destination="IRl-fh-Itw" id="4eh-RM-TDu"/>
+                <outlet property="lightContentContainer" destination="F07-Mu-6et" id="0hD-VM-NNi"/>
+                <outlet property="lightContentView" destination="Ydq-bb-fHW" id="wOz-16-wj1"/>
+                <outlet property="lightSlider" destination="UsE-Gh-JYl" id="3eE-Fn-qer"/>
+                <outlet property="palletteAutoButton" destination="55K-a6-yye" id="d1L-pL-FbW"/>
+                <outlet property="palletteButton" destination="ha6-8A-DIm" id="n9k-gT-8nC"/>
+                <outlet property="palletteContentContainer" destination="Kop-zF-uag" id="i2f-OT-uH0"/>
+                <outlet property="palletteContentView" destination="iNm-CL-ltJ" id="Pnu-Di-Piy"/>
+                <outlet property="palletteSlider" destination="oPj-gj-VNh" id="2gZ-0r-ToG"/>
+                <outlet property="whiteBalanceAutoButton" destination="bm2-pv-tWO" id="lSd-i0-WZF"/>
+                <outlet property="whiteBalanceButton" destination="XXQ-9k-hC4" id="AIl-W0-Ne8"/>
+                <outlet property="whiteBalanceContentContainer" destination="p5X-Wa-Axw" id="4R0-jL-9a6"/>
+                <outlet property="whiteBalanceSlider" destination="QCf-o4-qfT" id="o91-KN-trW"/>
+                <outlet property="whiteBlanceContentView" destination="mJk-23-CBz" id="NrC-Cz-zId"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="548" height="282"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F07-Mu-6et">
+                    <rect key="frame" x="230" y="82" width="310" height="48"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ydq-bb-fHW">
+                            <rect key="frame" x="0.0" y="0.0" width="310" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="UsE-Gh-JYl">
+                                    <rect key="frame" x="54" y="10" width="206" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="minimumTrackTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="maximumTrackTintColor" red="0.92855726520000004" green="0.92855726520000004" blue="0.92855726520000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="thumbTintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <connections>
+                                        <action selector="lightSliderEvent:" destination="-1" eventType="valueChanged" id="nRb-iW-xMt"/>
+                                    </connections>
+                                </slider>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZkO-Qb-a1i" customClass="kayaToogleButton" customModule="videoMuteSystem_hub" customModuleProvider="target">
+                                    <rect key="frame" x="8" y="10" width="32" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Auto"/>
+                                    <connections>
+                                        <action selector="lightAutoButtonEvent:" destination="-1" eventType="touchUpInside" id="eI7-i5-wXg"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.099004600250000005" green="0.099004600250000005" blue="0.099004600250000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="61g-M6-rJj"/>
+                        <constraint firstAttribute="width" constant="310" id="ppm-Ze-2fc"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p5X-Wa-Axw">
+                    <rect key="frame" x="230" y="154" width="310" height="48"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mJk-23-CBz">
+                            <rect key="frame" x="0.0" y="0.0" width="310" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5500" minValue="3000" maxValue="8000" translatesAutoresizingMaskIntoConstraints="NO" id="QCf-o4-qfT">
+                                    <rect key="frame" x="52" y="8" width="209" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="minimumTrackTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="maximumTrackTintColor" red="0.92855726520000004" green="0.92855726520000004" blue="0.92855726520000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="thumbTintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <connections>
+                                        <action selector="whiteBalanceSliderEvent:" destination="-1" eventType="valueChanged" id="CXe-2Q-78O"/>
+                                    </connections>
+                                </slider>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bm2-pv-tWO" customClass="kayaToogleButton" customModule="videoMuteSystem_hub" customModuleProvider="target">
+                                    <rect key="frame" x="8" y="8" width="32" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Auto"/>
+                                    <connections>
+                                        <action selector="whiteBalanceAutoButtonEvent:" destination="-1" eventType="touchUpInside" id="gD4-xR-FIW"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.099004600250000005" green="0.099004600250000005" blue="0.099004600250000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="Duf-Vp-ecw"/>
+                        <constraint firstAttribute="width" constant="310" id="XRH-lI-nyv"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kop-zF-uag">
+                    <rect key="frame" x="230" y="226" width="310" height="48"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iNm-CL-ltJ">
+                            <rect key="frame" x="0.0" y="0.0" width="310" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-150" maxValue="150" translatesAutoresizingMaskIntoConstraints="NO" id="oPj-gj-VNh">
+                                    <rect key="frame" x="53" y="8" width="208" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="minimumTrackTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="maximumTrackTintColor" red="0.92855726520000004" green="0.92855726520000004" blue="0.92855726520000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="thumbTintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <connections>
+                                        <action selector="palletteSliderEvent:" destination="-1" eventType="valueChanged" id="mtT-rG-iu8"/>
+                                    </connections>
+                                </slider>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55K-a6-yye" customClass="kayaToogleButton" customModule="videoMuteSystem_hub" customModuleProvider="target">
+                                    <rect key="frame" x="8" y="8" width="32" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Auto"/>
+                                    <connections>
+                                        <action selector="palletteAutoButtonEvent:" destination="-1" eventType="touchUpInside" id="CI8-5b-bCf"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.099004600250000005" green="0.099004600250000005" blue="0.099004600250000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="KTb-CS-mxI"/>
+                        <constraint firstAttribute="width" constant="310" id="hDN-Kp-ovX"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRl-fh-Itw">
+                    <rect key="frame" x="492" y="82" width="48" height="48"/>
+                    <color key="backgroundColor" red="0.099004600253807085" green="0.099004600253807085" blue="0.099004600253807085" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="4GH-a4-U7a"/>
+                        <constraint firstAttribute="width" constant="48" id="dJP-BT-d3E"/>
+                    </constraints>
+                    <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                    <state key="normal" image="light"/>
+                    <connections>
+                        <action selector="lightButtonEvent:" destination="-1" eventType="touchUpInside" id="aIS-4o-F3Z"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XXQ-9k-hC4">
+                    <rect key="frame" x="492" y="154" width="48" height="48"/>
+                    <color key="backgroundColor" red="0.099004600250000005" green="0.099004600250000005" blue="0.099004600250000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="48" id="GPp-tx-rlN"/>
+                        <constraint firstAttribute="height" constant="48" id="dbw-ly-zDv"/>
+                    </constraints>
+                    <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                    <state key="normal" image="whiteBalance"/>
+                    <connections>
+                        <action selector="whiteBallanceButtonEvent:" destination="-1" eventType="touchUpInside" id="bYy-iy-x4C"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ha6-8A-DIm">
+                    <rect key="frame" x="492" y="226" width="48" height="48"/>
+                    <color key="backgroundColor" red="0.099004600250000005" green="0.099004600250000005" blue="0.099004600250000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="1x5-CW-cUo"/>
+                        <constraint firstAttribute="width" constant="48" id="7Y6-fB-5ng"/>
+                    </constraints>
+                    <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                    <state key="normal" image="pallette"/>
+                    <connections>
+                        <action selector="palletteButtonEvent:" destination="-1" eventType="touchUpInside" id="Q7p-Fh-EHH"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="XXQ-9k-hC4" secondAttribute="trailing" constant="8" id="9Xn-k0-llb"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="p5X-Wa-Axw" secondAttribute="trailing" constant="8" id="9b2-lX-9io"/>
+                <constraint firstItem="ha6-8A-DIm" firstAttribute="top" secondItem="XXQ-9k-hC4" secondAttribute="bottom" constant="24" id="EmS-bD-y6i"/>
+                <constraint firstAttribute="bottom" secondItem="ha6-8A-DIm" secondAttribute="bottom" constant="8" id="Fnp-nb-Gel"/>
+                <constraint firstItem="XXQ-9k-hC4" firstAttribute="top" secondItem="IRl-fh-Itw" secondAttribute="bottom" constant="24" id="Fsr-Fx-nBL"/>
+                <constraint firstItem="Kop-zF-uag" firstAttribute="top" secondItem="p5X-Wa-Axw" secondAttribute="bottom" constant="24" id="LX8-hF-Fwd"/>
+                <constraint firstItem="p5X-Wa-Axw" firstAttribute="top" secondItem="F07-Mu-6et" secondAttribute="bottom" constant="24" id="Svs-4A-0cc"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="F07-Mu-6et" secondAttribute="trailing" constant="8" id="VAr-57-Tfy"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ha6-8A-DIm" secondAttribute="trailing" constant="8" id="b4E-yL-nKW"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IRl-fh-Itw" secondAttribute="trailing" constant="8" id="c5E-FU-DpV"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Kop-zF-uag" secondAttribute="trailing" constant="8" id="gsk-Ro-ec2"/>
+                <constraint firstAttribute="bottom" secondItem="Kop-zF-uag" secondAttribute="bottom" constant="8" id="v3N-y3-dn0"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="228.98550724637684" y="-97.767857142857139"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="light" width="45" height="45"/>
+        <image name="pallette" width="45" height="45"/>
+        <image name="whiteBalance" width="45" height="45"/>
+    </resources>
+</document>

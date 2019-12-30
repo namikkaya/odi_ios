@@ -12,6 +12,8 @@ import AVKit
 
 private var dataAssocKey = 0
 
+public var myHolderView:UIViewController?
+
 extension UIViewController {
    
 }
@@ -25,6 +27,7 @@ extension UIViewController {
             objc_setAssociatedObject(self, &dataAssocKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         }
     }
+    
     
     func goto(screenID:String) {
         goto(screenID: screenID, animated: true, data: nil, isModal: false)
@@ -42,25 +45,78 @@ extension UIViewController {
         goto(screenID: screenID, animated: animated, data: data, isModal: false)
     }
     
+    
     func goto(screenID:String, animated:Bool, data:AnyObject!, isModal:Bool) {
+        print("goto call: ")
         let vc:UIViewController = (self.storyboard?.instantiateViewController(withIdentifier: screenID))!
+        myHolderView = vc
         if (data != nil) {
             vc.data = data
         }
         if isModal == true {
-            vc.modalPresentationStyle = .overCurrentContext
+            print("goto call: çalıştırılan yer burası")
+            vc.modalPresentationStyle = .overFullScreen//.overCurrentContext
             self.present(vc, animated: animated, completion:nil)
         }
         else {
+            print("goto call: çalıştırılan yer burası navigation")
             self.navigationController?.pushViewController(vc, animated: animated)
             self.navigationController?.setNavigationBarHidden(true, animated: false) // Navigation Barı Saklar.
         }
+        
+    }
+    
+    func goto(screenID:String, animated:Bool, data:AnyObject!, isModal:Bool, callBack:@escaping (Bool?)->()) {
+        let vc:TurnPhoneSplashVC = (self.storyboard?.instantiateViewController(withIdentifier: screenID) as! TurnPhoneSplashVC)
+        myHolderView = vc
+        if (data != nil) {
+            vc.data = data
+        }
+        if isModal == true {
+            print("goto call: çalıştırılan yer burası")
+            vc.modalPresentationStyle = .overFullScreen//.overCurrentContext
+            vc.onCloseCallback = callBack
+            self.present(vc, animated: animated, completion:nil)
+        }
+        else {
+            print("goto call: çalıştırılan yer burası navigation")
+            self.navigationController?.pushViewController(vc, animated: animated)
+            self.navigationController?.setNavigationBarHidden(true, animated: false) // Navigation Barı Saklar.
+        }
+        
     }
     
     func goto(screenID:String, animated:Bool, data:AnyObject!, isModal:Bool, isNavigation:Bool, showNavBar:Bool) {
      
-        
         let vc:UIViewController = (self.storyboard?.instantiateViewController(withIdentifier: screenID))!
+        
+        myHolderView = vc
+        if (data != nil) {
+            vc.data = data
+        }
+        if isModal == true {
+            if isNavigation {
+                let navVC:UINavigationController! = UINavigationController(rootViewController: vc)
+                navVC.isNavigationBarHidden = !showNavBar
+                self.present(navVC, animated: animated, completion:nil)
+            }
+            else {
+                self.present(vc, animated: animated, completion:nil)
+            }
+            
+            
+        }
+        else {
+            self.navigationController?.pushViewController(vc, animated: animated)
+        }
+        
+    }
+    
+    func goto(screenID:String, animated:Bool, data:AnyObject!, isModal:Bool, isNavigation:Bool, showNavBar:Bool, callback:()) {
+     
+        let vc:UIViewController = (self.storyboard?.instantiateViewController(withIdentifier: screenID))!
+        
+        myHolderView = vc
         if (data != nil) {
             vc.data = data
         }
@@ -92,12 +148,47 @@ extension UIViewController {
     
     func back(animated:Bool, isModal:Bool) {
         if isModal == true {
-            self.dismiss(animated: animated, completion: nil)
+            myHolderView = nil
+            //self.dismiss(animated: animated, completion: nil)
+            self.dismiss(animated: animated) {
+                NotificationCenter.default.post(name: NSNotification.Name.ODI.CHECK_PERMISSION, object: nil, userInfo: nil)
+            }
+            
         }
         else {
-            self.navigationController?.popViewController(animated: animated)
+            myHolderView = nil
+            //self.navigationController?.popViewController(animated: animated)
+            //self.navigationController?.popViewController(animated: <#T##Bool#>)
+            self.navigationController?.popViewController(animated: true, completion: {
+                NotificationCenter.default.post(name: NSNotification.Name.ODI.CHECK_PERMISSION, object: nil, userInfo: nil)
+            })
         }
     }
+    
+    func back(animated:Bool, isModal:Bool, callBack:@escaping (Bool?)->()?) {
+           if isModal == true {
+               myHolderView = nil
+               //self.dismiss(animated: animated, completion: nil)
+                callBack(true)
+               self.dismiss(animated: animated) {
+                   NotificationCenter.default.post(name: NSNotification.Name.ODI.CHECK_PERMISSION, object: nil, userInfo: nil)
+                    AppUtility.lockOrientation(.portrait)
+                    callBack(true)
+               }
+               
+           }
+           else {
+               myHolderView = nil
+               //self.navigationController?.popViewController(animated: animated)
+               //self.navigationController?.popViewController(animated: <#T##Bool#>)
+               self.navigationController?.popViewController(animated: true, completion: {
+                   NotificationCenter.default.post(name: NSNotification.Name.ODI.CHECK_PERMISSION, object: nil, userInfo: nil)
+                    callBack(true)
+               })
+           }
+       }
+    
+    
     
     func back(animated:Bool, screenID:String) {
         var index:NSInteger = -1
@@ -110,10 +201,41 @@ extension UIViewController {
             }
         }
         if index >= 0 {
+            myHolderView = nil
             self.navigationController?.popToViewController(vcs[index] as! UIViewController, animated: true)
         }
     }
     
+}
+
+extension UINavigationController {
+    func pushToViewController(_ viewController: UIViewController, animated:Bool = true, completion: @escaping ()->()) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        self.pushViewController(viewController, animated: animated)
+        CATransaction.commit()
+    }
+    
+    func popViewController(animated:Bool = true, completion: @escaping ()->()) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        self.popViewController(animated: true)
+        CATransaction.commit()
+    }
+    
+    func popToViewController(_ viewController: UIViewController, animated:Bool = true, completion: @escaping ()->()) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        self.popToViewController(viewController, animated: animated)
+        CATransaction.commit()
+    }
+    
+    func popToRootViewController(animated:Bool = true, completion: @escaping ()->()) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        self.popToRootViewController(animated: animated)
+        CATransaction.commit()
+    }
 }
 
 //UIView
@@ -241,7 +363,7 @@ extension UIView {
         animation.values =  [0, 20, -20, 10, 0]
         animation.keyTimes = [0, NSNumber(value: 1.0 / 6.0), NSNumber(value: 1.0 / 6.0), NSNumber(value: 5.0 / 6.0), 1]
         animation.duration = 0.3
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
         animation.isAdditive = true
         self.layer.add(animation, forKey: "shake")
     }
@@ -375,7 +497,7 @@ extension UITextField {
     func setPlaceholderColor(color:UIColor!) {
         if self.placeholder != nil {
             self.attributedPlaceholder = NSAttributedString(string:self.placeholder!,
-                                                            attributes:[kCTForegroundColorAttributeName as NSAttributedStringKey: color])
+                                                            attributes:[kCTForegroundColorAttributeName as NSAttributedString.Key: color as Any])
         }
         
     }
@@ -402,14 +524,14 @@ extension UIButton {
     }
     
     func underline() {
-        let attributes = [kCTUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
-        let attributedText = NSAttributedString(string: self.currentTitle!, attributes: attributes as [NSAttributedStringKey : Any])
+        let attributes = [kCTUnderlineStyleAttributeName: NSUnderlineStyle.single.rawValue]
+        let attributedText = NSAttributedString(string: self.currentTitle!, attributes: attributes as [NSAttributedString.Key : Any])
         self.titleLabel?.attributedText = attributedText
     }
     
     func shakeButton() {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         animation.duration = 0.6
         animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0 ]
         layer.add(animation, forKey: "shake")
