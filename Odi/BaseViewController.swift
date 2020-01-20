@@ -18,24 +18,34 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         setupReachability()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupReachability()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func setupReachability() {
-        if isNoConnection {
-            return
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(internetChanged(note:)), name: Notification.Name("reachabilityChanged") , object: reachability)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reachabilityChanged(note:)),
+                                               name: .reachabilityChanged,
+                                               object: reachability)
         do{
             try reachability.startNotifier()
         } catch {
             print("could not start notifier")
         }
     }
-    @objc func internetChanged(note: Notification) {
+    @objc func reachabilityChanged(note: Notification) {
         let reachability = note.object as! Reachability
         if reachability.connection != .none {
             print("REachable")
@@ -48,5 +58,6 @@ class BaseViewController: UIViewController {
         }
     }
 
+    
 
 }

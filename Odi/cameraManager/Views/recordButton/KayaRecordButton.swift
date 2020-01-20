@@ -25,6 +25,11 @@ class KayaRecordButton: UIButton {
         }
     }
     
+    /**
+     Usage: <#açıklama#>
+     - Parameter <#value#>:  <#Value Açıklama#>
+     - Returns: <#No return value#>
+     */
     override init(frame: CGRect) {
         super.init(frame: frame)
         initButton()
